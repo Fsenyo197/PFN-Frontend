@@ -6,16 +6,20 @@ import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
+import useMediaQuery from "@mui/material/useMediaQuery"; // Import useMediaQuery
+import { useTheme } from "@mui/material/styles"; // Import useTheme
 
 function Header(props) {
-  const { sections, title } = props;
+  const { sections, title, toggleTheme, isDarkMode } = props;
+  const theme = useTheme(); // Get the current theme
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm")); // Check screen size
 
   return (
     <React.Fragment>
       <Toolbar sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Typography
           component="h2"
-          variant="h5"
+          variant={isSmallScreen ? "h6" : "h5"} // Adjust title size based on screen size
           color="inherit"
           align="center"
           noWrap
@@ -26,6 +30,9 @@ function Header(props) {
         <IconButton>
           <SearchIcon />
         </IconButton>
+        <Button variant="contained" onClick={toggleTheme}>
+          {isDarkMode ? "Light Mode" : "Dark Mode"}
+        </Button>
       </Toolbar>
       <Toolbar
         component="nav"
@@ -57,6 +64,8 @@ Header.propTypes = {
     })
   ).isRequired,
   title: PropTypes.string.isRequired,
+  toggleTheme: PropTypes.func.isRequired,
+  isDarkMode: PropTypes.bool.isRequired,
 };
 
 export default Header;

@@ -6,7 +6,7 @@ import Grid from "@mui/material/Grid";
 import Link from "@mui/material/Link";
 import Box from "@mui/material/Box";
 
-function MainFeaturedPost(props) {
+function MostRecentPost(props) {
   const { post } = props;
 
   return (
@@ -70,7 +70,7 @@ function MainFeaturedPost(props) {
   );
 }
 
-MainFeaturedPost.propTypes = {
+MostRecentPost.propTypes = {
   post: PropTypes.shape({
     description: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
@@ -80,4 +80,4 @@ MainFeaturedPost.propTypes = {
   }).isRequired,
 };
 
-export default MainFeaturedPost;
+export default MostRecentPost;
