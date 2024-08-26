@@ -29,7 +29,6 @@ const mostRecentPost = {
     "Multiple lines of text that form the lede, informing new readers quickly and efficiently about what's most interesting in this post's contents.",
   image: "https://picsum.photos/1100/350",
   imageText: "main image description",
-  linkText: "Continue reading…",
 };
 
 const featuredPosts = [
@@ -66,6 +65,9 @@ export default function Blog() {
       createTheme({
         palette: {
           mode: isDarkMode ? "dark" : "light",
+        },
+        typography: {
+          fontFamily: '"Georgia", "Roboto", sans-serif',
         },
       }),
     [isDarkMode]

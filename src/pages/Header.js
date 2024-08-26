@@ -6,21 +6,29 @@ import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
-import useMediaQuery from "@mui/material/useMediaQuery"; // Import useMediaQuery
-import { useTheme } from "@mui/material/styles"; // Import useTheme
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
 
 function Header(props) {
   const { sections, title, toggleTheme, isDarkMode } = props;
-  const theme = useTheme(); // Get the current theme
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm")); // Check screen size
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const headerTextColor = isDarkMode ? "#ffffff" : "#02353C";
 
   return (
     <React.Fragment>
-      <Toolbar sx={{ borderBottom: 1, borderColor: "divider" }}>
+      <Toolbar
+        sx={{
+          borderBottom: 1,
+          borderColor: "divider",
+          bgcolor: isDarkMode ? "#000000" : "#ffffff",
+        }}
+      >
         <Typography
           component="h2"
-          variant={isSmallScreen ? "h6" : "h5"} // Adjust title size based on screen size
-          color="inherit"
+          variant={isSmallScreen ? "h6" : "h5"}
+          color={headerTextColor}
           align="center"
           noWrap
           sx={{ flex: 1 }}
@@ -28,7 +36,7 @@ function Header(props) {
           {title}
         </Typography>
         <IconButton>
-          <SearchIcon />
+          <SearchIcon sx={{ color: headerTextColor }} />
         </IconButton>
         <Button variant="contained" onClick={toggleTheme}>
           {isDarkMode ? "Light Mode" : "Dark Mode"}
@@ -37,11 +45,15 @@ function Header(props) {
       <Toolbar
         component="nav"
         variant="dense"
-        sx={{ justifyContent: "space-between", overflowX: "auto" }}
+        sx={{
+          justifyContent: "space-between",
+          overflowX: "auto",
+          bgcolor: isDarkMode ? "#000000" : "#ffffff",
+        }}
       >
         {sections.map((section) => (
           <Link
-            color="inherit"
+            color={headerTextColor}
             noWrap
             key={section.title}
             variant="body2"
