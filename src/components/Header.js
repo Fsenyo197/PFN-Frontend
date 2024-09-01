@@ -1,5 +1,5 @@
+// src/components/Header.js
 import * as React from "react";
-import PropTypes from "prop-types";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
@@ -8,9 +8,10 @@ import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
+import { useHeader } from "../contexts/HeaderContext";
 
-function Header(props) {
-  const { sections, title, toggleTheme, isDarkMode } = props;
+function Header() {
+  const { categories, isDarkMode, toggleTheme } = useHeader();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -33,7 +34,7 @@ function Header(props) {
           noWrap
           sx={{ flex: 1 }}
         >
-          {title}
+          Prop News
         </Typography>
         <IconButton>
           <SearchIcon sx={{ color: headerTextColor }} />
@@ -51,33 +52,21 @@ function Header(props) {
           bgcolor: isDarkMode ? "#000000" : "#ffffff",
         }}
       >
-        {sections.map((section) => (
+        {categories.map((category) => (
           <Link
             color={headerTextColor}
             noWrap
-            key={section.title}
+            key={category.title}
             variant="body2"
-            href={section.url}
+            href={category.url}
             sx={{ p: 1, flexShrink: 0 }}
           >
-            {section.title}
+            {category.title}
           </Link>
         ))}
       </Toolbar>
     </React.Fragment>
   );
 }
-
-Header.propTypes = {
-  sections: PropTypes.arrayOf(
-    PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      url: PropTypes.string.isRequired,
-    })
-  ).isRequired,
-  title: PropTypes.string.isRequired,
-  toggleTheme: PropTypes.func.isRequired,
-  isDarkMode: PropTypes.bool.isRequired,
-};
 
 export default Header;

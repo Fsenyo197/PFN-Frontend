@@ -19,17 +19,17 @@ function MostRecentPost(props) {
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
-        backgroundImage: `url(${post.image})`,
+        backgroundImage: post.image ? `url(${post.image})` : "none",
       }}
     >
       {/* Increase the priority of the hero background image */}
-      {
+      {post.image && (
         <img
           style={{ display: "none" }}
           src={post.image}
-          alt={post.imageText}
+          alt={post.imageText || "Most recent post image"}
         />
-      }
+      )}
       <Box
         sx={{
           position: "absolute",
@@ -55,14 +55,16 @@ function MostRecentPost(props) {
               color="inherit"
               gutterBottom
             >
-              {post.title}
+              {post.title || "Loading..."}
             </Typography>
             <Typography variant="h5" color="inherit" paragraph>
-              {post.description}
+              {post.description || "Description will be available soon."}
             </Typography>
-            <Link variant="subtitle1" href="#">
-              {post.linkText}
-            </Link>
+            {post.linkText && (
+              <Link variant="subtitle1" href={post.link || "#"}>
+                {post.linkText}
+              </Link>
+            )}
           </Box>
         </Grid>
       </Grid>
@@ -72,12 +74,24 @@ function MostRecentPost(props) {
 
 MostRecentPost.propTypes = {
   post: PropTypes.shape({
-    description: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
-    imageText: PropTypes.string.isRequired,
-    linkText: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-  }).isRequired,
+    description: PropTypes.string,
+    image: PropTypes.string,
+    imageText: PropTypes.string,
+    linkText: PropTypes.string,
+    link: PropTypes.string, // Added link as a potential prop
+    title: PropTypes.string,
+  }),
+};
+
+MostRecentPost.defaultProps = {
+  post: {
+    description: "",
+    image: "",
+    imageText: "",
+    linkText: "",
+    link: "",
+    title: "",
+  },
 };
 
 export default MostRecentPost;

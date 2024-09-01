@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
@@ -9,6 +9,8 @@ import CardMedia from "@mui/material/CardMedia";
 
 function FeaturedPost(props) {
   const { post } = props;
+
+  if (!post) return null;
 
   return (
     <Grid item xs={12} md={6}>
@@ -42,7 +44,7 @@ function FeaturedPost(props) {
           </CardContent>
           <CardMedia
             component="img"
-            sx={{ width: 120, height: "auto" }} // Adjust width and let height adjust automatically
+            sx={{ width: 120, height: "auto" }}
             image={post.image}
             alt={post.imageLabel}
           />
@@ -54,11 +56,11 @@ function FeaturedPost(props) {
 
 FeaturedPost.propTypes = {
   post: PropTypes.shape({
+    title: PropTypes.string.isRequired,
     date: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
     imageLabel: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
   }).isRequired,
 };
 
