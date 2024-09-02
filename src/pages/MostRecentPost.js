@@ -11,7 +11,7 @@ function MostRecentPost({
     description: "",
     image: "",
     imageText: "",
-    linkText: "",
+    linkText: "Read more",
     link: "",
     title: "",
   },
@@ -61,7 +61,7 @@ function MostRecentPost({
               color="inherit"
               gutterBottom
             >
-              {post.title || "Loading..."}
+              {post.title || "Title not available"}
             </Typography>
             <Typography variant="h5" color="inherit" paragraph>
               {post.description || "Description will be available soon."}

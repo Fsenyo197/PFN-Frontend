@@ -21,8 +21,16 @@ export const BlogProvider = ({ children }) => {
           FetchArticles(),
         ]);
         setCategories(categoriesData);
+
         const mostRecent = articlesData[0];
-        setMostRecentPost(mostRecent);
+        setMostRecentPost({
+          title: mostRecent.title,
+          description: mostRecent.body,
+          image: mostRecent.image,
+          link: `/post/${mostRecent.slug}`,
+          linkText: "Read more",
+        });
+
         setFeaturedPosts(articlesData.slice(1, 4));
       } catch (err) {
         setError(err);
