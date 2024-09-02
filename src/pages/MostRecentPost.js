@@ -30,10 +30,10 @@ function MostRecentPost({
       }}
     >
       {post.image && (
-        <img
+        <image
           style={{ display: "none" }}
           src={post.image}
-          alt={post.imageText || "Most recent post image"}
+          alt={post.imageText}
         />
       )}
       <Box
@@ -64,7 +64,7 @@ function MostRecentPost({
               {post.title || "Title not available"}
             </Typography>
             <Typography variant="h5" color="inherit" paragraph>
-              {post.description || "Description will be available soon."}
+              {post.description || "Description not available."}
             </Typography>
             {post.linkText && (
               <Link variant="subtitle1" href={post.link || "#"}>
