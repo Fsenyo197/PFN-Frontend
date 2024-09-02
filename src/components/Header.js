@@ -57,12 +57,12 @@ function Header() {
             <Link
               color={headerTextColor}
               noWrap
-              key={category.title}
+              key={category.name} // Use 'name' instead of 'title'
               variant="body2"
-              href={category.url}
+              href={`/categories/${category.name.toLowerCase()}`} // Example dynamic URL
               sx={{ p: 1, flexShrink: 0 }}
             >
-              {category.title}
+              {category.name} // Use 'name' instead of 'title'
             </Link>
           ))
         ) : (
