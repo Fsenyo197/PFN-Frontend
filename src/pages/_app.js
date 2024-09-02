@@ -1,10 +1,13 @@
+import { HeaderProvider } from "../contexts/HeaderContext";
 import { BlogProvider } from "../contexts/BlogContext";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <BlogProvider>
-      <Component {...pageProps} />
-    </BlogProvider>
+    <HeaderProvider>
+      <BlogProvider>
+        <Component {...pageProps} />
+      </BlogProvider>
+    </HeaderProvider>
   );
 }
 

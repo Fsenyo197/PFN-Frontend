@@ -6,9 +6,16 @@ import Grid from "@mui/material/Grid";
 import Link from "@mui/material/Link";
 import Box from "@mui/material/Box";
 
-function MostRecentPost(props) {
-  const { post } = props;
-
+function MostRecentPost({
+  post = {
+    description: "",
+    image: "",
+    imageText: "",
+    linkText: "",
+    link: "",
+    title: "",
+  },
+}) {
   return (
     <Paper
       sx={{
@@ -22,7 +29,6 @@ function MostRecentPost(props) {
         backgroundImage: post.image ? `url(${post.image})` : "none",
       }}
     >
-      {/* Increase the priority of the hero background image */}
       {post.image && (
         <img
           style={{ display: "none" }}
@@ -78,20 +84,9 @@ MostRecentPost.propTypes = {
     image: PropTypes.string,
     imageText: PropTypes.string,
     linkText: PropTypes.string,
-    link: PropTypes.string, // Added link as a potential prop
+    link: PropTypes.string,
     title: PropTypes.string,
   }),
-};
-
-MostRecentPost.defaultProps = {
-  post: {
-    description: "",
-    image: "",
-    imageText: "",
-    linkText: "",
-    link: "",
-    title: "",
-  },
 };
 
 export default MostRecentPost;

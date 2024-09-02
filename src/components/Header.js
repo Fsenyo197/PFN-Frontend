@@ -1,4 +1,3 @@
-// src/components/Header.js
 import * as React from "react";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
@@ -52,18 +51,25 @@ function Header() {
           bgcolor: isDarkMode ? "#000000" : "#ffffff",
         }}
       >
-        {categories.map((category) => (
-          <Link
-            color={headerTextColor}
-            noWrap
-            key={category.title}
-            variant="body2"
-            href={category.url}
-            sx={{ p: 1, flexShrink: 0 }}
-          >
-            {category.title}
-          </Link>
-        ))}
+        {/* Check if categories has data before mapping */}
+        {categories && categories.length > 0 ? (
+          categories.map((category) => (
+            <Link
+              color={headerTextColor}
+              noWrap
+              key={category.title}
+              variant="body2"
+              href={category.url}
+              sx={{ p: 1, flexShrink: 0 }}
+            >
+              {category.title}
+            </Link>
+          ))
+        ) : (
+          <Typography color={headerTextColor} variant="body2" sx={{ p: 1 }}>
+            No categories available
+          </Typography>
+        )}
       </Toolbar>
     </React.Fragment>
   );
