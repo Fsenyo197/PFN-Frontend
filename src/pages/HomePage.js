@@ -1,54 +1,27 @@
-"use client";
-
-import React, { useState } from "react";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Header from "../components/Header";
-import MostRecentPost from "./MostRecentPost";
-import FeaturedPost from "./FeaturedPost";
-import Footer from "./Footer";
+// pages/index.js or pages/HomePage.js
+import React from "react";
+import { Container, Grid } from "@mui/material";
+import MostRecentPost from "../components/MostRecentPost";
+import FeaturedPost from "../components/FeaturedPost";
 import { useHomePage } from "../contexts/HomePageContext";
 
-export default function HomePage() {
-  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
-  const [isDarkMode, setIsDarkMode] = useState(prefersDarkMode);
-
+const HomePage = () => {
   const { mostRecentPost, featuredPosts, error } = useHomePage();
-
-  const theme = createTheme({
-    palette: {
-      mode: isDarkMode ? "dark" : "light",
-    },
-    typography: {
-      fontFamily: '"Georgia", "Roboto", sans-serif',
-    },
-  });
 
   if (error) {
     return <p>Error loading content: {error.message}</p>;
   }
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Container maxWidth="lg">
-        <Header />
-        <main>
-          <MostRecentPost post={mostRecentPost} />
-          <Grid container spacing={4}>
-            {featuredPosts.map((post) => (
-              <FeaturedPost key={post.id} post={post} />
-            ))}
-          </Grid>
-        </main>
-        <Footer
-          title="Footer"
-          description="Something here to give the footer a purpose!"
-        />
-      </Container>
-    </ThemeProvider>
+    <Container maxWidth="lg">
+      <MostRecentPost post={mostRecentPost} />
+      <Grid container spacing={4}>
+        {featuredPosts.map((post) => (
+          <FeaturedPost key={post.id} post={post} />
+        ))}
+      </Grid>
+    </Container>
   );
-}
+};
+
+export default HomePage;

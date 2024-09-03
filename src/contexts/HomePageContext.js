@@ -1,6 +1,5 @@
-"use client";
-
-import { createContext, useContext, useState, useEffect } from "react";
+// contexts/HomePageContext.js
+import React, { createContext, useContext, useState, useEffect } from "react";
 import FetchCategories from "../utils/FetchCategories";
 import FetchArticles from "../utils/FetchArticles";
 
@@ -26,7 +25,7 @@ export const HomePageProvider = ({ children }) => {
           title: mostRecent.title,
           description: mostRecent.body,
           image: mostRecent.image,
-          link: `/post/${mostRecent.slug}`,
+          link: `/blog/${mostRecent.slug}`,
           linkText: "Read more",
         });
 
