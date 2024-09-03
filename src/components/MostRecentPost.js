@@ -1,10 +1,14 @@
-// components/MostRecentPost.js
 import React from "react";
 import { Typography, Box, Button } from "@mui/material";
 import { useRouter } from "next/router";
 
 const MostRecentPost = ({ post }) => {
   const router = useRouter();
+
+  // Ensure that `post` and its properties are defined before attempting to use them
+  if (!post || !post.image || !post.title || !post.description || !post.link) {
+    return null; // Render nothing if the post data is incomplete
+  }
 
   const handleClick = () => {
     router.push(post.link);
