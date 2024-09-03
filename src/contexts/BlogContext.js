@@ -10,8 +10,6 @@ export const BlogProvider = ({ children }) => {
   const [categories, setCategories] = useState([]);
   const [mostRecentPost, setMostRecentPost] = useState({});
   const [featuredPosts, setFeaturedPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,9 +41,7 @@ export const BlogProvider = ({ children }) => {
   }, []);
 
   return (
-    <BlogContext.Provider
-      value={{ categories, mostRecentPost, featuredPosts, loading, error }}
-    >
+    <BlogContext.Provider value={{ categories, mostRecentPost, featuredPosts }}>
       {children}
     </BlogContext.Provider>
   );
