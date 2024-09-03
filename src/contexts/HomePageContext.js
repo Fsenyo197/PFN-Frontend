@@ -4,9 +4,9 @@ import { createContext, useContext, useState, useEffect } from "react";
 import FetchCategories from "../utils/FetchCategories";
 import FetchArticles from "../utils/FetchArticles";
 
-const BlogContext = createContext();
+const HomePageContext = createContext();
 
-export const BlogProvider = ({ children }) => {
+export const HomePageProvider = ({ children }) => {
   const [categories, setCategories] = useState([]);
   const [mostRecentPost, setMostRecentPost] = useState({});
   const [featuredPosts, setFeaturedPosts] = useState([]);
@@ -40,12 +40,12 @@ export const BlogProvider = ({ children }) => {
   }, []);
 
   return (
-    <BlogContext.Provider
+    <HomePageContext.Provider
       value={{ categories, mostRecentPost, featuredPosts, error }}
     >
       {children}
-    </BlogContext.Provider>
+    </HomePageContext.Provider>
   );
 };
 
-export const useBlog = () => useContext(BlogContext);
+export const useHomePage = () => useContext(HomePageContext);

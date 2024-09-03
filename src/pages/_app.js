@@ -1,12 +1,12 @@
 import { HeaderProvider } from "../contexts/HeaderContext";
-import { BlogProvider } from "../contexts/BlogContext";
+import { HomePageProvider } from "../contexts/HomePageContext";
 
 function MyApp({ Component, pageProps }) {
   return (
     <HeaderProvider>
-      <BlogProvider>
+      <HomePageProvider>
         <Component {...pageProps} />
-      </BlogProvider>
+      </HomePageProvider>
     </HeaderProvider>
   );
 }

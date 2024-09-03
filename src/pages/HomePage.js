@@ -10,13 +10,13 @@ import Header from "../components/Header";
 import MostRecentPost from "./MostRecentPost";
 import FeaturedPost from "./FeaturedPost";
 import Footer from "./Footer";
-import { useBlog } from "../contexts/BlogContext";
+import { useHomePage } from "../contexts/HomePageContext";
 
-export default function Blog() {
+export default function HomePage() {
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
   const [isDarkMode, setIsDarkMode] = useState(prefersDarkMode);
 
-  const { mostRecentPost, featuredPosts, loading, error } = useBlog();
+  const { mostRecentPost, featuredPosts, error } = useHomePage();
 
   const theme = createTheme({
     palette: {
@@ -26,10 +26,6 @@ export default function Blog() {
       fontFamily: '"Georgia", "Roboto", sans-serif',
     },
   });
-
-  if (loading) {
-    return <p>Loading...</p>;
-  }
 
   if (error) {
     return <p>Error loading content: {error.message}</p>;
