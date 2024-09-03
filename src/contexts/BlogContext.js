@@ -10,6 +10,7 @@ export const BlogProvider = ({ children }) => {
   const [categories, setCategories] = useState([]);
   const [mostRecentPost, setMostRecentPost] = useState({});
   const [featuredPosts, setFeaturedPosts] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,8 +33,6 @@ export const BlogProvider = ({ children }) => {
         setFeaturedPosts(articlesData.slice(1, 4));
       } catch (err) {
         setError(err);
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -41,7 +40,9 @@ export const BlogProvider = ({ children }) => {
   }, []);
 
   return (
-    <BlogContext.Provider value={{ categories, mostRecentPost, featuredPosts }}>
+    <BlogContext.Provider
+      value={{ categories, mostRecentPost, featuredPosts, error }}
+    >
       {children}
     </BlogContext.Provider>
   );
