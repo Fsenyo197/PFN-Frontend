@@ -7,7 +7,7 @@ import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import { useRouter } from "next/router";
-import Button from "@mui/material";
+import Button from "@mui/material/Button"; // Correct import for Button
 
 function FeaturedPost({ post }) {
   const router = useRouter();
@@ -45,10 +45,10 @@ function FeaturedPost({ post }) {
             <Typography variant="subtitle1" paragraph>
               {post.description}
             </Typography>
+            <Button onClick={handleClick} sx={{ mt: 2 }}>
+              Read more
+            </Button>
           </CardContent>
-          <Button onClick={handleClick} sx={{ mt: 2 }}>
-            Read more
-          </Button>
           <CardMedia
             component="img"
             sx={{ width: 120, height: "auto" }} // Adjust width and let height adjust automatically
@@ -68,6 +68,7 @@ FeaturedPost.propTypes = {
     image: PropTypes.string.isRequired,
     imageLabel: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
+    slug: PropTypes.string.isRequired, // Make sure slug is required for navigation
   }).isRequired,
 };
 
