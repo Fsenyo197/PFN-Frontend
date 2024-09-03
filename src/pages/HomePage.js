@@ -15,10 +15,7 @@ import Footer from "./Footer";
 const HomePage = () => {
   const { mostRecentPost, featuredPosts, error } = useHomePage();
 
-  if (error) {
-    return <p>Error loading content: {error.message}</p>;
-  }
-
+  // Hooks must be called at the top level
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
   const [isDarkMode, setIsDarkMode] = useState(prefersDarkMode);
 
@@ -38,6 +35,11 @@ const HomePage = () => {
       }),
     [isDarkMode]
   );
+
+  // The error handling should happen after the hooks
+  if (error) {
+    return <p>Error loading content: {error.message}</p>;
+  }
 
   return (
     <ThemeProvider theme={theme}>
