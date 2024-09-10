@@ -41,11 +41,6 @@ const HomePage = () => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Container maxWidth="lg">
-        <Header
-          title="Prop News"
-          toggleTheme={toggleTheme}
-          isDarkMode={isDarkMode}
-        />
         <main>
           {loading ? (
             <div style={{ textAlign: "center", marginTop: "20%" }}>
