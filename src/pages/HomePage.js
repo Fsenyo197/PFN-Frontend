@@ -40,7 +40,7 @@ const HomePage = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Container maxWidth="lg">
+      <Container maxWidth="64">
         <Header toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
         <main>
           {loading ? (
