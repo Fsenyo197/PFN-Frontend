@@ -45,30 +45,28 @@ function Header() {
           {isDarkMode ? "Light Mode" : "Dark Mode"}
         </Button>
       </Toolbar>
-      {categories && categories.length > 0 && (
-        <Toolbar
-          component="nav"
-          variant="dense"
-          sx={{
-            justifyContent: "space-between",
-            overflowX: "auto",
-            bgcolor: isDarkMode ? "#000000" : "#ffffff",
-          }}
-        >
-          {categories.map((category) => (
-            <Link
-              color={headerTextColor}
-              noWrap
-              key={category.name}
-              variant="body2"
-              href={`/categories/${category.name.toLowerCase()}`}
-              sx={{ p: 1, flexShrink: 0 }}
-            >
-              {category.name}
-            </Link>
-          ))}
-        </Toolbar>
-      )}
+      <Toolbar
+        component="nav"
+        variant="dense"
+        sx={{
+          justifyContent: "space-between",
+          overflowX: "auto",
+          bgcolor: isDarkMode ? "#000000" : "#ffffff",
+        }}
+      >
+        {categories.map((category) => (
+          <Link
+            color={headerTextColor}
+            noWrap
+            key={category}
+            variant="body2"
+            href={`/categories/${category.toLowerCase()}`}
+            sx={{ p: 1, flexShrink: 0 }}
+          >
+            {category}
+          </Link>
+        ))}
+      </Toolbar>
     </React.Fragment>
   );
 }

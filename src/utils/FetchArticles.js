@@ -14,4 +14,16 @@ const FetchArticles = async () => {
   }
 };
 
+export const fetchArticlesByCategory = async (category) => {
+  try {
+    const articles = await FetchArticles();
+    return articles.filter(
+      (article) => article.category.toLowerCase() === category.toLowerCase()
+    );
+  } catch (error) {
+    console.error("Error fetching articles by category:", error);
+    return [];
+  }
+};
+
 export default FetchArticles;

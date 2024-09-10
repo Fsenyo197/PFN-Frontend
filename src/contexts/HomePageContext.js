@@ -31,7 +31,7 @@ export const HomePageProvider = ({ children }) => {
           linkText: "Read more",
         });
 
-        setFeaturedPosts(articlesData.slice(1, 6));
+        setFeaturedPosts(articlesData.slice(1));
         setLoading(false); // Set loading to false after data is loaded
       } catch (err) {
         setError(err);

@@ -1,21 +1,16 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
-import FetchCategories from "../utils/FetchCategories";
+import React, { createContext, useContext, useState } from "react";
 
 const HeaderContext = createContext();
 
 export const HeaderProvider = ({ children }) => {
-  const [categories, setCategories] = useState([]);
+  const categories = ["News", "Prices", "Payouts", "Rules", "Trading Platform"];
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   const toggleTheme = () => {
     setIsDarkMode((prevMode) => !prevMode);
   };
-
-  useEffect(() => {
-    FetchCategories().then((data) => setCategories(data));
-  }, []);
 
   return (
     <HeaderContext.Provider value={{ categories, isDarkMode, toggleTheme }}>

@@ -1,7 +1,6 @@
-// pages/blog/[slug].js
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import FetchArticles from "../../utils/FetchArticles"; // Adjust the path as needed
+import FetchArticles from "../../utils/FetchArticles";
 import {
   CircularProgress,
   Typography,
@@ -63,7 +62,6 @@ const BlogPost = () => {
 
       <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer}>
         <List>
-          {/* Example list items - can be replaced with dynamic content */}
           <ListItem button onClick={() => router.push("/")}>
             <ListItemText primary="Home" />
           </ListItem>
@@ -73,7 +71,6 @@ const BlogPost = () => {
           <ListItem button onClick={() => router.push("/categories")}>
             <ListItemText primary="Categories" />
           </ListItem>
-          {/* You can add more items here, e.g., recent posts */}
         </List>
       </Drawer>
 
