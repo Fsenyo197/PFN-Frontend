@@ -60,9 +60,12 @@ function MostRecentPost({ post }) {
             >
               {post.title}
             </Typography>
-            <Typography variant="h5" color="inherit" paragraph>
-              {post.description}
-            </Typography>
+            <Typography
+              variant="h5"
+              color="inherit"
+              paragraph
+              dangerouslySetInnerHTML={{ __html: post.description }}
+            />
             <Link href={post.link} passHref>
               <Typography
                 variant="subtitle1"
