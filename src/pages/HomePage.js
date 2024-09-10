@@ -1,8 +1,7 @@
-"use client";
-
+// HomePage.js
 import * as React from "react";
 import { useState } from "react";
-import { Container, Grid } from "@mui/material";
+import { Container, Grid, CircularProgress } from "@mui/material"; // Import CircularProgress for the spinner
 import MostRecentPost from "../components/MostRecentPost";
 import FeaturedPost from "../components/FeaturedPost";
 import { useHomePage } from "../contexts/HomePageContext";
@@ -13,9 +12,7 @@ import Header from "../components/Header";
 import Footer from "./Footer";
 
 const HomePage = () => {
-  const { mostRecentPost, featuredPosts, error } = useHomePage();
-
-  // Hooks must be called at the top level
+  const { mostRecentPost, featuredPosts, error, loading } = useHomePage(); // Get the loading state
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
   const [isDarkMode, setIsDarkMode] = useState(prefersDarkMode);
 
@@ -36,7 +33,6 @@ const HomePage = () => {
     [isDarkMode]
   );
 
-  // The error handling should happen after the hooks
   if (error) {
     return <p>Error loading content: {error.message}</p>;
   }
@@ -44,19 +40,27 @@ const HomePage = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Container maxWidth="64">
+      <Container maxWidth="lg">
         <Header
           title="Prop News"
           toggleTheme={toggleTheme}
           isDarkMode={isDarkMode}
         />
         <main>
-          <MostRecentPost post={mostRecentPost} />
-          <Grid container spacing={4}>
-            {featuredPosts.map((post) => (
-              <FeaturedPost key={post.title} post={post} />
-            ))}
-          </Grid>
+          {loading ? (
+            <div style={{ textAlign: "center", marginTop: "20%" }}>
+              <CircularProgress /> {/* Show spinner when loading */}
+            </div>
+          ) : (
+            <>
+              <MostRecentPost post={mostRecentPost} />
+              <Grid container spacing={4}>
+                {featuredPosts.map((post) => (
+                  <FeaturedPost key={post.title} post={post} />
+                ))}
+              </Grid>
+            </>
+          )}
         </main>
       </Container>
       <Footer

@@ -16,6 +16,7 @@ function Header() {
 
   const headerTextColor = isDarkMode ? "#ffffff" : "#02353C";
 
+  // Manually defined category names
   const categories = ["News", "Prices", "Payouts", "Rules", "Trading Platform"];
 
   return (
@@ -38,7 +39,7 @@ function Header() {
           noWrap
           sx={{ flexGrow: 1 }}
         >
-          Prop Firm News
+          Prop News
         </Typography>
         <IconButton>
           <SearchIcon sx={{ color: headerTextColor }} />

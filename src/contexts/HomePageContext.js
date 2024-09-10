@@ -9,6 +9,7 @@ export const HomePageProvider = ({ children }) => {
   const [categories, setCategories] = useState([]);
   const [mostRecentPost, setMostRecentPost] = useState({});
   const [featuredPosts, setFeaturedPosts] = useState([]);
+  const [loading, setLoading] = useState(true); // Add loading state
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -18,6 +19,7 @@ export const HomePageProvider = ({ children }) => {
           FetchCategories(),
           FetchArticles(),
         ]);
+
         setCategories(categoriesData);
 
         const mostRecent = articlesData[0];
@@ -30,8 +32,10 @@ export const HomePageProvider = ({ children }) => {
         });
 
         setFeaturedPosts(articlesData.slice(1, 4));
+        setLoading(false); // Set loading to false after data is loaded
       } catch (err) {
         setError(err);
+        setLoading(false); // Set loading to false in case of an error
       }
     };
 
@@ -40,7 +44,7 @@ export const HomePageProvider = ({ children }) => {
 
   return (
     <HomePageContext.Provider
-      value={{ categories, mostRecentPost, featuredPosts, error }}
+      value={{ categories, mostRecentPost, featuredPosts, error, loading }}
     >
       {children}
     </HomePageContext.Provider>
