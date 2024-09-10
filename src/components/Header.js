@@ -23,15 +23,18 @@ function Header() {
           borderBottom: 1,
           borderColor: "divider",
           bgcolor: isDarkMode ? "#000000" : "#ffffff",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          flexWrap: "nowrap",
         }}
       >
         <Typography
           component="h2"
           variant={isSmallScreen ? "h6" : "h5"}
           color={headerTextColor}
-          align="center"
           noWrap
-          sx={{ flex: 1 }}
+          sx={{ flexGrow: 1 }}
         >
           Prop News
         </Typography>
@@ -42,18 +45,17 @@ function Header() {
           {isDarkMode ? "Light Mode" : "Dark Mode"}
         </Button>
       </Toolbar>
-      <Toolbar
-        component="nav"
-        variant="dense"
-        sx={{
-          justifyContent: "space-between",
-          overflowX: "auto",
-          bgcolor: isDarkMode ? "#000000" : "#ffffff",
-        }}
-      >
-        {/* Check if categories has data before mapping */}
-        {categories && categories.length > 0 ? (
-          categories.map((category) => (
+      {categories && categories.length > 0 && (
+        <Toolbar
+          component="nav"
+          variant="dense"
+          sx={{
+            justifyContent: "space-between",
+            overflowX: "auto",
+            bgcolor: isDarkMode ? "#000000" : "#ffffff",
+          }}
+        >
+          {categories.map((category) => (
             <Link
               color={headerTextColor}
               noWrap
@@ -64,13 +66,9 @@ function Header() {
             >
               {category.name}
             </Link>
-          ))
-        ) : (
-          <Typography color={headerTextColor} variant="body2" sx={{ p: 1 }}>
-            No categories available
-          </Typography>
-        )}
-      </Toolbar>
+          ))}
+        </Toolbar>
+      )}
     </React.Fragment>
   );
 }
