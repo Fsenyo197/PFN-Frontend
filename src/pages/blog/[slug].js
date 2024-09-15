@@ -13,6 +13,8 @@ import {
   ListItemText,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { useHeader } from "../../contexts/HeaderContext";
 
 const BlogPost = () => {
   const router = useRouter();
@@ -21,6 +23,7 @@ const BlogPost = () => {
   const [loading, setLoading] = useState(true);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [error, setError] = useState(null);
+  const { categories } = useHeader(); // Use categories from context
 
   useEffect(() => {
     if (slug) {
@@ -86,6 +89,25 @@ const BlogPost = () => {
 
   return (
     <Box sx={{ display: "flex", justifyContent: "center", p: 2 }}>
+      {/* Back Icon */}
+      <Box
+        sx={{
+          position: "fixed",
+          top: 16,
+          left: 16,
+          zIndex: 1000,
+        }}
+      >
+        <IconButton
+          color="inherit"
+          aria-label="go back"
+          edge="start"
+          onClick={() => router.back()}
+        >
+          <ArrowBackIcon />
+        </IconButton>
+      </Box>
+
       {/* Drawer for Navigation */}
       <Box sx={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 1000 }}>
         <IconButton
@@ -104,12 +126,17 @@ const BlogPost = () => {
           <ListItem button onClick={() => handleNavigation("/")}>
             <ListItemText primary="Home" />
           </ListItem>
-          <ListItem button onClick={() => handleNavigation("/blog")}>
-            <ListItemText primary="All Posts" />
-          </ListItem>
-          <ListItem button onClick={() => handleNavigation("/categories")}>
-            <ListItemText primary="Categories" />
-          </ListItem>
+          {categories.map((category) => (
+            <ListItem
+              button
+              key={category}
+              onClick={() =>
+                handleNavigation(`/category/${category.toLowerCase()}`)
+              }
+            >
+              <ListItemText primary={category} />
+            </ListItem>
+          ))}
         </List>
       </Drawer>
 
@@ -123,7 +150,7 @@ const BlogPost = () => {
         {article.image && (
           <Box
             component="img"
-            src={article.image} // Add the image URL
+            src={article.image}
             alt={article.title}
             sx={{
               width: "100%",
