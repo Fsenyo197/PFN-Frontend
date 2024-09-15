@@ -1,37 +1,24 @@
-// HomePage.js
 import * as React from "react";
-import { useState } from "react";
 import { Container, Grid, CircularProgress } from "@mui/material"; // Import CircularProgress for the spinner
 import MostRecentPost from "../components/MostRecentPost";
 import FeaturedPost from "../components/FeaturedPost";
 import { useHomePage } from "../contexts/HomePageContext";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../components/Header";
 import Footer from "./Footer";
 
+const theme = createTheme({
+  palette: {
+    mode: "light",
+  },
+  typography: {
+    fontFamily: '"Georgia", "Roboto", sans-serif',
+  },
+});
+
 const HomePage = () => {
-  const { mostRecentPost, featuredPosts, error, loading } = useHomePage(); // Get the loading state
-  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
-  const [isDarkMode, setIsDarkMode] = useState(prefersDarkMode);
-
-  const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode);
-  };
-
-  const theme = React.useMemo(
-    () =>
-      createTheme({
-        palette: {
-          mode: isDarkMode ? "dark" : "light",
-        },
-        typography: {
-          fontFamily: '"Georgia", "Roboto", sans-serif',
-        },
-      }),
-    [isDarkMode]
-  );
+  const { mostRecentPost, featuredPosts, error, loading } = useHomePage();
 
   if (error) {
     return <p>Error loading content: {error.message}</p>;
@@ -41,7 +28,7 @@ const HomePage = () => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Container maxWidth="64">
-        <Header toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+        <Header />
         <main>
           {loading ? (
             <div style={{ textAlign: "center", marginTop: "20%" }}>

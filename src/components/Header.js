@@ -10,11 +10,9 @@ import { useTheme } from "@mui/material/styles";
 import { useHeader } from "../contexts/HeaderContext";
 
 function Header() {
-  const { categories, isDarkMode, toggleTheme } = useHeader();
+  const { categories } = useHeader();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-
-  const headerTextColor = isDarkMode ? "#ffffff" : "#02353C";
 
   return (
     <React.Fragment>
@@ -22,7 +20,7 @@ function Header() {
         sx={{
           borderBottom: 1,
           borderColor: "divider",
-          bgcolor: isDarkMode ? "#000000" : "#ffffff",
+          bgcolor: "#ffffff",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
@@ -32,18 +30,15 @@ function Header() {
         <Typography
           component="h2"
           variant={isSmallScreen ? "h6" : "h5"}
-          color={headerTextColor}
+          color="#02353C"
           noWrap
           sx={{ flexGrow: 1 }}
         >
           Prop Firm News
         </Typography>
         <IconButton>
-          <SearchIcon sx={{ color: headerTextColor }} />
+          <SearchIcon sx={{ color: "#02353C" }} />
         </IconButton>
-        <Button variant="contained" onClick={toggleTheme}>
-          {isDarkMode ? "Light Mode" : "Dark Mode"}
-        </Button>
       </Toolbar>
       <Toolbar
         component="nav"
@@ -51,12 +46,12 @@ function Header() {
         sx={{
           justifyContent: "space-between",
           overflowX: "auto",
-          bgcolor: isDarkMode ? "#000000" : "#ffffff",
+          bgcolor: "#ffffff",
         }}
       >
         {categories.map((category) => (
           <Link
-            color={headerTextColor}
+            color="#02353C"
             noWrap
             key={category}
             variant="body2"
