@@ -20,16 +20,26 @@ const BlogPost = () => {
   const [article, setArticle] = useState(null);
   const [loading, setLoading] = useState(true);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     if (slug) {
       const loadArticle = async () => {
         setLoading(true);
-        const articles = await FetchArticles();
-        const selectedArticle = articles.find(
-          (article) => article.slug === slug
-        );
-        setArticle(selectedArticle);
+        try {
+          const articles = await FetchArticles();
+          const selectedArticle = articles.find(
+            (article) => article.slug === slug
+          );
+
+          if (selectedArticle) {
+            setArticle(selectedArticle);
+          } else {
+            setError("Article not found");
+          }
+        } catch (err) {
+          setError("Error fetching article");
+        }
         setLoading(false);
       };
 
@@ -41,8 +51,37 @@ const BlogPost = () => {
     setDrawerOpen(!drawerOpen);
   };
 
-  if (loading || !article) {
-    return <CircularProgress />;
+  const handleNavigation = (path) => {
+    setDrawerOpen(false); // Close the drawer after navigation
+    router.push(path);
+  };
+
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <CircularProgress />
+        <Typography variant="h6" sx={{ ml: 2 }}>
+          Loading...
+        </Typography>
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Box sx={{ display: "flex", justifyContent: "center", p: 2 }}>
+        <Typography variant="h6" color="error">
+          {error}
+        </Typography>
+      </Box>
+    );
   }
 
   return (
@@ -62,13 +101,13 @@ const BlogPost = () => {
 
       <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer}>
         <List>
-          <ListItem button onClick={() => router.push("/")}>
+          <ListItem button onClick={() => handleNavigation("/")}>
             <ListItemText primary="Home" />
           </ListItem>
-          <ListItem button onClick={() => router.push("/blog")}>
+          <ListItem button onClick={() => handleNavigation("/blog")}>
             <ListItemText primary="All Posts" />
           </ListItem>
-          <ListItem button onClick={() => router.push("/categories")}>
+          <ListItem button onClick={() => handleNavigation("/categories")}>
             <ListItemText primary="Categories" />
           </ListItem>
         </List>
@@ -79,6 +118,23 @@ const BlogPost = () => {
         <Typography variant="h4" gutterBottom>
           {article.title}
         </Typography>
+
+        {/* Blog Post Image */}
+        {article.image && (
+          <Box
+            component="img"
+            src={article.image} // Add the image URL
+            alt={article.title}
+            sx={{
+              width: "100%",
+              height: "auto",
+              borderRadius: 2,
+              mt: 2,
+              mb: 4,
+            }}
+          />
+        )}
+
         <Box
           sx={{ mt: 2 }}
           dangerouslySetInnerHTML={{ __html: article.body }}
