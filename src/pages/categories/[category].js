@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
-import Link from "next/link";
+import Grid from "@mui/material/Grid";
+import FeaturedPost from "../../components/FeaturedPost"; // Import FeaturedPost component
 import { fetchArticlesByCategory } from "../../utils/FetchArticles";
-import { useHeader } from "../../contexts/HeaderContext";
 
 export async function getStaticPaths() {
   const categories = ["News", "Prices", "Payouts", "Rules", "Trading Platform"];
@@ -30,7 +30,6 @@ export async function getStaticProps({ params }) {
 
 const CategoryPage = ({ category, articles }) => {
   const router = useRouter();
-  const { categories } = useHeader();
 
   if (router.isFallback) {
     return <p>Loading...</p>;
@@ -42,15 +41,21 @@ const CategoryPage = ({ category, articles }) => {
       {articles.length === 0 ? (
         <p>No articles available under this category.</p>
       ) : (
-        <ul>
+        <Grid container spacing={4}>
           {articles.map((article) => (
-            <li key={article.slug}>
-              <Link href={`/articles/${article.slug}`}>
-                <a>{article.title}</a>
-              </Link>
-            </li>
+            <FeaturedPost
+              key={article.slug}
+              post={{
+                title: article.title,
+                date: article.date_published, // Adjust to match your article data structure
+                description: article.meta_description, // Adjust to match your article data
+                image: article.image, // Image URL
+                imageLabel: article.title,
+                slug: article.slug,
+              }}
+            />
           ))}
-        </ul>
+        </Grid>
       )}
     </div>
   );
