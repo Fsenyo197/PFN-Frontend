@@ -13,7 +13,6 @@ import {
   ListItemText,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useHeader } from "../../contexts/HeaderContext";
 
 const BlogPost = () => {
@@ -59,6 +58,10 @@ const BlogPost = () => {
     router.push(path);
   };
 
+  const handleBack = () => {
+    router.back(); // Navigate to the previous page
+  };
+
   if (loading) {
     return (
       <Box
@@ -97,16 +100,7 @@ const BlogPost = () => {
           left: 16,
           zIndex: 1000,
         }}
-      >
-        <IconButton
-          color="inherit"
-          aria-label="go back"
-          edge="start"
-          onClick={() => router.back()}
-        >
-          <ArrowBackIcon />
-        </IconButton>
-      </Box>
+      ></Box>
 
       {/* Drawer for Navigation */}
       <Box sx={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 1000 }}>
