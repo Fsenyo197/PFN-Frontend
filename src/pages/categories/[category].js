@@ -50,61 +50,62 @@ const CategoryPage = ({ category, articles }) => {
   }
 
   return (
-    <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "20px" }}>
-      {/* Back and Home icons with space between */}
-      <div
-        style={{
-          marginBottom: "20px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
-        <IconButton onClick={handleBack} aria-label="Go back">
-          <ArrowBackIcon />
-        </IconButton>
-        <IconButton onClick={handleHome} aria-label="Go to home">
-          <HomeIcon />
-        </IconButton>
-      </div>
+    <>
+      <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "20px" }}>
+        {/* Back and Home icons with space between */}
+        <div
+          style={{
+            marginBottom: "20px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <IconButton onClick={handleBack} aria-label="Go back">
+            <ArrowBackIcon />
+          </IconButton>
+          <IconButton onClick={handleHome} aria-label="Go to home">
+            <HomeIcon />
+          </IconButton>
+        </div>
 
-      <div
-        style={{
-          textAlign: "center",
-          marginBottom: "40px",
-        }}
-      >
-        <h1>Articles under {category} category</h1>
-      </div>
+        <div
+          style={{
+            textAlign: "center",
+            marginBottom: "40px",
+          }}
+        >
+          <h1>Articles under {category} category</h1>
+        </div>
 
-      {articles.length === 0 ? (
-        <p style={{ textAlign: "center" }}>
-          No articles available under this category.
-        </p>
-      ) : (
-        <Grid>
-          {articles.map((article) => (
-            <Grid item key={article.slug}>
-              <FeaturedPost
-                post={{
-                  title: article.title,
-                  date: article.date_published, // Adjust to match your article data structure
-                  description: article.meta_description, // Adjust to match your article data
-                  image: article.image, // Image URL
-                  imageLabel: article.title,
-                  slug: article.slug,
-                }}
-              />
-            </Grid>
-          ))}
-        </Grid>
-      )}
-      {/* Add Footer here */}
+        {articles.length === 0 ? (
+          <p style={{ textAlign: "center" }}>
+            No articles available under this category.
+          </p>
+        ) : (
+          <Grid>
+            {articles.map((article) => (
+              <Grid item key={article.slug}>
+                <FeaturedPost
+                  post={{
+                    title: article.title,
+                    date: article.date_published, // Adjust to match your article data structure
+                    description: article.meta_description, // Adjust to match your article data
+                    image: article.image, // Image URL
+                    imageLabel: article.title,
+                    slug: article.slug,
+                  }}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        )}
+      </div>
       <Footer
-        title="Footer Title"
-        description="Some description about the blog"
+        title="Footer"
+        description="Something here to give the footer a purpose!"
       />
-    </div>
+    </>
   );
 };
 
