@@ -1,5 +1,4 @@
 import * as React from "react";
-import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
@@ -15,67 +14,67 @@ function Header() {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        minHeight: "100vh",
-      }}
-    >
-      <AppBar
-        component="nav"
-        position="sticky"
-        elevation={0}
+    <React.Fragment>
+      <Toolbar
         sx={{
-          bgcolor: "#02353C", // Set header background
+          borderBottom: 1,
+          borderColor: "divider",
+          bgcolor: "#02353C", // Set the header background to the same teal color
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          flexWrap: "nowrap",
+          width: "100vw", // Full width
+          position: "sticky", // Make it sticky
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 1000, // Stay on top of other elements
         }}
       >
-        <Toolbar
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            borderBottom: 1,
-            borderColor: "divider",
-          }}
+        <Typography
+          component="h2"
+          variant={isSmallScreen ? "h6" : "h5"}
+          color="#ffffff" // Set text color to white
+          noWrap
+          sx={{ flexGrow: 1 }}
         >
-          <Typography
-            component="h2"
-            variant={isSmallScreen ? "h6" : "h5"}
-            color="#ffffff"
+          Prop Firm News
+        </Typography>
+        <IconButton>
+          <SearchIcon sx={{ color: "#ffffff" }} />{" "}
+          {/* Set search icon color to white */}
+        </IconButton>
+      </Toolbar>
+      <Toolbar
+        component="nav"
+        variant="dense"
+        sx={{
+          justifyContent: "space-between",
+          overflowX: "auto",
+          bgcolor: "#02353C", // Keep the background consistent
+          width: "100vw", // Full width for the navigation bar
+          position: "sticky", // Make it sticky
+          top: 0, // Stick to the top just below the main header
+          left: 0,
+          right: 0,
+          zIndex: 999, // Slightly lower z-index to stay beneath the main toolbar
+        }}
+      >
+        {categories.map((category) => (
+          <Link
+            color="#ffffff" // Set link color to white
             noWrap
-            sx={{ flexGrow: 1 }}
+            key={category}
+            variant="body2"
+            href={`/categories/${category.toLowerCase()}`}
+            sx={{ p: 1, flexShrink: 0 }}
           >
-            Prop Firm News
-          </Typography>
-          <IconButton>
-            <SearchIcon sx={{ color: "#ffffff" }} />{" "}
-            {/* Set search icon color to white */}
-          </IconButton>
-        </Toolbar>
-        <Toolbar
-          component="nav"
-          variant="dense"
-          sx={{
-            justifyContent: "space-between",
-            overflowX: "auto",
-          }}
-        >
-          {categories.map((category) => (
-            <Link
-              color="#ffffff"
-              noWrap
-              key={category}
-              variant="body2"
-              href={`/categories/${category.toLowerCase()}`}
-              sx={{ p: 1, flexShrink: 0 }}
-            >
-              {category}
-            </Link>
-          ))}
-        </Toolbar>
-      </AppBar>
-    </div>
+            {category}
+          </Link>
+        ))}
+      </Toolbar>
+    </React.Fragment>
   );
 }
 
