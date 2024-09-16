@@ -165,6 +165,7 @@ const BlogPost = () => {
       <Footer
         title="Footer"
         description="Something here to give the footer a purpose!"
+        style={{ width: "100%" }}
       />
     </>
   );
