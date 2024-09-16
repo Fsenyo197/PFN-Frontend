@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useHeader } from "../../contexts/HeaderContext";
+import Footer from "../../components/Footer"; // Import the Footer component
 
 const BlogPost = () => {
   const router = useRouter();
@@ -22,7 +23,7 @@ const BlogPost = () => {
   const [loading, setLoading] = useState(true);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [error, setError] = useState(null);
-  const { categories } = useHeader(); // Use categories from context
+  const { categories } = useHeader();
 
   useEffect(() => {
     if (slug) {
@@ -157,6 +158,12 @@ const BlogPost = () => {
           dangerouslySetInnerHTML={{ __html: article.body }}
         />
       </Paper>
+
+      {/* Add Footer here */}
+      <Footer
+        title="Footer Title"
+        description="Some description about the blog"
+      />
     </Box>
   );
 };
