@@ -95,11 +95,6 @@ const BlogPost = () => {
   return (
     <>
       <Box sx={{ display: "flex", justifyContent: "space-between", p: 2 }}>
-        {/* Back Icon at the left */}
-        <IconButton onClick={handleBack} aria-label="Go back" sx={{ ml: 2 }}>
-          <ArrowBackIcon sx={{ color: "#02353C" }} />
-        </IconButton>
-
         {/* Menu Drawer Icon at the right */}
         <IconButton
           color="inherit"
@@ -109,6 +104,10 @@ const BlogPost = () => {
           sx={{ mr: 2 }} // Align to the right
         >
           <MenuIcon sx={{ color: "#02353C" }} />
+        </IconButton>
+        {/* Back Icon at the left */}
+        <IconButton onClick={handleBack} aria-label="Go back" sx={{ ml: 2 }}>
+          <ArrowBackIcon sx={{ color: "#02353C" }} />
         </IconButton>
       </Box>
 
