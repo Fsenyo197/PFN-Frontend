@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton"; // Import MUI IconButton
+import HomeIcon from "@mui/icons-material/Home"; // Import Home Icon
 import ArrowBackIcon from "@mui/icons-material/ArrowBack"; // Import Back Icon
 import FeaturedPost from "../../components/FeaturedPost"; // Import FeaturedPost component
 import { fetchArticlesByCategory } from "../../utils/FetchArticles";
@@ -39,6 +40,10 @@ const CategoryPage = ({ category, articles }) => {
     router.back(); // Navigate to the previous page
   };
 
+  const handleHome = () => {
+    router.push("/"); // Navigate to the homepage
+  };
+
   if (router.isFallback) {
     return <p>Loading...</p>;
   }
@@ -47,16 +52,20 @@ const CategoryPage = ({ category, articles }) => {
     <div>
       <h1>Articles under {category} category</h1>
 
-      {/* Back and Home icons */}
+      {/* Back and Home icons with space between */}
       <div
-        style={{ marginBottom: "20px", display: "flex", alignItems: "center" }}
+        style={{
+          marginBottom: "20px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
       >
-        <IconButton
-          onClick={handleBack}
-          aria-label="Go back"
-          sx={{ marginRight: "10px" }}
-        >
+        <IconButton onClick={handleBack} aria-label="Go back">
           <ArrowBackIcon />
+        </IconButton>
+        <IconButton onClick={handleHome} aria-label="Go to home">
+          <HomeIcon />
         </IconButton>
       </div>
 
