@@ -9,8 +9,8 @@ function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
+      <Link color="inherit" href="https://propfirmnews.live/">
+        Prop Firm News
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -22,7 +22,14 @@ function Footer(props) {
   const { description, title } = props;
 
   return (
-    <Box component="footer" sx={{ bgcolor: "background.paper", py: 6 }}>
+    <Box
+      component="footer"
+      sx={{
+        bgcolor: "#02353C", // Set background color to #02353C
+        color: "white", // Text color for better contrast
+        py: 6,
+      }}
+    >
       <Container maxWidth="lg">
         <Typography variant="h6" align="center" gutterBottom>
           {title}
@@ -30,7 +37,7 @@ function Footer(props) {
         <Typography
           variant="subtitle1"
           align="center"
-          color="text.secondary"
+          color="inherit" // Use 'inherit' to apply the white text color
           component="p"
         >
           {description}
