@@ -20,7 +20,7 @@ function Header() {
         sx={{
           borderBottom: 1,
           borderColor: "divider",
-          bgcolor: "#ffffff",
+          bgcolor: "#02353C", // Set the header background to the same teal color
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
@@ -30,14 +30,15 @@ function Header() {
         <Typography
           component="h2"
           variant={isSmallScreen ? "h6" : "h5"}
-          color="#02353C"
+          color="#ffffff" // Set text color to white
           noWrap
           sx={{ flexGrow: 1 }}
         >
           Prop Firm News
         </Typography>
         <IconButton>
-          <SearchIcon sx={{ color: "#02353C" }} />
+          <SearchIcon sx={{ color: "#ffffff" }} />{" "}
+          {/* Set search icon color to white */}
         </IconButton>
       </Toolbar>
       <Toolbar
@@ -46,12 +47,12 @@ function Header() {
         sx={{
           justifyContent: "space-between",
           overflowX: "auto",
-          bgcolor: "#ffffff",
+          bgcolor: "#02353C", // Keep the background consistent
         }}
       >
         {categories.map((category) => (
           <Link
-            color="#02353C"
+            color="#ffffff" // Set link color to white
             noWrap
             key={category}
             variant="body2"
