@@ -22,15 +22,16 @@ function FeaturedPost({ post }) {
         <Card
           sx={{
             display: "flex",
-            bgcolor: "white", // Set background color to white
-            color: "#02353C", // Set text color to #02353C
+            bgcolor: "white", // Keep background white
+            color: "#02353C", // General text color
             maxHeight: 200,
+            boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.1)", // Add soft shadow for depth
           }}
         >
           <CardContent
             sx={{
               flex: 1,
-              padding: "8px",
+              padding: "16px", // Slightly increase padding for a more spacious look
             }}
           >
             <Typography component="h2" variant="h5" sx={{ color: "#02353C" }}>
@@ -38,19 +39,26 @@ function FeaturedPost({ post }) {
             </Typography>
             <Typography
               variant="subtitle1"
-              sx={{ color: "#02353C", fontSize: "0.8rem" }} // Set date color to #02353C
+              sx={{ color: "#6D6D6D", fontSize: "0.85rem" }} // Set date to gray for less emphasis
             >
               {post.date}
             </Typography>
-            <Typography variant="subtitle1" paragraph sx={{ color: "#02353C" }}>
+            <Typography
+              variant="subtitle1"
+              paragraph
+              sx={{ color: "#045D66" }} // Description color slightly lighter than the title
+            >
               {post.description}
             </Typography>
             <Button
               onClick={handleClick}
               sx={{
                 mt: 2,
-                color: "#02353C", // Set button text color to #02353C
-                borderColor: "#02353C", // Optional: Add a border color to the button
+                bgcolor: "#02353C", // Button background color
+                color: "white", // White text for contrast
+                "&:hover": {
+                  bgcolor: "#01404A", // Slightly darker on hover
+                },
               }}
             >
               Read more
@@ -58,7 +66,11 @@ function FeaturedPost({ post }) {
           </CardContent>
           <CardMedia
             component="img"
-            sx={{ width: 120, height: "auto" }} // Keep media styling intact
+            sx={{
+              width: 120,
+              height: "auto",
+              borderRadius: "0 4px 4px 0", // Subtle rounding for smooth corners
+            }}
             image={post.image}
             alt={post.imageLabel}
           />
