@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import FetchArticles from "../../utils/FetchArticles";
+import Footer from "../Footer";
 import {
   CircularProgress,
   Typography,
@@ -14,7 +15,6 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useHeader } from "../../contexts/HeaderContext";
-import Footer from "../../pages/Footer"; // Import the Footer component
 
 const BlogPost = () => {
   const router = useRouter();
@@ -23,7 +23,7 @@ const BlogPost = () => {
   const [loading, setLoading] = useState(true);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [error, setError] = useState(null);
-  const { categories } = useHeader();
+  const { categories } = useHeader(); // Use categories from context
 
   useEffect(() => {
     if (slug) {
@@ -158,7 +158,6 @@ const BlogPost = () => {
           dangerouslySetInnerHTML={{ __html: article.body }}
         />
       </Paper>
-
       {/* Add Footer here */}
       <Footer
         title="Footer Title"
