@@ -7,7 +7,6 @@ import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import { useRouter } from "next/router";
-import Button from "@mui/material/Button"; // Correct import for Button
 
 function FeaturedPost({ post }) {
   const router = useRouter();
@@ -18,28 +17,32 @@ function FeaturedPost({ post }) {
 
   return (
     <Grid item xs={12} md={6}>
-      <CardActionArea component="a" href="#">
+      <CardActionArea onClick={handleClick}>
         <Card
           sx={{
             display: "flex",
-            bgcolor: "white", // Keep background white
-            color: "#02353C", // General text color
+            bgcolor: "white",
+            color: "#02353C",
             maxHeight: 200,
-            boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.1)", // Add soft shadow for depth
+            boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.1)",
           }}
         >
           <CardContent
             sx={{
               flex: 1,
-              padding: "16px", // Slightly increase padding for a more spacious look
+              padding: "16px",
             }}
           >
-            <Typography component="h2" variant="h5" sx={{ color: "#02353C" }}>
+            <Typography
+              component="h2"
+              variant="h5"
+              sx={{ color: "#02353C", fontSize: "1rem" }} // Smaller title font
+            >
               {post.title}
             </Typography>
             <Typography
               variant="subtitle1"
-              sx={{ color: "#6D6D6D", fontSize: "0.85rem" }} // Set date to gray for less emphasis
+              sx={{ color: "#6D6D6D", fontSize: "0.75rem" }} // Smaller date font
             >
               {post.date}
             </Typography>
@@ -49,7 +52,7 @@ function FeaturedPost({ post }) {
             sx={{
               width: 160,
               height: "auto",
-              borderRadius: "0 4px 4px 0", // Subtle rounding for smooth corners
+              borderRadius: "0 4px 4px 0",
             }}
             image={post.image}
             alt={post.imageLabel}
@@ -67,7 +70,7 @@ FeaturedPost.propTypes = {
     image: PropTypes.string.isRequired,
     imageLabel: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    slug: PropTypes.string.isRequired, // Make sure slug is required for navigation
+    slug: PropTypes.string.isRequired,
   }).isRequired,
 };
 
