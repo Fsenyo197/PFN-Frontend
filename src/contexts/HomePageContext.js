@@ -1,4 +1,3 @@
-// contexts/HomePageContext.js
 import React, { createContext, useContext, useState, useEffect } from "react";
 import FetchCategories from "../utils/FetchCategories";
 import FetchArticles from "../utils/FetchArticles";
@@ -25,10 +24,9 @@ export const HomePageProvider = ({ children }) => {
         const mostRecent = articlesData[0];
         setMostRecentPost({
           title: mostRecent.title,
-          description: mostRecent.body,
           image: mostRecent.image,
-          link: `/blog/${mostRecent.slug}`,
-          linkText: "Read more",
+          slug: mostRecent.slug, // Add slug for routing
+          imageText: mostRecent.imageText || mostRecent.title, // Optional: Use title as fallback for imageText
         });
 
         setFeaturedPosts(articlesData.slice(1));
