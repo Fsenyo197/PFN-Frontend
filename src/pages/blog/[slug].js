@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import FetchArticles from "../../utils/FetchArticles";
-import Footer from "../Footer";
 import {
   CircularProgress,
   Typography,
@@ -88,16 +87,8 @@ const BlogPost = () => {
   }
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        flexDirection: "column",
-        minHeight: "100vh",
-      }}
-    >
-      {/* Main Blog Post Content */}
-      <Box sx={{ flexGrow: 1, p: 2 }}>
+    <>
+      <Box sx={{ display: "flex", justifyContent: "center", p: 2 }}>
         {/* Back Icon */}
         <Box
           sx={{
@@ -142,6 +133,7 @@ const BlogPost = () => {
           </List>
         </Drawer>
 
+        {/* Main Blog Post Content */}
         <Paper sx={{ maxWidth: 800, p: 3 }}>
           <Typography variant="h4" gutterBottom>
             {article.title}
@@ -169,13 +161,11 @@ const BlogPost = () => {
           />
         </Paper>
       </Box>
-
-      {/* Footer */}
       <Footer
-        title="Footer Title"
-        description="Some description about the blog"
+        title="Footer"
+        description="Something here to give the footer a purpose!"
       />
-    </Box>
+    </>
   );
 };
 
