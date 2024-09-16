@@ -20,6 +20,15 @@ const theme = createTheme({
 const HomePage = () => {
   const { mostRecentPost, featuredPosts, error, loading } = useHomePage();
 
+  if (loading) {
+    // Show only the spinner and nothing else while loading
+    return (
+      <div style={{ textAlign: "center", marginTop: "20%" }}>
+        <CircularProgress />
+      </div>
+    );
+  }
+
   if (error) {
     return <p>Error loading content: {error.message}</p>;
   }
@@ -30,22 +39,14 @@ const HomePage = () => {
       <Header />
       <Container maxWidth="64">
         <main>
-          {loading ? (
-            <div style={{ textAlign: "center", marginTop: "20%" }}>
-              <CircularProgress /> {/* Show spinner when loading */}
-            </div>
-          ) : (
-            <>
-              {mostRecentPost && mostRecentPost.title ? (
-                <MostRecentPost post={mostRecentPost} />
-              ) : null}
-              <Grid container spacing={4}>
-                {featuredPosts.map((post) => (
-                  <FeaturedPost key={post.title} post={post} />
-                ))}
-              </Grid>
-            </>
-          )}
+          {mostRecentPost && mostRecentPost.title ? (
+            <MostRecentPost post={mostRecentPost} />
+          ) : null}
+          <Grid container spacing={4}>
+            {featuredPosts.map((post) => (
+              <FeaturedPost key={post.title} post={post} />
+            ))}
+          </Grid>
         </main>
       </Container>
       <Footer
