@@ -81,9 +81,9 @@ const CategoryPage = ({ category, articles }) => {
           No articles available under this category.
         </p>
       ) : (
-        <Grid container spacing={4} justifyContent="center">
+        <Grid>
           {articles.map((article) => (
-            <Grid item key={article.slug} xs={12} sm={10} md={10}>
+            <Grid item key={article.slug}>
               <FeaturedPost
                 post={{
                   title: article.title,
