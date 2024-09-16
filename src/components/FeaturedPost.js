@@ -43,31 +43,11 @@ function FeaturedPost({ post }) {
             >
               {post.date}
             </Typography>
-            <Typography
-              variant="subtitle1"
-              paragraph
-              sx={{ color: "#045D66" }} // Description color slightly lighter than the title
-            >
-              {post.description}
-            </Typography>
-            <Button
-              onClick={handleClick}
-              sx={{
-                mt: 2,
-                bgcolor: "#02353C", // Button background color
-                color: "white", // White text for contrast
-                "&:hover": {
-                  bgcolor: "#01404A", // Slightly darker on hover
-                },
-              }}
-            >
-              Read more
-            </Button>
           </CardContent>
           <CardMedia
             component="img"
             sx={{
-              width: 120,
+              width: 160,
               height: "auto",
               borderRadius: "0 4px 4px 0", // Subtle rounding for smooth corners
             }}
