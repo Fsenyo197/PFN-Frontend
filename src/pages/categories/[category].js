@@ -62,10 +62,10 @@ const CategoryPage = ({ category, articles }) => {
           }}
         >
           <IconButton onClick={handleBack} aria-label="Go back">
-            <ArrowBackIcon />
+            <ArrowBackIcon sx={{ color: "#02353C" }} />
           </IconButton>
           <IconButton onClick={handleHome} aria-label="Go to home">
-            <HomeIcon />
+            <HomeIcon sx={{ color: "#02353C" }} />
           </IconButton>
         </div>
 
@@ -73,6 +73,7 @@ const CategoryPage = ({ category, articles }) => {
           style={{
             textAlign: "center",
             marginBottom: "40px",
+            color: "#02353C", // Apply the color to the title
           }}
         >
           <h1>Articles under {category} category</h1>
@@ -104,7 +105,6 @@ const CategoryPage = ({ category, articles }) => {
       <Footer
         title="Footer"
         description="Something here to give the footer a purpose!"
-        style={{ width: "100%" }}
       />
     </>
   );

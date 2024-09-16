@@ -14,6 +14,7 @@ import {
   ListItemText,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack"; // Import Back Icon
 import { useHeader } from "../../contexts/HeaderContext";
 
 const BlogPost = () => {
@@ -59,6 +60,10 @@ const BlogPost = () => {
     router.push(path);
   };
 
+  const handleBack = () => {
+    router.back(); // Navigate back
+  };
+
   if (loading) {
     return (
       <Box
@@ -89,54 +94,51 @@ const BlogPost = () => {
 
   return (
     <>
-      <Box sx={{ display: "flex", justifyContent: "center", p: 2 }}>
-        {/* Back Icon */}
-        <Box
-          sx={{
-            position: "fixed",
-            top: 16,
-            left: 16,
-            zIndex: 1000,
-          }}
-        ></Box>
+      <Box sx={{ display: "flex", justifyContent: "space-between", p: 2 }}>
+        {/* Back Icon at the left */}
+        <IconButton onClick={handleBack} aria-label="Go back" sx={{ ml: 2 }}>
+          <ArrowBackIcon sx={{ color: "#02353C" }} />
+        </IconButton>
 
-        {/* Drawer for Navigation */}
-        <Box
-          sx={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 1000 }}
+        {/* Menu Drawer Icon at the right */}
+        <IconButton
+          color="inherit"
+          aria-label="open drawer"
+          edge="start"
+          onClick={toggleDrawer}
+          sx={{ mr: 2 }} // Align to the right
         >
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={toggleDrawer}
-            sx={{ ml: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
-        </Box>
+          <MenuIcon sx={{ color: "#02353C" }} />
+        </IconButton>
+      </Box>
 
-        <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer}>
-          <List>
-            <ListItem button onClick={() => handleNavigation("/")}>
-              <ListItemText primary="Home" />
+      <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer}>
+        <List>
+          <ListItem button onClick={() => handleNavigation("/")}>
+            <ListItemText primary="Home" />
+          </ListItem>
+          {categories.map((category) => (
+            <ListItem
+              button
+              key={category}
+              onClick={() =>
+                handleNavigation(`/categories/${category.toLowerCase()}`)
+              }
+            >
+              <ListItemText primary={category} />
             </ListItem>
-            {categories.map((category) => (
-              <ListItem
-                button
-                key={category}
-                onClick={() =>
-                  handleNavigation(`/categories/${category.toLowerCase()}`)
-                }
-              >
-                <ListItemText primary={category} />
-              </ListItem>
-            ))}
-          </List>
-        </Drawer>
+          ))}
+        </List>
+      </Drawer>
 
-        {/* Main Blog Post Content */}
+      {/* Main Blog Post Content */}
+      <Box sx={{ display: "flex", justifyContent: "center", p: 2 }}>
         <Paper sx={{ maxWidth: 800, p: 3 }}>
-          <Typography variant="h4" gutterBottom>
+          <Typography
+            variant="h4"
+            gutterBottom
+            sx={{ color: "#02353C" }} // Set title color
+          >
             {article.title}
           </Typography>
 
@@ -165,7 +167,6 @@ const BlogPost = () => {
       <Footer
         title="Footer"
         description="Something here to give the footer a purpose!"
-        style={{ width: "100%" }}
       />
     </>
   );
