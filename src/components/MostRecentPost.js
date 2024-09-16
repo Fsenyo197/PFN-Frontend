@@ -3,14 +3,20 @@ import PropTypes from "prop-types";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
-import Link from "next/link"; // Use Next.js Link for client-side navigation
 import Box from "@mui/material/Box";
+import { useRouter } from "next/router";
 
 function MostRecentPost({ post }) {
+  const router = useRouter();
+
   // Ensure that `post` and its properties are defined before attempting to use them
-  if (!post || !post.image || !post.title || !post.description || !post.link) {
+  if (!post || !post.image || !post.title || !post.slug) {
     return null; // Render nothing if the post data is incomplete
   }
+
+  const handleClick = () => {
+    router.push(`/blog/${post.slug}`);
+  };
 
   return (
     <Paper
@@ -23,16 +29,13 @@ function MostRecentPost({ post }) {
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
         backgroundImage: `url(${post.image})`,
+        cursor: "pointer", // Change cursor to pointer to indicate it's clickable
+        height: { xs: 300, md: 400 }, // Responsive image height
       }}
+      onClick={handleClick}
     >
-      {/* Increase the priority of the hero background image */}
-      {
-        <img
-          style={{ display: "none" }}
-          src={post.image}
-          alt={post.imageText}
-        />
-      }
+      {/* Hidden image for SEO */}
+      <img style={{ display: "none" }} src={post.image} alt={post.imageText} />
       <Box
         sx={{
           position: "absolute",
@@ -60,22 +63,6 @@ function MostRecentPost({ post }) {
             >
               {post.title}
             </Typography>
-            <Typography
-              variant="h5"
-              color="inherit"
-              paragraph
-              dangerouslySetInnerHTML={{ __html: post.description }}
-            />
-            <Link href={post.link} passHref>
-              <Typography
-                variant="subtitle1"
-                color="inherit"
-                component="a"
-                sx={{ textDecoration: "underline", cursor: "pointer" }}
-              >
-                {post.linkText || "Read More"}
-              </Typography>
-            </Link>
           </Box>
         </Grid>
       </Grid>
@@ -88,9 +75,7 @@ MostRecentPost.propTypes = {
     image: PropTypes.string.isRequired,
     imageText: PropTypes.string,
     title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    link: PropTypes.string.isRequired,
-    linkText: PropTypes.string,
+    slug: PropTypes.string.isRequired, // Added slug for routing
   }).isRequired,
 };
 
