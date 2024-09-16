@@ -58,10 +58,6 @@ const BlogPost = () => {
     router.push(path);
   };
 
-  const handleBack = () => {
-    router.back(); // Navigate to the previous page
-  };
-
   if (loading) {
     return (
       <Box
@@ -125,7 +121,7 @@ const BlogPost = () => {
               button
               key={category}
               onClick={() =>
-                handleNavigation(`/category/${category.toLowerCase()}`)
+                handleNavigation(`/categories/${category.toLowerCase()}`)
               }
             >
               <ListItemText primary={category} />
