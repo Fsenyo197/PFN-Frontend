@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
 import Grid from "@mui/material/Grid";
-import IconButton from "@mui/material/IconButton";
-import HomeIcon from "@mui/icons-material/Home";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import FeaturedPost from "../../components/FeaturedPost";
+import IconButton from "@mui/material/IconButton"; // Import MUI IconButton
+import HomeIcon from "@mui/icons-material/Home"; // Import Home Icon
+import ArrowBackIcon from "@mui/icons-material/ArrowBack"; // Import Back Icon
+import FeaturedPost from "../../components/FeaturedPost"; // Import FeaturedPost component
 import { fetchArticlesByCategory } from "../../utils/FetchArticles";
 import { useHeader } from "../../contexts/HeaderContext";
 
@@ -49,47 +49,55 @@ const CategoryPage = ({ category, articles }) => {
   }
 
   return (
-    <div style={{ display: "flex", justifyContent: "center", padding: "20px" }}>
-      <div style={{ maxWidth: "900px", width: "100%" }}>
-        {" "}
-        {/* Center the content */}
+    <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "20px" }}>
+      {/* Back and Home icons with space between */}
+      <div
+        style={{
+          marginBottom: "20px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <IconButton onClick={handleBack} aria-label="Go back">
+          <ArrowBackIcon />
+        </IconButton>
+        <IconButton onClick={handleHome} aria-label="Go to home">
+          <HomeIcon />
+        </IconButton>
+      </div>
+
+      <div
+        style={{
+          textAlign: "center",
+          marginBottom: "40px",
+        }}
+      >
         <h1>Articles under {category} category</h1>
-        {/* Back and Home icons with space between */}
-        <div
-          style={{
-            marginBottom: "20px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <IconButton onClick={handleBack} aria-label="Go back">
-            <ArrowBackIcon />
-          </IconButton>
-          <IconButton onClick={handleHome} aria-label="Go to home">
-            <HomeIcon />
-          </IconButton>
-        </div>
-        {articles.length === 0 ? (
-          <p>No articles available under this category.</p>
-        ) : (
-          <Grid container spacing={4}>
-            {articles.map((article) => (
+      </div>
+
+      {articles.length === 0 ? (
+        <p style={{ textAlign: "center" }}>
+          No articles available under this category.
+        </p>
+      ) : (
+        <Grid container spacing={4} justifyContent="center">
+          {articles.map((article) => (
+            <Grid item key={article.slug} xs={12} sm={6} md={4}>
               <FeaturedPost
-                key={article.slug}
                 post={{
                   title: article.title,
-                  date: article.date_published,
-                  description: article.meta_description,
-                  image: article.image,
+                  date: article.date_published, // Adjust to match your article data structure
+                  description: article.meta_description, // Adjust to match your article data
+                  image: article.image, // Image URL
                   imageLabel: article.title,
                   slug: article.slug,
                 }}
               />
-            ))}
-          </Grid>
-        )}
-      </div>
+            </Grid>
+          ))}
+        </Grid>
+      )}
     </div>
   );
 };
