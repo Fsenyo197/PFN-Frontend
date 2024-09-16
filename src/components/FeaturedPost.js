@@ -22,8 +22,8 @@ function FeaturedPost({ post }) {
         <Card
           sx={{
             display: "flex",
-            bgcolor: "#02353C",
-            color: "white",
+            bgcolor: "white", // Set background color to white
+            color: "#02353C", // Set text color to #02353C
             maxHeight: 200,
           }}
         >
@@ -33,25 +33,32 @@ function FeaturedPost({ post }) {
               padding: "8px",
             }}
           >
-            <Typography component="h2" variant="h5">
+            <Typography component="h2" variant="h5" sx={{ color: "#02353C" }}>
               {post.title}
             </Typography>
             <Typography
               variant="subtitle1"
-              sx={{ color: "#B0B0B0", fontSize: "0.8rem" }}
+              sx={{ color: "#02353C", fontSize: "0.8rem" }} // Set date color to #02353C
             >
               {post.date}
             </Typography>
-            <Typography variant="subtitle1" paragraph>
+            <Typography variant="subtitle1" paragraph sx={{ color: "#02353C" }}>
               {post.description}
             </Typography>
-            <Button onClick={handleClick} sx={{ mt: 2 }}>
+            <Button
+              onClick={handleClick}
+              sx={{
+                mt: 2,
+                color: "#02353C", // Set button text color to #02353C
+                borderColor: "#02353C", // Optional: Add a border color to the button
+              }}
+            >
               Read more
             </Button>
           </CardContent>
           <CardMedia
             component="img"
-            sx={{ width: 120, height: "auto" }} // Adjust width and let height adjust automatically
+            sx={{ width: 120, height: "auto" }} // Keep media styling intact
             image={post.image}
             alt={post.imageLabel}
           />
