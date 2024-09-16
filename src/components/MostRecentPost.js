@@ -30,7 +30,7 @@ function MostRecentPost({ post }) {
         backgroundPosition: "center",
         backgroundImage: `url(${post.image})`,
         cursor: "pointer", // Change cursor to pointer to indicate it's clickable
-        height: { xs: 300, md: 400 }, // Responsive image height
+        height: { xs: 200, md: 400 }, // Responsive image height
       }}
       onClick={handleClick}
     >
