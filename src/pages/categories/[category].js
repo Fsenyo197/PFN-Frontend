@@ -6,7 +6,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import FeaturedPost from "../../components/FeaturedPost";
 import { fetchArticlesByCategory } from "../../utils/FetchArticles";
 import { useHeader } from "../../contexts/HeaderContext";
-import Footer from "../../components/Footer"; // Import the Footer component
+import Footer from "../../pages/Footer"; // Import the Footer component
 
 const CategoryPage = ({ category, articles }) => {
   const router = useRouter();

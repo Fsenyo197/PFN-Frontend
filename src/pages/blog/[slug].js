@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useHeader } from "../../contexts/HeaderContext";
-import Footer from "../../components/Footer"; // Import the Footer component
+import Footer from "../../pages/Footer"; // Import the Footer component
 
 const BlogPost = () => {
   const router = useRouter();
