@@ -27,8 +27,8 @@ const HomePage = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
+      <Header />
       <Container maxWidth="64">
-        <Header />
         <main>
           {loading ? (
             <div style={{ textAlign: "center", marginTop: "20%" }}>
