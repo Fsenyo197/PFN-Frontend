@@ -1,6 +1,5 @@
 import * as React from "react";
 import Toolbar from "@mui/material/Toolbar";
-import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import Typography from "@mui/material/Typography";
@@ -25,6 +24,10 @@ function Header() {
           justifyContent: "space-between",
           alignItems: "center",
           flexWrap: "nowrap",
+          width: "100vw", // Full width
+          position: "sticky", // Make it sticky
+          top: 0, // Stick to the top
+          zIndex: 1000, // Stay on top of other elements
         }}
       >
         <Typography
@@ -48,6 +51,10 @@ function Header() {
           justifyContent: "space-between",
           overflowX: "auto",
           bgcolor: "#02353C", // Keep the background consistent
+          width: "100vw", // Full width for the navigation bar
+          position: "sticky", // Make it sticky
+          top: 0, // Stick to the top just below the main header
+          zIndex: 999, // Slightly lower z-index to stay beneath the main toolbar
         }}
       >
         {categories.map((category) => (
