@@ -83,7 +83,7 @@ const CategoryPage = ({ category, articles }) => {
       ) : (
         <Grid container spacing={4}>
           {articles.map((article) => (
-            <Grid item key={article.slug} md={10}>
+            <Grid item key={article.slug}>
               <FeaturedPost
                 post={{
                   title: article.title,
