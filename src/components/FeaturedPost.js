@@ -25,6 +25,7 @@ function FeaturedPost({ post }) {
             color: "#02353C",
             maxHeight: 200,
             boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.1)",
+            borderBottom: "2px solid #02353C", // Add border line below the post
           }}
         >
           <CardContent
