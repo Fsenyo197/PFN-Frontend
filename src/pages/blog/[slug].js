@@ -29,6 +29,7 @@ const BlogPost = () => {
   const [loading, setLoading] = useState(true);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [error, setError] = useState(null);
+  const [shareURL, setShareURL] = useState(""); // State for storing the share URL
   const { categories } = useHeader();
 
   useEffect(() => {
@@ -56,6 +57,13 @@ const BlogPost = () => {
     }
   }, [slug]);
 
+  // Set the share URL only on the client side
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setShareURL(window.location.href);
+    }
+  }, []);
+
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
   };
@@ -75,15 +83,13 @@ const BlogPost = () => {
         .share({
           title: article.title,
           text: "Check out this article!",
-          url: window.location.href,
+          url: shareURL,
         })
         .catch((error) => console.error("Error sharing", error));
     } else {
       console.log("Sharing not supported on this browser");
     }
   };
-
-  const shareURL = encodeURIComponent(window.location.href);
 
   if (loading) {
     return (
@@ -180,9 +186,9 @@ const BlogPost = () => {
           <Box sx={{ mt: 4, display: "flex", justifyContent: "space-around" }}>
             <IconButton
               color="primary"
-              href={`https://twitter.com/intent/tweet?url=${shareURL}&text=${encodeURIComponent(
-                article.title
-              )}`}
+              href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(
+                shareURL
+              )}&text=${encodeURIComponent(article.title)}`}
               target="_blank"
               aria-label="Share on X"
             >
@@ -190,7 +196,9 @@ const BlogPost = () => {
             </IconButton>
             <IconButton
               color="primary"
-              href={`https://www.facebook.com/sharer/sharer.php?u=${shareURL}`}
+              href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                shareURL
+              )}`}
               target="_blank"
               aria-label="Share on Facebook"
             >
@@ -198,9 +206,9 @@ const BlogPost = () => {
             </IconButton>
             <IconButton
               color="primary"
-              href={`https://t.me/share/url?url=${shareURL}&text=${encodeURIComponent(
-                article.title
-              )}`}
+              href={`https://t.me/share/url?url=${encodeURIComponent(
+                shareURL
+              )}&text=${encodeURIComponent(article.title)}`}
               target="_blank"
               aria-label="Share on Telegram"
             >
