@@ -2,69 +2,64 @@ import React from "react";
 import {
   Drawer,
   List,
-  ListItemButton,
   ListItemText,
+  ListItemButton,
   ListItemIcon,
-  Divider,
-  Box,
+  IconButton,
 } from "@mui/material";
-import HomeIcon from "@mui/icons-material/Home";
-import { useRouter } from "next/router";
-import NewsIcon from "@mui/icons-material/Article";
-import PricesIcon from "@mui/icons-material/AttachMoney";
-import PayoutsIcon from "@mui/icons-material/Payment";
-import RulesIcon from "@mui/icons-material/Gavel";
-import TradingPlatformIcon from "@mui/icons-material/Computer";
+import MenuIcon from "@mui/icons-material/Menu";
+import ArticleIcon from "@mui/icons-material/Article"; // Icon for "News"
+import PriceCheckIcon from "@mui/icons-material/PriceCheck"; // Icon for "Prices"
+import MonetizationOnIcon from "@mui/icons-material/MonetizationOn"; // Icon for "Payouts"
+import GavelIcon from "@mui/icons-material/Gavel"; // Icon for "Rules"
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance"; // Icon for "Trading Platform";
 
-const categoryIcons = {
-  News: <NewsIcon />,
-  Prices: <PricesIcon />,
-  Payouts: <PayoutsIcon />,
-  Rules: <RulesIcon />,
-  "Trading Platform": <TradingPlatformIcon />,
-};
-
-const DrawerComponent = ({ drawerOpen, toggleDrawer, categories }) => {
-  const router = useRouter();
-
-  const handleNavigation = (path) => {
-    toggleDrawer(); // Close drawer after navigation
-    router.push(path);
+const DrawerComponent = ({
+  drawerOpen,
+  toggleDrawer,
+  categories,
+  handleNavigation,
+}) => {
+  // Icon mapping for each category
+  const categoryIcons = {
+    News: <ArticleIcon />,
+    Prices: <PriceCheckIcon />,
+    Payouts: <MonetizationOnIcon />,
+    Rules: <GavelIcon />,
+    "Trading Platform": <AccountBalanceIcon />,
   };
 
   return (
-    <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer}>
-      <List>
-        {/* Home at the top */}
-        <ListItemButton onClick={() => handleNavigation("/")}>
-          <ListItemIcon>
-            <HomeIcon />
-          </ListItemIcon>
-          <ListItemText primary="Home" />
-        </ListItemButton>
+    <>
+      <IconButton
+        color="inherit"
+        aria-label="open drawer"
+        edge="start"
+        onClick={toggleDrawer}
+        sx={{ mr: 2 }}
+      >
+        <MenuIcon sx={{ color: "#02353C" }} />
+      </IconButton>
 
-        {/* Divider and Space before Categories */}
-        <Divider />
-        <Box sx={{ flexGrow: 1 }} />
-
-        {/* Categories in the middle */}
-        {categories?.map((category) => (
-          <ListItemButton
-            key={category}
-            onClick={() =>
-              handleNavigation(`/categories/${category.toLowerCase()}`)
-            }
-          >
-            <ListItemIcon>{categoryIcons[category]}</ListItemIcon>
-            <ListItemText primary={category} />
+      <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer}>
+        <List>
+          <ListItemButton onClick={() => handleNavigation("/")}>
+            <ListItemText primary="Home" />
           </ListItemButton>
-        ))}
-
-        {/* Divider and space after Categories */}
-        <Box sx={{ flexGrow: 1 }} />
-        <Divider />
-      </List>
-    </Drawer>
+          {categories.map((category) => (
+            <ListItemButton
+              key={category}
+              onClick={() =>
+                handleNavigation(`/categories/${category.toLowerCase()}`)
+              }
+            >
+              <ListItemIcon>{categoryIcons[category]}</ListItemIcon>
+              <ListItemText primary={category} />
+            </ListItemButton>
+          ))}
+        </List>
+      </Drawer>
+    </>
   );
 };
 
