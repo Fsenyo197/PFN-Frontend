@@ -16,10 +16,10 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import ShareIcon from "@mui/icons-material/Share"; // For the generic share button
-import TelegramIcon from "@mui/icons-material/Telegram"; // For Telegram icon
-import FacebookIcon from "@mui/icons-material/Facebook"; // For Facebook icon
-import TwitterIcon from "@mui/icons-material/Twitter"; // For X (formerly Twitter) icon
+import ShareIcon from "@mui/icons-material/Share";
+import TelegramIcon from "@mui/icons-material/Telegram";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import TwitterIcon from "@mui/icons-material/Twitter";
 import { useHeader } from "../../contexts/HeaderContext";
 
 const BlogPost = () => {
@@ -29,7 +29,7 @@ const BlogPost = () => {
   const [loading, setLoading] = useState(true);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [error, setError] = useState(null);
-  const [shareURL, setShareURL] = useState(""); // State for storing the share URL
+  const [shareURL, setShareURL] = useState("");
   const { categories } = useHeader();
 
   useEffect(() => {
@@ -57,7 +57,6 @@ const BlogPost = () => {
     }
   }, [slug]);
 
-  // Set the share URL only on the client side
   useEffect(() => {
     if (typeof window !== "undefined") {
       setShareURL(window.location.href);
@@ -184,43 +183,58 @@ const BlogPost = () => {
 
           {/* Social Share Buttons */}
           <Box sx={{ mt: 4, display: "flex", justifyContent: "space-around" }}>
-            <IconButton
-              color="primary"
-              href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(
-                shareURL
-              )}&text=${encodeURIComponent(article.title)}`}
-              target="_blank"
-              aria-label="Share on X"
-            >
-              <TwitterIcon />
-            </IconButton>
-            <IconButton
-              color="primary"
-              href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                shareURL
-              )}`}
-              target="_blank"
-              aria-label="Share on Facebook"
-            >
-              <FacebookIcon />
-            </IconButton>
-            <IconButton
-              color="primary"
-              href={`https://t.me/share/url?url=${encodeURIComponent(
-                shareURL
-              )}&text=${encodeURIComponent(article.title)}`}
-              target="_blank"
-              aria-label="Share on Telegram"
-            >
-              <TelegramIcon />
-            </IconButton>
-            <IconButton
-              color="primary"
-              onClick={handleShare}
-              aria-label="Share"
-            >
-              <ShareIcon />
-            </IconButton>
+            <Box sx={{ textAlign: "center" }}>
+              <IconButton
+                color="primary"
+                href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(
+                  shareURL
+                )}&text=${encodeURIComponent(article.title)}`}
+                target="_blank"
+                aria-label="Share on X"
+              >
+                <TwitterIcon />
+              </IconButton>
+              <Typography variant="caption">X</Typography>
+            </Box>
+
+            <Box sx={{ textAlign: "center" }}>
+              <IconButton
+                color="primary"
+                href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                  shareURL
+                )}`}
+                target="_blank"
+                aria-label="Share on Facebook"
+              >
+                <FacebookIcon />
+              </IconButton>
+              <Typography variant="caption">Facebook</Typography>
+            </Box>
+
+            <Box sx={{ textAlign: "center" }}>
+              <IconButton
+                color="primary"
+                href={`https://t.me/share/url?url=${encodeURIComponent(
+                  shareURL
+                )}&text=${encodeURIComponent(article.title)}`}
+                target="_blank"
+                aria-label="Share on Telegram"
+              >
+                <TelegramIcon />
+              </IconButton>
+              <Typography variant="caption">Telegram</Typography>
+            </Box>
+
+            <Box sx={{ textAlign: "center" }}>
+              <IconButton
+                color="primary"
+                onClick={handleShare}
+                aria-label="Share"
+              >
+                <ShareIcon />
+              </IconButton>
+              <Typography variant="caption">Share</Typography>
+            </Box>
           </Box>
         </Paper>
       </Box>
