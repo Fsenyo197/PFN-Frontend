@@ -12,7 +12,7 @@ import {
   List,
   ListItemText,
   ListItemButton,
-  Button,
+  ListItemIcon,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -20,6 +20,11 @@ import ShareIcon from "@mui/icons-material/Share";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
+import ArticleIcon from "@mui/icons-material/Article"; // Icon for "News"
+import PriceCheckIcon from "@mui/icons-material/PriceCheck"; // Icon for "Prices"
+import MonetizationOnIcon from "@mui/icons-material/MonetizationOn"; // Icon for "Payouts"
+import GavelIcon from "@mui/icons-material/Gavel"; // Icon for "Rules"
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance"; // Icon for "Trading Platform"
 import { useHeader } from "../../contexts/HeaderContext";
 
 const BlogPost = () => {
@@ -76,18 +81,12 @@ const BlogPost = () => {
     router.back();
   };
 
-  const handleShare = () => {
-    if (navigator.share) {
-      navigator
-        .share({
-          title: article.title,
-          text: "Check out this article!",
-          url: shareURL,
-        })
-        .catch((error) => console.error("Error sharing", error));
-    } else {
-      console.log("Sharing not supported on this browser");
-    }
+  const categoryIcons = {
+    News: <ArticleIcon />,
+    Prices: <PriceCheckIcon />,
+    Payouts: <MonetizationOnIcon />,
+    Rules: <GavelIcon />,
+    "Trading Platform": <AccountBalanceIcon />,
   };
 
   if (loading) {
@@ -148,6 +147,7 @@ const BlogPost = () => {
                 handleNavigation(`/categories/${category.toLowerCase()}`)
               }
             >
+              <ListItemIcon>{categoryIcons[category]}</ListItemIcon>
               <ListItemText primary={category} />
             </ListItemButton>
           ))}
