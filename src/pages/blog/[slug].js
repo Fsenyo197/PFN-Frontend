@@ -12,9 +12,14 @@ import {
   List,
   ListItem,
   ListItemText,
+  Button,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack"; // Import Back Icon
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ShareIcon from "@mui/icons-material/Share"; // For the generic share button
+import TelegramIcon from "@mui/icons-material/Telegram"; // For Telegram icon
+import FacebookIcon from "@mui/icons-material/Facebook"; // For Facebook icon
+import TwitterIcon from "@mui/icons-material/Twitter"; // For X (formerly Twitter) icon
 import { useHeader } from "../../contexts/HeaderContext";
 
 const BlogPost = () => {
@@ -24,7 +29,7 @@ const BlogPost = () => {
   const [loading, setLoading] = useState(true);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [error, setError] = useState(null);
-  const { categories } = useHeader(); // Use categories from context
+  const { categories } = useHeader();
 
   useEffect(() => {
     if (slug) {
@@ -56,13 +61,29 @@ const BlogPost = () => {
   };
 
   const handleNavigation = (path) => {
-    setDrawerOpen(false); // Close the drawer after navigation
+    setDrawerOpen(false);
     router.push(path);
   };
 
   const handleBack = () => {
-    router.back(); // Navigate back
+    router.back();
   };
+
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator
+        .share({
+          title: article.title,
+          text: "Check out this article!",
+          url: window.location.href,
+        })
+        .catch((error) => console.error("Error sharing", error));
+    } else {
+      console.log("Sharing not supported on this browser");
+    }
+  };
+
+  const shareURL = encodeURIComponent(window.location.href);
 
   if (loading) {
     return (
@@ -95,17 +116,16 @@ const BlogPost = () => {
   return (
     <>
       <Box sx={{ display: "flex", justifyContent: "space-between", p: 2 }}>
-        {/* Menu Drawer Icon at the right */}
         <IconButton
           color="inherit"
           aria-label="open drawer"
           edge="start"
           onClick={toggleDrawer}
-          sx={{ mr: 2 }} // Align to the right
+          sx={{ mr: 2 }}
         >
           <MenuIcon sx={{ color: "#02353C" }} />
         </IconButton>
-        {/* Back Icon at the left */}
+
         <IconButton onClick={handleBack} aria-label="Go back" sx={{ ml: 2 }}>
           <ArrowBackIcon sx={{ color: "#02353C" }} />
         </IconButton>
@@ -130,18 +150,12 @@ const BlogPost = () => {
         </List>
       </Drawer>
 
-      {/* Main Blog Post Content */}
       <Box sx={{ display: "flex", justifyContent: "center", p: 2 }}>
         <Paper sx={{ maxWidth: 800, p: 3 }}>
-          <Typography
-            variant="h4"
-            gutterBottom
-            sx={{ color: "#02353C" }} // Set title color
-          >
+          <Typography variant="h4" gutterBottom sx={{ color: "#02353C" }}>
             {article.title}
           </Typography>
 
-          {/* Blog Post Image */}
           {article.image && (
             <Box
               component="img"
@@ -161,8 +175,48 @@ const BlogPost = () => {
             sx={{ mt: 2 }}
             dangerouslySetInnerHTML={{ __html: article.body }}
           />
+
+          {/* Social Share Buttons */}
+          <Box sx={{ mt: 4, display: "flex", justifyContent: "space-around" }}>
+            <IconButton
+              color="primary"
+              href={`https://twitter.com/intent/tweet?url=${shareURL}&text=${encodeURIComponent(
+                article.title
+              )}`}
+              target="_blank"
+              aria-label="Share on X"
+            >
+              <TwitterIcon />
+            </IconButton>
+            <IconButton
+              color="primary"
+              href={`https://www.facebook.com/sharer/sharer.php?u=${shareURL}`}
+              target="_blank"
+              aria-label="Share on Facebook"
+            >
+              <FacebookIcon />
+            </IconButton>
+            <IconButton
+              color="primary"
+              href={`https://t.me/share/url?url=${shareURL}&text=${encodeURIComponent(
+                article.title
+              )}`}
+              target="_blank"
+              aria-label="Share on Telegram"
+            >
+              <TelegramIcon />
+            </IconButton>
+            <IconButton
+              color="primary"
+              onClick={handleShare}
+              aria-label="Share"
+            >
+              <ShareIcon />
+            </IconButton>
+          </Box>
         </Paper>
       </Box>
+
       <Footer
         title="Footer"
         description="Something here to give the footer a purpose!"
