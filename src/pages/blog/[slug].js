@@ -14,7 +14,7 @@ import ShareIcon from "@mui/icons-material/Share";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
-import DrawerComponent from "./DrawerComponent"; // Import the drawer
+import DrawerComponent from "../../components/DrawerComponent";
 import { useHeader } from "../../contexts/HeaderContext";
 
 const BlogPost = () => {
