@@ -2,12 +2,15 @@ import React from "react";
 import {
   Drawer,
   List,
-  ListItemText,
   ListItemButton,
+  ListItemText,
   ListItemIcon,
   IconButton,
+  Divider,
+  Box,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import HomeIcon from "@mui/icons-material/Home";
 import ArticleIcon from "@mui/icons-material/Article"; // Icon for "News"
 import PriceCheckIcon from "@mui/icons-material/PriceCheck"; // Icon for "Prices"
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn"; // Icon for "Payouts"
@@ -43,10 +46,20 @@ const DrawerComponent = ({
 
       <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer}>
         <List>
+          {/* Home at the top */}
           <ListItemButton onClick={() => handleNavigation("/")}>
+            <ListItemIcon>
+              <HomeIcon />
+            </ListItemIcon>
             <ListItemText primary="Home" />
           </ListItemButton>
-          {categories.map((category) => (
+
+          {/* Divider and Space before Categories */}
+          <Divider />
+          <Box sx={{ flexGrow: 1 }} />
+
+          {/* Categories in the middle */}
+          {categories?.map((category) => (
             <ListItemButton
               key={category}
               onClick={() =>
@@ -57,6 +70,10 @@ const DrawerComponent = ({
               <ListItemText primary={category} />
             </ListItemButton>
           ))}
+
+          {/* Divider and space after Categories */}
+          <Box sx={{ flexGrow: 1 }} />
+          <Divider />
         </List>
       </Drawer>
     </>
