@@ -39,9 +39,9 @@ const DrawerComponent = ({
         aria-label="open drawer"
         edge="start"
         onClick={toggleDrawer}
-        sx={{ mr: 2 }}
+        sx={{ color: "#02353C" }} // Set the color here
       >
-        <MenuIcon sx={{ color: "#02353C" }} />
+        <MenuIcon />
       </IconButton>
 
       <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer}>
@@ -49,7 +49,7 @@ const DrawerComponent = ({
           {/* Home at the top */}
           <ListItemButton onClick={() => handleNavigation("/")}>
             <ListItemIcon>
-              <HomeIcon />
+              <HomeIcon sx={{ color: "#02353C" }} /> {/* Color for HomeIcon */}
             </ListItemIcon>
             <ListItemText primary="Home" />
           </ListItemButton>
