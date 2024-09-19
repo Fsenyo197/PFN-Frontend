@@ -8,23 +8,13 @@ import {
   Box,
   Paper,
   IconButton,
-  Drawer,
-  List,
-  ListItemText,
-  ListItemButton,
-  ListItemIcon,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ShareIcon from "@mui/icons-material/Share";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
-import ArticleIcon from "@mui/icons-material/Article"; // Icon for "News"
-import PriceCheckIcon from "@mui/icons-material/PriceCheck"; // Icon for "Prices"
-import MonetizationOnIcon from "@mui/icons-material/MonetizationOn"; // Icon for "Payouts"
-import GavelIcon from "@mui/icons-material/Gavel"; // Icon for "Rules"
-import AccountBalanceIcon from "@mui/icons-material/AccountBalance"; // Icon for "Trading Platform"
+import DrawerComponent from "./DrawerComponent"; // Import the drawer
 import { useHeader } from "../../contexts/HeaderContext";
 
 const BlogPost = () => {
@@ -73,20 +63,12 @@ const BlogPost = () => {
   };
 
   const handleNavigation = (path) => {
-    setDrawerOpen(false);
+    setDrawerOpen(false); // Close the drawer after navigation
     router.push(path);
   };
 
   const handleBack = () => {
-    router.back();
-  };
-
-  const categoryIcons = {
-    News: <ArticleIcon />,
-    Prices: <PriceCheckIcon />,
-    Payouts: <MonetizationOnIcon />,
-    Rules: <GavelIcon />,
-    "Trading Platform": <AccountBalanceIcon />,
+    router.back(); // Navigate back
   };
 
   if (loading) {
@@ -120,39 +102,17 @@ const BlogPost = () => {
   return (
     <>
       <Box sx={{ display: "flex", justifyContent: "space-between", p: 2 }}>
-        <IconButton
-          color="inherit"
-          aria-label="open drawer"
-          edge="start"
-          onClick={toggleDrawer}
-          sx={{ mr: 2 }}
-        >
-          <MenuIcon sx={{ color: "#02353C" }} />
-        </IconButton>
+        <DrawerComponent
+          drawerOpen={drawerOpen}
+          toggleDrawer={toggleDrawer}
+          categories={categories}
+          handleNavigation={handleNavigation}
+        />
 
         <IconButton onClick={handleBack} aria-label="Go back" sx={{ ml: 2 }}>
           <ArrowBackIcon sx={{ color: "#02353C" }} />
         </IconButton>
       </Box>
-
-      <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer}>
-        <List>
-          <ListItemButton onClick={() => handleNavigation("/")}>
-            <ListItemText primary="Home" />
-          </ListItemButton>
-          {categories.map((category) => (
-            <ListItemButton
-              key={category}
-              onClick={() =>
-                handleNavigation(`/categories/${category.toLowerCase()}`)
-              }
-            >
-              <ListItemIcon>{categoryIcons[category]}</ListItemIcon>
-              <ListItemText primary={category} />
-            </ListItemButton>
-          ))}
-        </List>
-      </Drawer>
 
       <Box sx={{ display: "flex", justifyContent: "center", p: 2 }}>
         <Paper sx={{ maxWidth: 800, p: 3 }}>
@@ -227,7 +187,9 @@ const BlogPost = () => {
             <Box sx={{ textAlign: "center" }}>
               <IconButton
                 color="primary"
-                onClick={handleShare}
+                onClick={() =>
+                  navigator.share({ title: article.title, url: shareURL })
+                }
                 aria-label="Share"
               >
                 <ShareIcon />
