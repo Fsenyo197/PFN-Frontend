@@ -21,7 +21,7 @@ function FeaturedPost({ post }) {
         <Card
           sx={{
             display: "flex",
-            bgcolor: "#F5F5F5",
+            bgcolor: "white",
             color: "#02353C",
             maxHeight: 200,
             boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.1)",

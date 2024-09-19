@@ -10,8 +10,8 @@ import {
   IconButton,
   Drawer,
   List,
-  ListItem,
   ListItemText,
+  ListItemButton,
   Button,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -138,19 +138,18 @@ const BlogPost = () => {
 
       <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer}>
         <List>
-          <ListItem button onClick={() => handleNavigation("/")}>
+          <ListItemButton onClick={() => handleNavigation("/")}>
             <ListItemText primary="Home" />
-          </ListItem>
+          </ListItemButton>
           {categories.map((category) => (
-            <ListItem
-              button
+            <ListItemButton
               key={category}
               onClick={() =>
                 handleNavigation(`/categories/${category.toLowerCase()}`)
               }
             >
               <ListItemText primary={category} />
-            </ListItem>
+            </ListItemButton>
           ))}
         </List>
       </Drawer>
