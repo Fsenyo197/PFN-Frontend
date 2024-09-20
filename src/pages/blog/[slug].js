@@ -199,12 +199,13 @@ const BlogPost = () => {
             </Box>
           </Box>
         </Paper>
-        {/* Footer */}
-        <Footer
-          title="Footer"
-          description="Something here to give the footer a purpose!"
-        />
       </Box>
+
+      {/* Footer */}
+      <Footer
+        title="Footer"
+        description="Something here to give the footer a purpose!"
+      />
     </>
   );
 };
