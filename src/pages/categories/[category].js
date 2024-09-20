@@ -73,7 +73,6 @@ const CategoryPage = ({ category, articles }) => {
           style={{
             textAlign: "center",
             marginBottom: "40px",
-            color: "#02353C", // Apply the color to the title
           }}
         >
           <h1>Articles under {category} category</h1>

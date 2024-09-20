@@ -19,15 +19,14 @@ function Header() {
         sx={{
           borderBottom: 1,
           borderColor: "divider",
-          bgcolor: "#02353C", // Set the header background to the same teal color
+          bgcolor: "#02353C", // Header background
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          flexWrap: "nowrap",
-          width: "100vw", // Full width
-          position: "sticky", // Make it sticky
+          width: "100vw",
+          position: "sticky",
           top: 0,
-          zIndex: 1000, // Stay on top of other elements
+          zIndex: 1000,
         }}
       >
         <Typography
@@ -40,31 +39,46 @@ function Header() {
           Prop Firm News
         </Typography>
         <IconButton>
-          <SearchIcon sx={{ color: "#ffffff" }} />{" "}
-          {/* Set search icon color to white */}
+          <SearchIcon sx={{ color: "#ffffff" }} />
         </IconButton>
       </Toolbar>
+
       <Toolbar
         component="nav"
         variant="dense"
         sx={{
           justifyContent: "space-between",
           overflowX: "auto",
-          bgcolor: "#02353C", // Keep the background consistent
-          width: "100vw", // Full width for the navigation bar
-          position: "sticky", // Make it sticky
-          top: 64, // Stick to the top just below the main header (adjust this value based on your main header height)
-          zIndex: 999, // Slightly lower z-index to stay beneath the main toolbar
+          bgcolor: "#02353C", // Background color for categories
+          width: "100vw",
+          position: "sticky",
+          top: 64, // Adjust based on main header height
+          zIndex: 999,
         }}
       >
         {categories.map((category) => (
           <Link
             key={category}
-            color="#ffffff" // Set link color to white
-            noWrap
-            variant="body2"
             href={`/categories/${category.toLowerCase()}`}
-            sx={{ p: 1, flexShrink: 0 }}
+            sx={{
+              color: "#ffffff",
+              textTransform: "uppercase",
+              fontWeight: "bold",
+              letterSpacing: "0.05em",
+              padding: "8px 16px",
+              margin: "0 8px",
+              borderRadius: "5px",
+              textDecoration: "none",
+              transition: "background-color 0.3s ease, transform 0.3s ease",
+              "&:hover": {
+                backgroundColor: "#034f5b", // Hover background
+                transform: "scale(1.05)", // Slight hover effect
+              },
+              "&:active": {
+                backgroundColor: "#022f35", // Active state color
+                transform: "scale(1.02)", // Click effect
+              },
+            }}
           >
             {category}
           </Link>

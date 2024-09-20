@@ -117,9 +117,7 @@ const BlogPost = () => {
 
       <Box sx={{ display: "flex", justifyContent: "center", p: 2 }}>
         <Paper sx={{ maxWidth: 800, p: 3 }}>
-          <Typography variant="h4" gutterBottom sx={{ color: "#02353C" }}>
-            {article.title}
-          </Typography>
+          <Typography variant="h4">{article.title}</Typography>
 
           {article.image && (
             <Box
