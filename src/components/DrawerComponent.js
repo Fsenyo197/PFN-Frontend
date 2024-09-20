@@ -25,11 +25,11 @@ const DrawerComponent = ({
 }) => {
   // Icon mapping for each category
   const categoryIcons = {
-    News: <ArticleIcon sx={{ color: "#02353C" }} />,
-    Prices: <PriceCheckIcon sx={{ color: "#02353C" }} />,
-    Payouts: <MonetizationOnIcon sx={{ color: "#02353C" }} />,
-    Rules: <GavelIcon sx={{ color: "#02353C" }} />,
-    "Trading Platform": <AccountBalanceIcon sx={{ color: "#02353C" }} />,
+    News: <ArticleIcon />,
+    Prices: <PriceCheckIcon />,
+    Payouts: <MonetizationOnIcon />,
+    Rules: <GavelIcon />,
+    "Trading Platform": <AccountBalanceIcon />,
   };
 
   return (
@@ -39,7 +39,7 @@ const DrawerComponent = ({
         aria-label="open drawer"
         edge="start"
         onClick={toggleDrawer}
-        sx={{ color: "#02353C" }} // Set the color here
+        // Set the color here
       >
         <MenuIcon />
       </IconButton>
@@ -49,12 +49,9 @@ const DrawerComponent = ({
           {/* Home at the top */}
           <ListItemButton onClick={() => handleNavigation("/")}>
             <ListItemIcon>
-              <HomeIcon sx={{ color: "#02353C" }} /> {/* Color for HomeIcon */}
+              <HomeIcon /> {/* Color for HomeIcon */}
             </ListItemIcon>
-            <ListItemText
-              primary="Home"
-              primaryTypographyProps={{ sx: { color: "#02353C" } }} // Color for text
-            />
+            <ListItemText primary="Home" />
           </ListItemButton>
 
           {/* Divider and Space before Categories */}
@@ -70,10 +67,7 @@ const DrawerComponent = ({
               }
             >
               <ListItemIcon>{categoryIcons[category]}</ListItemIcon>
-              <ListItemText
-                primary={category}
-                primaryTypographyProps={{ sx: { color: "#02353C" } }} // Color for text
-              />
+              <ListItemText primary={category} />
             </ListItemButton>
           ))}
 

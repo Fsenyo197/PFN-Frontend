@@ -1,7 +1,6 @@
 import * as React from "react";
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 
@@ -28,9 +27,14 @@ function Footer(props) {
         bgcolor: "#02353C", // Set background color to #02353C
         color: "white", // Text color for better contrast
         py: 6,
+        width: "100vw", // Full width of the viewport
+        position: "relative",
+        left: 0, // Ensure it starts from the left edge
       }}
     >
-      <Container maxWidth="lg">
+      <Box sx={{ px: 2 }}>
+        {" "}
+        {/* Use Box instead of Container */}
         <Typography variant="h6" align="center" gutterBottom>
           {title}
         </Typography>
@@ -43,7 +47,7 @@ function Footer(props) {
           {description}
         </Typography>
         <Copyright />
-      </Container>
+      </Box>
     </Box>
   );
 }
