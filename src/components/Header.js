@@ -27,8 +27,6 @@ function Header() {
           width: "100vw", // Full width
           position: "sticky", // Make it sticky
           top: 0,
-          left: 0,
-          right: 0,
           zIndex: 1000, // Stay on top of other elements
         }}
       >
@@ -55,17 +53,15 @@ function Header() {
           bgcolor: "#02353C", // Keep the background consistent
           width: "100vw", // Full width for the navigation bar
           position: "sticky", // Make it sticky
-          top: 0, // Stick to the top just below the main header
-          left: 0,
-          right: 0,
+          top: 64, // Stick to the top just below the main header (adjust this value based on your main header height)
           zIndex: 999, // Slightly lower z-index to stay beneath the main toolbar
         }}
       >
         {categories.map((category) => (
           <Link
+            key={category}
             color="#ffffff" // Set link color to white
             noWrap
-            key={category}
             variant="body2"
             href={`/categories/${category.toLowerCase()}`}
             sx={{ p: 1, flexShrink: 0 }}
