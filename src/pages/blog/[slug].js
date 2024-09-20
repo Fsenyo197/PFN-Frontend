@@ -101,6 +101,7 @@ const BlogPost = () => {
 
   return (
     <>
+      {/* Main content */}
       <Box sx={{ display: "flex", justifyContent: "space-between", p: 2 }}>
         <DrawerComponent
           drawerOpen={drawerOpen}
@@ -198,12 +199,12 @@ const BlogPost = () => {
             </Box>
           </Box>
         </Paper>
+        {/* Footer */}
+        <Footer
+          title="Footer"
+          description="Something here to give the footer a purpose!"
+        />
       </Box>
-
-      <Footer
-        title="Footer"
-        description="Something here to give the footer a purpose!"
-      />
     </>
   );
 };
