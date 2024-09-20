@@ -19,22 +19,27 @@ function Header() {
         sx={{
           borderBottom: 1,
           borderColor: "divider",
-          bgcolor: "#02353C", // Header background
+          bgcolor: "#02353C",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
+          flexWrap: "nowrap",
           width: "100vw",
           position: "sticky",
           top: 0,
           zIndex: 1000,
+          padding: isSmallScreen ? "8px 16px" : "12px 24px", // Adjust padding
         }}
       >
         <Typography
           component="h2"
           variant={isSmallScreen ? "h6" : "h5"}
-          color="#ffffff" // Set text color to white
+          color="#ffffff"
           noWrap
-          sx={{ flexGrow: 1 }}
+          sx={{
+            flexGrow: 1,
+            fontSize: isSmallScreen ? "1rem" : "1.25rem", // Reduce font size
+          }}
         >
           Prop Firm News
         </Typography>
@@ -49,35 +54,24 @@ function Header() {
         sx={{
           justifyContent: "space-between",
           overflowX: "auto",
-          bgcolor: "#02353C", // Background color for categories
+          bgcolor: "#02353C",
           width: "100vw",
           position: "sticky",
-          top: 64, // Adjust based on main header height
+          top: 56, // Adjust top to reduce the gap
           zIndex: 999,
+          padding: "4px 16px", // Adjust padding
         }}
       >
         {categories.map((category) => (
           <Link
             key={category}
+            color="#ffffff"
+            noWrap
+            variant="body2"
             href={`/categories/${category.toLowerCase()}`}
             sx={{
-              color: "#ffffff",
-              textTransform: "uppercase",
-              fontWeight: "bold",
-              letterSpacing: "0.05em",
-              padding: "8px 16px",
-              margin: "0 8px",
-              borderRadius: "5px",
-              textDecoration: "none",
-              transition: "background-color 0.3s ease, transform 0.3s ease",
-              "&:hover": {
-                backgroundColor: "#034f5b", // Hover background
-                transform: "scale(1.05)", // Slight hover effect
-              },
-              "&:active": {
-                backgroundColor: "#022f35", // Active state color
-                transform: "scale(1.02)", // Click effect
-              },
+              p: isSmallScreen ? 0.5 : 1, // Adjust padding for smaller text
+              fontSize: isSmallScreen ? "0.75rem" : "0.875rem", // Smaller font size
             }}
           >
             {category}
