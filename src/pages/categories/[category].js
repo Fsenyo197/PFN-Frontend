@@ -4,8 +4,8 @@ import IconButton from "@mui/material/IconButton"; // Import MUI IconButton
 import HomeIcon from "@mui/icons-material/Home"; // Import Home Icon
 import ArrowBackIcon from "@mui/icons-material/ArrowBack"; // Import Back Icon
 import FeaturedPost from "../../components/FeaturedPost"; // Import FeaturedPost component
+import MostRecentPost from "../../components/MostRecentPost"; // Import MostRecentPost component
 import { fetchArticlesByCategory } from "../../utils/FetchArticles";
-import { useHeader } from "../../contexts/HeaderContext";
 import Footer from "../Footer";
 
 export async function getStaticPaths() {
@@ -35,7 +35,6 @@ export async function getStaticProps({ params }) {
 
 const CategoryPage = ({ category, articles }) => {
   const router = useRouter();
-  const { categories } = useHeader();
 
   const handleBack = () => {
     router.back(); // Navigate to the previous page
@@ -48,6 +47,17 @@ const CategoryPage = ({ category, articles }) => {
   if (router.isFallback) {
     return <p>Loading...</p>;
   }
+
+  // Sort articles by date (assuming articles have a date_published field)
+  const sortedArticles = articles.sort(
+    (a, b) => new Date(b.date_published) - new Date(a.date_published)
+  );
+
+  // Get the most recent post (the first article after sorting)
+  const mostRecentPost = sortedArticles[0];
+
+  // Get the rest of the articles excluding the most recent one
+  const featuredArticles = sortedArticles.slice(1);
 
   return (
     <>
@@ -83,22 +93,38 @@ const CategoryPage = ({ category, articles }) => {
             No articles available under this category.
           </p>
         ) : (
-          <Grid>
-            {articles.map((article) => (
-              <Grid item key={article.slug}>
-                <FeaturedPost
-                  post={{
-                    title: article.title,
-                    date: article.date_published, // Adjust to match your article data structure
-                    description: article.meta_description, // Adjust to match your article data
-                    image: article.image, // Image URL
-                    imageLabel: article.title,
-                    slug: article.slug,
-                  }}
-                />
-              </Grid>
-            ))}
-          </Grid>
+          <>
+            {/* Render MostRecentPost for the most recent article */}
+            {mostRecentPost && (
+              <MostRecentPost
+                post={{
+                  title: mostRecentPost.title,
+                  date: mostRecentPost.date_published,
+                  description: mostRecentPost.meta_description,
+                  image: mostRecentPost.image,
+                  slug: mostRecentPost.slug,
+                }}
+              />
+            )}
+
+            {/* Render featured posts */}
+            <Grid>
+              {featuredArticles.map((article) => (
+                <Grid item key={article.slug}>
+                  <FeaturedPost
+                    post={{
+                      title: article.title,
+                      date: article.date_published,
+                      description: article.meta_description,
+                      image: article.image,
+                      imageLabel: article.title,
+                      slug: article.slug,
+                    }}
+                  />
+                </Grid>
+              ))}
+            </Grid>
+          </>
         )}
       </div>
       <Footer
