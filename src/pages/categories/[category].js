@@ -104,7 +104,6 @@ const CategoryPage = ({ category, articles }) => {
                   image: mostRecentPost.image,
                   slug: mostRecentPost.slug,
                 }}
-                fullScreen
               />
             )}
 
