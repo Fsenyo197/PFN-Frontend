@@ -1,17 +1,31 @@
 import * as React from "react";
+import { useState } from "react";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
-import useMediaQuery from "@mui/material/useMediaQuery";
+import InputBase from "@mui/material/InputBase";
 import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { useHeader } from "../contexts/HeaderContext";
+import { useRouter } from "next/router";
 
 function Header() {
   const { categories } = useHeader();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const [searchOpen, setSearchOpen] = useState(false); // To toggle search input
+  const [searchQuery, setSearchQuery] = useState("");
+  const router = useRouter(); // Using Next.js router for navigation
+
+  // Handle search submit
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/search?query=${encodeURIComponent(searchQuery)}`);
+    }
+  };
 
   return (
     <React.Fragment>
@@ -43,7 +57,30 @@ function Header() {
         >
           Prop Firm News
         </Typography>
-        <IconButton>
+
+        {/* Conditionally show the search input */}
+        {searchOpen ? (
+          <form onSubmit={handleSearchSubmit} style={{ flexGrow: 1 }}>
+            <InputBase
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search…"
+              autoFocus
+              sx={{
+                bgcolor: "#fff",
+                padding: "2px 8px",
+                borderRadius: "4px",
+                width: "100%",
+                color: "#000",
+              }}
+            />
+          </form>
+        ) : null}
+
+        <IconButton
+          onClick={() => setSearchOpen((prev) => !prev)}
+          sx={{ marginLeft: "auto" }}
+        >
           <SearchIcon sx={{ color: "#ffffff" }} />
         </IconButton>
       </Toolbar>
