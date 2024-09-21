@@ -61,7 +61,7 @@ const CategoryPage = ({ category, articles }) => {
 
   // Size of the image for the most recent post
   const mostRecentPostImageSize = {
-    width: 600, // Adjust the width as needed
+    width: 800, // Adjust the width as needed
     height: { xs: 200, md: 400 }, // Adjust the height as needed
   };
 
