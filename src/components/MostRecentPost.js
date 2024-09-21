@@ -30,6 +30,8 @@ function MostRecentPost({ post, imageSize }) {
         backgroundPosition: "center",
         backgroundImage: `url(${post.image})`,
         cursor: "pointer", // Change cursor to pointer to indicate it's clickable
+        width: imageSize?.width || "100%", // Use the width from the imageSize prop
+        height: imageSize?.height || { xs: 200, md: 400 }, // Use the height from the imageSize prop
       }}
       onClick={handleClick}
     >
