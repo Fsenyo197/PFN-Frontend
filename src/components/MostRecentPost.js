@@ -30,7 +30,7 @@ function MostRecentPost({ post }) {
         backgroundPosition: "center",
         backgroundImage: `url(${post.image})`,
         cursor: "pointer", // Change cursor to pointer to indicate it's clickable
-        width: "100vw", // Set width to 100% of the viewport width
+        width: "64", // Set width to 100% of the viewport width
         height: { xs: 200, md: 400 }, // Set height based on screen size
         marginLeft: "calc(-50vw + 50%)", // To align the full-width image in the center
       }}
