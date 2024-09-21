@@ -59,12 +59,6 @@ const CategoryPage = ({ category, articles }) => {
   // Get the rest of the articles excluding the most recent one
   const featuredArticles = sortedArticles.slice(1);
 
-  // Size of the image for the most recent post
-  const mostRecentPostImageSize = {
-    width: 600, // Adjust the width as needed
-    height: { xs: 200, md: 400 }, // Adjust the height as needed
-  };
-
   return (
     <>
       <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "20px" }}>
@@ -110,7 +104,6 @@ const CategoryPage = ({ category, articles }) => {
                   image: mostRecentPost.image,
                   slug: mostRecentPost.slug,
                 }}
-                imageSize={mostRecentPostImageSize} // Pass size prop here
               />
             )}
 
