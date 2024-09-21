@@ -61,7 +61,7 @@ const CategoryPage = ({ category, articles }) => {
 
   return (
     <>
-      <div style={{ maxWidth: "1200px" }}>
+      <div style={{}}>
         {/* Back and Home icons with space between */}
         <div
           style={{
