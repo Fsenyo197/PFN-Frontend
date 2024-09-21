@@ -6,7 +6,7 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import { useRouter } from "next/router";
 
-function MostRecentPost({ post }) {
+function MostRecentPost({ post, imageSize }) {
   const router = useRouter();
 
   // Ensure that `post` and its properties are defined before attempting to use them
@@ -30,7 +30,8 @@ function MostRecentPost({ post }) {
         backgroundPosition: "center",
         backgroundImage: `url(${post.image})`,
         cursor: "pointer", // Change cursor to pointer to indicate it's clickable
-        height: { xs: 200, md: 400 }, // Responsive image height
+        width: imageSize?.width || "100%", // Use the width from the imageSize prop
+        height: imageSize?.height || { xs: 200, md: 400 }, // Use the height from the imageSize prop
       }}
       onClick={handleClick}
     >
@@ -77,6 +78,10 @@ MostRecentPost.propTypes = {
     title: PropTypes.string.isRequired,
     slug: PropTypes.string.isRequired, // Added slug for routing
   }).isRequired,
+  imageSize: PropTypes.shape({
+    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    height: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
+  }), // imageSize prop to accept width and height
 };
 
 export default MostRecentPost;
