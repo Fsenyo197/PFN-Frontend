@@ -37,7 +37,7 @@ const SearchResultsPage = () => {
   return (
     <Container sx={{ marginTop: 4 }}>
       <Typography variant="h4" gutterBottom>
-        Search Results for: '{query}'
+        Search Results for: &quot;{query}&quot;
       </Typography>
 
       {results.length > 0 ? (
