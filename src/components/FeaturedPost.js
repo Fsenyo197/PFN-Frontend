@@ -18,7 +18,14 @@ function FeaturedPost({ post }) {
 
   return (
     <>
-      <Grid item xs={12} md={6}>
+      <Grid
+        item
+        xs={12}
+        md={6}
+        sx={{
+          padding: { md: "0 16px" }, // Adds horizontal padding between posts on medium and larger screens
+        }}
+      >
         <CardActionArea onClick={handleClick}>
           <Card
             sx={{
@@ -58,7 +65,7 @@ function FeaturedPost({ post }) {
                 variant="body2"
                 sx={{ marginTop: "8px", color: "#000", fontSize: "0.875rem" }} // Description text with smaller font
               >
-                {post.description}
+                {post.meta_description}
               </Typography>
             </CardContent>
             <CardMedia
