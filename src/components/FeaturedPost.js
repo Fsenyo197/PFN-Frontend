@@ -57,7 +57,13 @@ function FeaturedPost({ post }) {
               >
                 {post.meta_description}
               </Typography>
-              {/* Displaying the read time */}
+              {/* Displaying the read time right below the description */}
+              <Typography
+                variant="caption"
+                sx={{ marginTop: "4px", color: "#666" }} // Reduced margin for read time
+              >
+                {`${post.read_time} min read`}
+              </Typography>
             </CardContent>
             <CardMedia
               component="img"
@@ -71,12 +77,6 @@ function FeaturedPost({ post }) {
             />
           </Card>
         </CardActionArea>
-        <Typography
-          variant="caption"
-          sx={{ marginTop: "8px", color: "#666" }} // Smaller font for read time
-        >
-          {`${post.read_time} min read`}
-        </Typography>
 
         {/* Divider line for separation between posts */}
         <Divider sx={{ bgcolor: "#02353C", height: 1 }} />
