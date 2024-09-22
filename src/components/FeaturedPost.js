@@ -5,8 +5,8 @@ import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import Divider from "@mui/material/Divider";
-import Grid from "@mui/material/Grid"; // Import Grid for layout control
+import Divider from "@mui/material/Divider"; // Import Divider component
+import Grid from "@mui/material/Grid";
 import { useRouter } from "next/router";
 
 function FeaturedPost({ post }) {
@@ -18,60 +18,66 @@ function FeaturedPost({ post }) {
 
   return (
     <>
-      <CardActionArea onClick={handleClick}>
-        <Card
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "flex-start",
-            padding: "16px 0", // Padding for vertical spacing
-            bgcolor: "white",
-            borderBottom: "1px solid #02353C", // Thin line at the bottom
-          }}
-        >
-          <CardContent
+      <Grid item xs={12} md={6}>
+        <CardActionArea onClick={handleClick}>
+          <Card
             sx={{
-              flex: 1,
-              paddingLeft: "32px", // Left padding for content
-              paddingRight: "16px", // Right padding for content
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "flex-start",
+              padding: "16px 0", // Padding for vertical spacing
+              bgcolor: "white",
+              borderBottom: "1px solid #02353C", // Thin line at the bottom
             }}
           >
-            <Typography
-              component="h2"
-              variant="h6" // Smaller variant for title
-              sx={{ fontSize: "1rem", fontWeight: "bold" }} // Smaller title font
+            <CardContent
+              sx={{
+                flex: 1,
+                paddingLeft: "32px", // Left padding for content
+                paddingRight: "16px", // Right padding for content
+              }}
             >
-              {post.title}
-            </Typography>
-            <Typography
-              variant="body2"
-              sx={{ color: "#6D6D6D", fontSize: "0.875rem", marginTop: "4px" }} // Smaller date font
-            >
-              {post.date}
-            </Typography>
-            <Typography
-              variant="body2"
-              sx={{ marginTop: "8px", color: "#000", fontSize: "0.875rem" }} // Description text with smaller font
-            >
-              {post.description}
-            </Typography>
-          </CardContent>
-          <CardMedia
-            component="img"
-            sx={{
-              width: 120,
-              height: 80,
-              borderRadius: "4px", // Rounded corners for image
-              margin: "auto 16px", // Spacing for the image
-            }}
-            image={post.image}
-            alt={post.imageLabel}
-          />
-        </Card>
-      </CardActionArea>
+              <Typography
+                component="h2"
+                variant="h6" // Smaller variant for title
+                sx={{ fontSize: "1rem", fontWeight: "bold" }} // Smaller title font
+              >
+                {post.title}
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{
+                  color: "#6D6D6D",
+                  fontSize: "0.875rem",
+                  marginTop: "4px",
+                }} // Smaller date font
+              >
+                {post.date}
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{ marginTop: "8px", color: "#000", fontSize: "0.875rem" }} // Description text with smaller font
+              >
+                {post.description}
+              </Typography>
+            </CardContent>
+            <CardMedia
+              component="img"
+              sx={{
+                width: 120,
+                height: 80,
+                borderRadius: "4px", // Rounded corners for image
+                margin: "auto 16px", // Spacing for the image
+              }}
+              image={post.image}
+              alt={post.imageLabel}
+            />
+          </Card>
+        </CardActionArea>
 
-      {/* Divider line for separation between posts */}
-      <Divider sx={{ bgcolor: "#02353C", height: 1 }} />
+        {/* Divider line for separation between posts */}
+        <Divider sx={{ bgcolor: "#02353C", height: 1 }} />
+      </Grid>
     </>
   );
 }
@@ -87,34 +93,4 @@ FeaturedPost.propTypes = {
   }).isRequired,
 };
 
-function FeaturedPostsGrid({ posts }) {
-  return (
-    <Grid container spacing={2}>
-      {posts.map((post) => (
-        <Grid
-          item
-          xs={12} // Full width on small screens
-          md={6} // Half width (two columns) on medium and larger screens
-          key={post.slug}
-        >
-          <FeaturedPost post={post} />
-        </Grid>
-      ))}
-    </Grid>
-  );
-}
-
-FeaturedPostsGrid.propTypes = {
-  posts: PropTypes.arrayOf(
-    PropTypes.shape({
-      date: PropTypes.string.isRequired,
-      description: PropTypes.string.isRequired,
-      image: PropTypes.string.isRequired,
-      imageLabel: PropTypes.string.isRequired,
-      title: PropTypes.string.isRequired,
-      slug: PropTypes.string.isRequired,
-    })
-  ).isRequired,
-};
-
-export default FeaturedPostsGrid;
+export default FeaturedPost;
