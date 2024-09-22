@@ -70,17 +70,14 @@ function FeaturedPost({ post }) {
             />
           </Card>
           <CardContent>
-            <Typography
-              variant="caption"
-              sx={{ marginTop: "4px", color: "#666" }} // Reduced margin for read time
-            >
+            <Typography variant="caption" sx={{ color: "#666" }}>
               {`${post.read_time} min read`}
             </Typography>
           </CardContent>
         </CardActionArea>
 
         {/* Divider line for separation between posts */}
-        <Divider sx={{ bgcolor: "#02353C", height: 1 }} />
+        <Divider sx={{ bgcolor: "#02353C" }} />
       </Grid>
     </>
   );
