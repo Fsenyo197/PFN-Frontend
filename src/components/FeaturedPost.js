@@ -5,7 +5,7 @@ import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import Divider from "@mui/material/Divider"; // Import Divider component
+import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
 import { useRouter } from "next/router";
 
@@ -53,19 +53,16 @@ function FeaturedPost({ post }) {
               </Typography>
               <Typography
                 variant="body2"
-                sx={{
-                  color: "#6D6D6D",
-                  fontSize: "0.875rem",
-                  marginTop: "4px",
-                }} // Smaller date font
-              >
-                {post.date}
-              </Typography>
-              <Typography
-                variant="body2"
                 sx={{ marginTop: "8px", color: "#000", fontSize: "0.875rem" }} // Description text with smaller font
               >
                 {post.meta_description}
+              </Typography>
+              {/* Displaying the read time */}
+              <Typography
+                variant="caption"
+                sx={{ marginTop: "8px", color: "#666" }} // Smaller font for read time
+              >
+                {`${post.read_time} min read`}
               </Typography>
             </CardContent>
             <CardMedia
@@ -77,7 +74,6 @@ function FeaturedPost({ post }) {
                 margin: "auto 16px", // Spacing for the image
               }}
               image={post.image}
-              alt={post.imageLabel}
             />
           </Card>
         </CardActionArea>
@@ -92,11 +88,11 @@ function FeaturedPost({ post }) {
 FeaturedPost.propTypes = {
   post: PropTypes.shape({
     date: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
+    meta_description: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
-    imageLabel: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     slug: PropTypes.string.isRequired,
+    read_time: PropTypes.number.isRequired, // Added read_time prop
   }).isRequired,
 };
 
