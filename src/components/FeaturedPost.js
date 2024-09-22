@@ -5,6 +5,7 @@ import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
+import Divider from "@mui/material/Divider"; // Import Divider component
 import { useRouter } from "next/router";
 
 function FeaturedPost({ post }) {
@@ -15,46 +16,62 @@ function FeaturedPost({ post }) {
   };
 
   return (
-    <CardActionArea onClick={handleClick}>
-      <Card
-        sx={{
-          display: "flex",
-          bgcolor: "white",
-          marginBottom: 2, // Space between cards
-        }}
-      >
-        <CardContent
+    <>
+      <CardActionArea onClick={handleClick}>
+        <Card
           sx={{
-            flex: 1,
-            padding: "16px",
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "flex-start",
+            padding: "16px 0", // Padding for vertical spacing
+            bgcolor: "white",
+            borderBottom: "1px solid #02353C", // Thin line at the bottom
           }}
         >
-          <Typography
-            component="h2"
-            variant="h5"
-            sx={{ fontSize: "1rem" }} // Smaller title font
+          <CardContent
+            sx={{
+              flex: 1,
+              paddingLeft: "16px", // Left padding for content
+              paddingRight: "16px", // Right padding for content
+            }}
           >
-            {post.title}
-          </Typography>
-          <Typography
-            variant="subtitle1"
-            sx={{ color: "#6D6D6D", fontSize: "0.75rem", marginTop: 1 }} // Smaller date font
-          >
-            {post.date}
-          </Typography>
-        </CardContent>
-        <CardMedia
-          component="img"
-          sx={{
-            width: 160,
-            height: "auto",
-            borderRadius: "0 4px 4px 0",
-          }}
-          image={post.image}
-          alt={post.imageLabel}
-        />
-      </Card>
-    </CardActionArea>
+            <Typography
+              component="h2"
+              variant="h6" // Smaller variant for title
+              sx={{ fontSize: "1rem", fontWeight: "bold" }} // Smaller title font
+            >
+              {post.title}
+            </Typography>
+            <Typography
+              variant="body2"
+              sx={{ color: "#6D6D6D", fontSize: "0.875rem", marginTop: "4px" }} // Smaller date font
+            >
+              {post.date}
+            </Typography>
+            <Typography
+              variant="body2"
+              sx={{ marginTop: "8px", color: "#000", fontSize: "0.875rem" }} // Description text with smaller font
+            >
+              {post.description}
+            </Typography>
+          </CardContent>
+          <CardMedia
+            component="img"
+            sx={{
+              width: 120,
+              height: 80,
+              borderRadius: "4px", // Rounded corners for image
+              margin: "auto 16px", // Spacing for the image
+            }}
+            image={post.image}
+            alt={post.imageLabel}
+          />
+        </Card>
+      </CardActionArea>
+
+      {/* Divider line for separation between posts */}
+      <Divider sx={{ bgcolor: "#02353C", height: 1 }} />
+    </>
   );
 }
 
