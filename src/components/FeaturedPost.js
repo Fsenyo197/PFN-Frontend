@@ -33,7 +33,7 @@ function FeaturedPost({ post }) {
             <CardContent
               sx={{
                 flex: 1,
-                paddingLeft: "32px", // Left padding for content
+                paddingLeft: "16px", // Left padding for content
                 paddingRight: "16px", // Right padding for content
               }}
             >
