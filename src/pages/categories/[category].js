@@ -61,7 +61,7 @@ const CategoryPage = ({ category, articles }) => {
 
   return (
     <>
-      <div style={{}}>
+      <div>
         {/* Back and Home icons with space between */}
         <div
           style={{

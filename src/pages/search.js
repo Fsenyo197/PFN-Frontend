@@ -45,7 +45,14 @@ const SearchResultsPage = () => {
 
   return (
     <Container>
-      <Typography variant="h4" gutterBottom>
+      <Typography
+        variant="h4"
+        gutterBottom
+        style={{
+          textAlign: "center",
+          marginBottom: "40px",
+        }}
+      >
         Search Results for: &quot;{query}&quot;
       </Typography>
 
