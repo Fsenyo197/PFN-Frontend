@@ -5,7 +5,8 @@ import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import Divider from "@mui/material/Divider"; // Import Divider component
+import Divider from "@mui/material/Divider";
+import Grid from "@mui/material/Grid"; // Import Grid for layout control
 import { useRouter } from "next/router";
 
 function FeaturedPost({ post }) {
@@ -86,4 +87,34 @@ FeaturedPost.propTypes = {
   }).isRequired,
 };
 
-export default FeaturedPost;
+function FeaturedPostsGrid({ posts }) {
+  return (
+    <Grid container spacing={2}>
+      {posts.map((post) => (
+        <Grid
+          item
+          xs={12} // Full width on small screens
+          md={6} // Half width (two columns) on medium and larger screens
+          key={post.slug}
+        >
+          <FeaturedPost post={post} />
+        </Grid>
+      ))}
+    </Grid>
+  );
+}
+
+FeaturedPostsGrid.propTypes = {
+  posts: PropTypes.arrayOf(
+    PropTypes.shape({
+      date: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired,
+      image: PropTypes.string.isRequired,
+      imageLabel: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      slug: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+};
+
+export default FeaturedPostsGrid;
