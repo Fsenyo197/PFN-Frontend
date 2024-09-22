@@ -28,13 +28,13 @@ function FeaturedPost({ post }) {
       >
         <CardActionArea onClick={handleClick}>
           <Card
+            elevation={0} // Set elevation to 0 to remove shadow
             sx={{
               display: "flex",
               flexDirection: "row",
               alignItems: "flex-start",
               padding: "16px 0", // Padding for vertical spacing
               bgcolor: "white",
-              borderBottom: "1px solid #02353C", // Thin line at the bottom
             }}
           >
             <CardContent
