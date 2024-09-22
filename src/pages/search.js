@@ -8,7 +8,7 @@ import FetchArticles from "../utils/FetchArticles";
 
 const SearchResultsPage = () => {
   const router = useRouter();
-  const { query } = router.query;
+  const { query } = router.query || {};
   const [results, setResults] = useState([]);
 
   useEffect(() => {
@@ -20,8 +20,10 @@ const SearchResultsPage = () => {
           // Filter articles based on the search query
           const filteredResults = articles.filter(
             (article) =>
-              article.title.toLowerCase().includes(query.toLowerCase()) ||
-              article.description.toLowerCase().includes(query.toLowerCase())
+              (article.title &&
+                article.title.toLowerCase().includes(query.toLowerCase())) ||
+              (article.description &&
+                article.description.toLowerCase().includes(query.toLowerCase()))
           );
 
           setResults(filteredResults);
