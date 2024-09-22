@@ -1,7 +1,6 @@
 import * as React from "react";
 import PropTypes from "prop-types";
 import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
@@ -21,8 +20,7 @@ function FeaturedPost({ post }) {
         sx={{
           display: "flex",
           bgcolor: "white",
-          color: "#02353C",
-          maxHeight: 200,
+          marginBottom: 2, // Space between cards
         }}
       >
         <CardContent
@@ -34,13 +32,13 @@ function FeaturedPost({ post }) {
           <Typography
             component="h2"
             variant="h5"
-            sx={{ color: "#02353C", fontSize: "1rem" }} // Smaller title font
+            sx={{ fontSize: "1rem" }} // Smaller title font
           >
             {post.title}
           </Typography>
           <Typography
             variant="subtitle1"
-            sx={{ color: "#6D6D6D", fontSize: "0.75rem" }} // Smaller date font
+            sx={{ color: "#6D6D6D", fontSize: "0.75rem", marginTop: 1 }} // Smaller date font
           >
             {post.date}
           </Typography>
