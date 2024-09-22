@@ -29,9 +29,8 @@ function MostRecentPost({ post, imageSize }) {
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
         backgroundImage: `url(${post.image})`,
-        cursor: "pointer",
-        height: imageSize?.height || { xs: 300, md: 450 }, // Adjusted height for better emphasis
-        boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.5)", // Shadow effect
+        cursor: "pointer", // Change cursor to pointer to indicate it's clickable
+        height: imageSize?.height || { xs: 200, md: 400 }, // Use the height from the imageSize prop
       }}
       onClick={handleClick}
     >
@@ -48,13 +47,14 @@ function MostRecentPost({ post, imageSize }) {
           bottom: 0,
           right: 0,
           left: 0,
-          backgroundColor: "rgba(0,0,0,.5)", // Darkened overlay to improve text readability
+          backgroundColor: "rgba(0,0,0,.3)",
         }}
       />
-      <Grid container>
-        <Grid item md={8}>
-          {" "}
-          {/* Widened the text area */}
+      <Grid
+        container
+        direction={{ xs: "column", md: "row" }} // Stacks content vertically on small screens, horizontally on larger screens
+      >
+        <Grid item xs={12} md={6}>
           <Box
             sx={{
               position: "relative",
@@ -64,29 +64,18 @@ function MostRecentPost({ post, imageSize }) {
           >
             <Typography
               component="h1"
-              variant="h4" // Slightly smaller heading size for mobile
+              variant="h3"
               color="inherit"
               gutterBottom
-              sx={{
-                fontWeight: 700, // Bold title
-                textShadow: "2px 2px 4px rgba(0,0,0,0.7)", // Add text shadow to make title pop
-              }}
             >
               {post.title}
             </Typography>
             <Typography
-              variant="subtitle1"
+              variant="body1"
               color="inherit"
-              sx={{
-                textShadow: "1px 1px 2px rgba(0,0,0,0.5)", // Subtle text shadow for subtitle
-              }}
+              sx={{ display: { xs: "block", md: "none" } }} // Show on small screens
             >
-              {post.meta_description || "Subtitle or additional info here"}{" "}
-              {/* Added subtitle or description */}
-            </Typography>
-            <Typography variant="caption" color="inherit">
-              {post.readTime ? `${post.readTime} min read` : "3 hrs ago"}{" "}
-              {/* Placeholder for read time */}
+              {post.meta_description}
             </Typography>
           </Box>
         </Grid>
@@ -100,9 +89,8 @@ MostRecentPost.propTypes = {
     image: PropTypes.string.isRequired,
     imageText: PropTypes.string,
     title: PropTypes.string.isRequired,
-    slug: PropTypes.string.isRequired,
-    meta_description: PropTypes.string, // Added description
-    readTime: PropTypes.string, // Added read time
+    slug: PropTypes.string.isRequired, // Added slug for routing
+    meta_description: PropTypes.string, // Added meta_description
   }).isRequired,
 };
 
