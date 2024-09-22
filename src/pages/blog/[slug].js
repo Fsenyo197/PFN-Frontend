@@ -123,7 +123,7 @@ const BlogPost = () => {
             <Box
               component="img"
               src={article.image}
-              alt={article.title}
+              alt={article.image_credit}
               sx={{
                 width: "100%",
                 height: "auto",
