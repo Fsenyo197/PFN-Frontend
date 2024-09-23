@@ -107,9 +107,7 @@ function Header() {
           if (category === "Home") {
             categoryPath = "/";
           } else {
-            categoryPath = `/categories/${category
-              .toLowerCase()
-              .replace(/\s+/g, "-")}`;
+            categoryPath = `/categories/${category.toLowerCase()}`;
           }
 
           const isActive = currentPath === categoryPath;

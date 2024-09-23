@@ -6,7 +6,7 @@ import Footer from "../Footer";
 import Header from "../../components/Header"; // Import the Header component
 
 export async function getStaticPaths() {
-  const categories = ["News", "Prices", "Payouts", "Rules", "Trading Platform"];
+  const categories = ["News", "Prices", "Payouts", "Rules", "Platforms"];
 
   const paths = categories.map((category) => ({
     params: { category: category.toLowerCase() },
