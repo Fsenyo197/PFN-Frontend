@@ -12,7 +12,7 @@ export const HeaderProvider = ({ children }) => {
     "Prices",
     "Payouts",
     "Rules",
-    "Trading Platform",
+    "Platforms",
   ];
 
   return (
