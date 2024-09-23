@@ -46,15 +46,6 @@ const CategoryPage = ({ category, articles }) => {
     <>
       <Header /> {/* Use Header component for navigation */}
       <div style={{ padding: "0 16px" }}>
-        <div
-          style={{
-            textAlign: "center",
-            marginBottom: "40px",
-          }}
-        >
-          <h1>Articles under {category} category</h1>
-        </div>
-
         {articles.length === 0 ? (
           <p style={{ textAlign: "center" }}>
             No articles available under this category.

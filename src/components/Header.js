@@ -15,9 +15,9 @@ function Header() {
   const { categories } = useHeader();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const [searchOpen, setSearchOpen] = useState(false); // To toggle search input
+  const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const router = useRouter(); // Using Next.js router for navigation
+  const router = useRouter();
 
   // Handle search submit
   const handleSearchSubmit = (event) => {
@@ -26,6 +26,9 @@ function Header() {
       router.push(`/search?query=${encodeURIComponent(searchQuery)}`);
     }
   };
+
+  // Extract current category from the URL
+  const currentPath = router.asPath; // Get the current path from the router
 
   return (
     <React.Fragment>
@@ -99,32 +102,34 @@ function Header() {
           padding: "4px 16px", // Adjust padding
         }}
       >
-        {categories.map((category) => (
-          <Link
-            key={category}
-            color="#ffffff"
-            noWrap
-            variant="body2"
-            href={`/categories/${category.toLowerCase()}`}
-            sx={{
-              p: isSmallScreen ? 0.5 : 1, // Adjust padding for smaller text
-              fontSize: isSmallScreen ? "0.75rem" : "0.875rem", // Smaller font size
-              transition: "background-color 0.3s, color 0.3s", // Smooth transition
-              "&:hover": {
-                backgroundColor: "#ffffff", // Background on hover
-                color: "#02353C", // Text color on hover
+        {categories.map((category) => {
+          const categoryPath = `/categories/${category.toLowerCase()}`;
+          const isActive = currentPath === categoryPath;
+
+          return (
+            <Link
+              key={category}
+              href={categoryPath}
+              noWrap
+              variant="body2"
+              sx={{
+                p: isSmallScreen ? 0.5 : 1, // Adjust padding for smaller text
+                fontSize: isSmallScreen ? "0.75rem" : "0.875rem", // Smaller font size
+                transition: "background-color 0.3s, color 0.3s", // Smooth transition
+                color: isActive ? "#02353C" : "#ffffff", // Text color for active/inactive
+                backgroundColor: isActive ? "#ffffff" : "transparent", // Background for active/inactive
                 borderRadius: "4px", // Optional: rounded corners
-              },
-              "&:active": {
-                backgroundColor: "#ffffff", // Background on active/click
-                color: "#02353C", // Text color on active/click
-                borderRadius: "4px", // Optional: rounded corners
-              },
-            }}
-          >
-            {category}
-          </Link>
-        ))}
+                "&:hover": {
+                  backgroundColor: "#ffffff", // Background on hover
+                  color: "#02353C", // Text color on hover
+                  borderRadius: "4px", // Optional: rounded corners
+                },
+              }}
+            >
+              {category}
+            </Link>
+          );
+        })}
       </Toolbar>
     </React.Fragment>
   );
