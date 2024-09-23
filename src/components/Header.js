@@ -38,7 +38,7 @@ function Header() {
           justifyContent: "space-between",
           alignItems: "center",
           flexWrap: "nowrap",
-          width: "100vw",
+          width: "64",
           position: "sticky",
           top: 0,
           zIndex: 1000,
@@ -92,7 +92,7 @@ function Header() {
           justifyContent: "space-between",
           overflowX: "auto",
           bgcolor: "#02353C",
-          width: "100vw",
+          width: "64",
           position: "sticky",
           top: 56, // Adjust top to reduce the gap
           zIndex: 999,
