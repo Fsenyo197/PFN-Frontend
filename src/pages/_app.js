@@ -1,12 +1,20 @@
 import { HeaderProvider } from "../contexts/HeaderContext";
 import { HomePageProvider } from "../contexts/HomePageContext";
-import "../app/globals.css";
 
 function MyApp({ Component, pageProps }) {
   return (
     <HeaderProvider>
       <HomePageProvider>
-        <Component {...pageProps} />
+        <div
+          style={{
+            width: "100%",
+            minHeight: "100vh",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <Component {...pageProps} />
+        </div>
       </HomePageProvider>
     </HeaderProvider>
   );
