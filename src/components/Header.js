@@ -109,6 +109,17 @@ function Header() {
             sx={{
               p: isSmallScreen ? 0.5 : 1, // Adjust padding for smaller text
               fontSize: isSmallScreen ? "0.75rem" : "0.875rem", // Smaller font size
+              transition: "background-color 0.3s, color 0.3s", // Smooth transition
+              "&:hover": {
+                backgroundColor: "#ffffff", // Background on hover
+                color: "#02353C", // Text color on hover
+                borderRadius: "4px", // Optional: rounded corners
+              },
+              "&:active": {
+                backgroundColor: "#ffffff", // Background on active/click
+                color: "#02353C", // Text color on active/click
+                borderRadius: "4px", // Optional: rounded corners
+              },
             }}
           >
             {category}

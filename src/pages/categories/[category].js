@@ -1,12 +1,9 @@
-import { useRouter } from "next/router";
 import Grid from "@mui/material/Grid";
-import IconButton from "@mui/material/IconButton"; // Import MUI IconButton
-import HomeIcon from "@mui/icons-material/Home"; // Import Home Icon
-import ArrowBackIcon from "@mui/icons-material/ArrowBack"; // Import Back Icon
-import FeaturedPost from "../../components/FeaturedPost"; // Import FeaturedPost component
-import MostRecentPost from "../../components/MostRecentPost"; // Import MostRecentPost component
+import FeaturedPost from "../../components/FeaturedPost";
+import MostRecentPost from "../../components/MostRecentPost";
 import { fetchArticlesByCategory } from "../../utils/FetchArticles";
 import Footer from "../Footer";
+import Header from "../../components/Header"; // Import the Header component
 
 export async function getStaticPaths() {
   const categories = ["News", "Prices", "Payouts", "Rules", "Trading Platform"];
@@ -34,20 +31,6 @@ export async function getStaticProps({ params }) {
 }
 
 const CategoryPage = ({ category, articles }) => {
-  const router = useRouter();
-
-  const handleBack = () => {
-    router.back(); // Navigate to the previous page
-  };
-
-  const handleHome = () => {
-    router.push("/"); // Navigate to the homepage
-  };
-
-  if (router.isFallback) {
-    return <p>Loading...</p>;
-  }
-
   // Sort articles by date (assuming articles have a date_published field)
   const sortedArticles = articles.sort(
     (a, b) => new Date(b.date_published) - new Date(a.date_published)
@@ -61,24 +44,8 @@ const CategoryPage = ({ category, articles }) => {
 
   return (
     <>
-      <div>
-        {/* Back and Home icons with space between */}
-        <div
-          style={{
-            marginBottom: "20px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <IconButton onClick={handleBack} aria-label="Go back">
-            <ArrowBackIcon sx={{ color: "#02353C" }} />
-          </IconButton>
-          <IconButton onClick={handleHome} aria-label="Go to home">
-            <HomeIcon sx={{ color: "#02353C" }} />
-          </IconButton>
-        </div>
-
+      <Header /> {/* Use Header component for navigation */}
+      <div style={{ padding: "0 16px" }}>
         <div
           style={{
             textAlign: "center",
