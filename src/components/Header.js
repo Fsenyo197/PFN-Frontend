@@ -106,8 +106,6 @@ function Header() {
           let categoryPath;
           if (category === "Home") {
             categoryPath = "/";
-          } else if (category === "Trading Platform") {
-            categoryPath = "/categories/trading-platform"; // Ensure the slug matches the expected route
           } else {
             categoryPath = `/categories/${category
               .toLowerCase()
