@@ -102,10 +102,18 @@ function Header() {
         }}
       >
         {categories.map((category) => {
-          const categoryPath =
-            category === "Home"
-              ? "/"
-              : `/categories/${category.toLowerCase().replace(/\s+/g, "-")}`;
+          // Manually set the correct path for "Trading Platform"
+          let categoryPath;
+          if (category === "Home") {
+            categoryPath = "/";
+          } else if (category === "Trading Platform") {
+            categoryPath = "/categories/trading-platform"; // Ensure the slug matches the expected route
+          } else {
+            categoryPath = `/categories/${category
+              .toLowerCase()
+              .replace(/\s+/g, "-")}`;
+          }
+
           const isActive = currentPath === categoryPath;
 
           return (
