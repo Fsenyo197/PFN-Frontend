@@ -5,7 +5,15 @@ import React, { createContext, useContext } from "react";
 const HeaderContext = createContext();
 
 export const HeaderProvider = ({ children }) => {
-  const categories = ["News", "Prices", "Payouts", "Rules", "Trading Platform"];
+  // Include "Home" before "News" in the categories array
+  const categories = [
+    "Home",
+    "News",
+    "Prices",
+    "Payouts",
+    "Rules",
+    "Trading Platform",
+  ];
 
   return (
     <HeaderContext.Provider value={{ categories }}>

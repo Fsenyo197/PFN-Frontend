@@ -28,7 +28,7 @@ function Header() {
   };
 
   // Extract current category from the URL
-  const currentPath = router.asPath; // Get the current path from the router
+  const currentPath = router.asPath.toLowerCase();
 
   return (
     <React.Fragment>
@@ -45,7 +45,7 @@ function Header() {
           position: "sticky",
           top: 0,
           zIndex: 1000,
-          padding: isSmallScreen ? "8px 16px" : "12px 24px", // Adjust padding
+          padding: isSmallScreen ? "8px 16px" : "12px 24px",
         }}
       >
         <Typography
@@ -55,13 +55,12 @@ function Header() {
           noWrap
           sx={{
             flexGrow: 1,
-            fontSize: isSmallScreen ? "1rem" : "1.25rem", // Reduce font size
+            fontSize: isSmallScreen ? "1rem" : "1.25rem",
           }}
         >
           Prop Firm News
         </Typography>
 
-        {/* Conditionally show the search input */}
         {searchOpen ? (
           <form onSubmit={handleSearchSubmit} style={{ flexGrow: 1 }}>
             <InputBase
@@ -97,13 +96,16 @@ function Header() {
           bgcolor: "#02353C",
           width: "64",
           position: "sticky",
-          top: 56, // Adjust top to reduce the gap
+          top: 56,
           zIndex: 999,
-          padding: "4px 16px", // Adjust padding
+          padding: "4px 16px",
         }}
       >
         {categories.map((category) => {
-          const categoryPath = `/categories/${category.toLowerCase()}`;
+          const categoryPath =
+            category === "Home"
+              ? "/"
+              : `/categories/${category.toLowerCase().replace(/\s+/g, "-")}`;
           const isActive = currentPath === categoryPath;
 
           return (
@@ -113,16 +115,16 @@ function Header() {
               noWrap
               variant="body2"
               sx={{
-                p: isSmallScreen ? 0.5 : 1, // Adjust padding for smaller text
-                fontSize: isSmallScreen ? "0.75rem" : "0.875rem", // Smaller font size
-                transition: "background-color 0.3s, color 0.3s", // Smooth transition
-                color: isActive ? "#02353C" : "#ffffff", // Text color for active/inactive
-                backgroundColor: isActive ? "#ffffff" : "transparent", // Background for active/inactive
-                borderRadius: "4px", // Optional: rounded corners
+                p: isSmallScreen ? 0.5 : 1,
+                fontSize: isSmallScreen ? "0.75rem" : "0.875rem",
+                transition: "background-color 0.3s, color 0.3s",
+                color: isActive ? "#02353C" : "#ffffff",
+                backgroundColor: isActive ? "#ffffff" : "transparent",
+                borderRadius: "4px",
                 "&:hover": {
-                  backgroundColor: "#ffffff", // Background on hover
-                  color: "#02353C", // Text color on hover
-                  borderRadius: "4px", // Optional: rounded corners
+                  backgroundColor: "#ffffff",
+                  color: "#02353C",
+                  borderRadius: "4px",
                 },
               }}
             >
