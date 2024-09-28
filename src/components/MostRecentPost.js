@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import { useRouter } from "next/router";
-import { format } from "date-fns"; // Import date-fns for date formatting
+import { format, isValid } from "date-fns"; // Import isValid from date-fns for date validation
 
 function MostRecentPost({ post, imageSize }) {
   const router = useRouter();
@@ -19,8 +19,11 @@ function MostRecentPost({ post, imageSize }) {
     router.push(`/blog/${post.slug}`);
   };
 
-  // Convert date_published to a more readable format
-  const formattedDate = format(new Date(post.date_published), "MMMM d, yyyy");
+  // Check if the date is valid before formatting it
+  let formattedDate = "Invalid date";
+  if (post.date_published && isValid(new Date(post.date_published))) {
+    formattedDate = format(new Date(post.date_published), "MMMM d, yyyy");
+  }
 
   return (
     <Paper
