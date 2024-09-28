@@ -34,18 +34,6 @@ body {
   overflow-y: auto; /* Allow Vertical Scrolling if Needed */
 }
 
-/* Optional: Style for Containers to Center Content */
-.container {
-  max-width: 1200px; /* Set Your Desired Max-Width */
-  margin: 0 auto; /* Center the Container */
-  padding: 20px; /* Add Some Padding */
-  min-height: 100vh; /* Ensure the Container Takes Full Viewport Height */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
 /* Optional: Responsive Typography */
 body {
   font-size: 16px;
