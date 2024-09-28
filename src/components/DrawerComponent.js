@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import HomeIcon from "@mui/icons-material/Home";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArticleIcon from "@mui/icons-material/Article"; // Icon for "News"
 import PriceCheckIcon from "@mui/icons-material/PriceCheck"; // Icon for "Prices"
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn"; // Icon for "Payouts"
@@ -22,15 +23,15 @@ const DrawerComponent = ({
   toggleDrawer,
   categories,
   handleNavigation,
+  handleBack, // New prop to handle back navigation
 }) => {
   // Icon mapping for each category
   const categoryIcons = {
-    Home: <HomeIcon />,
-    News: <ArticleIcon />,
-    Prices: <PriceCheckIcon />,
-    Payouts: <MonetizationOnIcon />,
-    Rules: <GavelIcon />,
-    Platforms: <AccountBalanceIcon />,
+    News: <ArticleIcon sx={{ color: "#02353C" }} />,
+    Prices: <PriceCheckIcon sx={{ color: "#02353C" }} />,
+    Payouts: <MonetizationOnIcon sx={{ color: "#02353C" }} />,
+    Rules: <GavelIcon sx={{ color: "#02353C" }} />,
+    Platforms: <AccountBalanceIcon sx={{ color: "#02353C" }} />,
   };
 
   return (
@@ -47,10 +48,20 @@ const DrawerComponent = ({
 
       <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer}>
         <List>
+          {/* Back Button */}
+          <ListItemButton onClick={handleBack}>
+            <ListItemIcon>
+              <ArrowBackIcon sx={{ color: "#02353C" }} />
+            </ListItemIcon>
+            <ListItemText primary="Back" sx={{ color: "#02353C" }} />
+          </ListItemButton>
+          <Divider />
           {/* Home Navigation */}
           <ListItemButton onClick={() => handleNavigation("/")}>
-            <ListItemIcon>{categoryIcons["Home"]}</ListItemIcon>
-            <ListItemText primary="Home" />
+            <ListItemIcon>
+              <HomeIcon sx={{ color: "#02353C" }} />
+            </ListItemIcon>
+            <ListItemText primary="Home" sx={{ color: "#02353C" }} />
           </ListItemButton>
           <Divider /> {/* Divider right after Home */}
           {/* Categories in the middle */}
@@ -62,7 +73,7 @@ const DrawerComponent = ({
               }
             >
               <ListItemIcon>{categoryIcons[category]}</ListItemIcon>
-              <ListItemText primary={category} />
+              <ListItemText primary={category} sx={{ color: "#02353C" }} />
             </ListItemButton>
           ))}
           {/* Additional Divider if needed */}
