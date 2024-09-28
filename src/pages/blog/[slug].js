@@ -109,11 +109,8 @@ const BlogPost = () => {
           toggleDrawer={toggleDrawer}
           categories={categories}
           handleNavigation={handleNavigation}
+          handleBack={handleBack}
         />
-
-        <IconButton onClick={handleBack} aria-label="Go back" sx={{ ml: 2 }}>
-          <ArrowBackIcon sx={{ color: "#02353C" }} />
-        </IconButton>
       </Box>
 
       <Box sx={{ display: "flex", justifyContent: "center", p: 2 }}>
@@ -121,18 +118,28 @@ const BlogPost = () => {
           <Typography variant="h4">{article.title}</Typography>
 
           {article.image && (
-            <Box
-              component="img"
-              src={article.image}
-              alt={article.image_credit}
-              sx={{
-                width: "100%",
-                height: "auto",
-                borderRadius: 2,
-                mt: 2,
-                mb: 4,
-              }}
-            />
+            <Box sx={{ position: "relative" }}>
+              <Box
+                component="img"
+                src={article.image}
+                alt={article.title} // Use a more descriptive alt text
+                sx={{
+                  width: "100%",
+                  height: "auto",
+                  borderRadius: 2,
+                  mt: 2,
+                  mb: 1,
+                }}
+              />
+              {article.image_credit && (
+                <Typography
+                  variant="caption"
+                  sx={{ display: "block", textAlign: "right", mt: 1 }}
+                >
+                  Image credit: {article.image_credit}
+                </Typography>
+              )}
+            </Box>
           )}
 
           <Box
