@@ -69,7 +69,7 @@ function MostRecentPost({ post, imageSize }) {
             <Box
               sx={{
                 position: "absolute",
-                top: 16, // Adjust this value for spacing from bottom
+                top: 64, // Adjust this value for spacing from bottom
                 right: 16, // Adjust this value for spacing from left
               }}
             >
