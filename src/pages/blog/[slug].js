@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import DOMPurify from "dompurify"; // Import DOMPurify
 import FetchArticles from "../../utils/FetchArticles";
 import Footer from "../Footer";
 import {
@@ -8,6 +9,7 @@ import {
   Box,
   Paper,
   IconButton,
+  Container,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ShareIcon from "@mui/icons-material/Share";
@@ -38,11 +40,17 @@ const BlogPost = () => {
           );
 
           if (selectedArticle) {
-            setArticle(selectedArticle);
+            // Sanitize the article body before setting it
+            const sanitizedBody = DOMPurify.sanitize(selectedArticle.body, {
+              USE_PROFILES: { html: true }, // Use default HTML sanitization
+            });
+
+            setArticle({ ...selectedArticle, body: sanitizedBody });
           } else {
             setError("Article not found");
           }
         } catch (err) {
+          console.error(err);
           setError("Error fetching article");
         }
         setLoading(false);
@@ -91,17 +99,19 @@ const BlogPost = () => {
 
   if (error) {
     return (
-      <Box sx={{ display: "flex", justifyContent: "center", p: 2 }}>
-        <Typography variant="h6" color="error">
-          {error}
-        </Typography>
-      </Box>
+      <Container maxWidth="lg" sx={{ mt: 4 }}>
+        <Box sx={{ display: "flex", justifyContent: "center", p: 2 }}>
+          <Typography variant="h6" color="error">
+            {error}
+          </Typography>
+        </Box>
+      </Container>
     );
   }
 
   return (
     <>
-      {/* Main content */}
+      {/* Navigation and Drawer */}
       <Box sx={{ display: "flex", justifyContent: "space-between", p: 2 }}>
         <DrawerComponent
           drawerOpen={drawerOpen}
@@ -115,15 +125,18 @@ const BlogPost = () => {
         </IconButton>
       </Box>
 
-      <Box sx={{ display: "flex", justifyContent: "center", p: 2 }}>
-        <Paper sx={{ maxWidth: 800, p: 3 }}>
-          <Typography variant="h4">{article.title}</Typography>
+      {/* Main Article Content */}
+      <Container maxWidth="lg" sx={{ mb: 4 }}>
+        <Paper elevation={3} sx={{ p: { xs: 2, md: 4 } }}>
+          <Typography variant="h4" component="h1" gutterBottom>
+            {article.title}
+          </Typography>
 
           {article.image && (
             <Box
               component="img"
               src={article.image}
-              alt={article.image_credit}
+              alt={article.image_credit || "Article Image"}
               sx={{
                 width: "100%",
                 height: "auto",
@@ -134,70 +147,77 @@ const BlogPost = () => {
             />
           )}
 
+          {/* Render sanitized HTML */}
           <Box
             sx={{ mt: 2 }}
             dangerouslySetInnerHTML={{ __html: article.body }}
           />
 
           {/* Social Share Buttons */}
-          <Box sx={{ mt: 4, display: "flex", justifyContent: "space-around" }}>
-            <Box sx={{ textAlign: "center" }}>
-              <IconButton
-                color="primary"
-                href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(
-                  shareURL
-                )}&text=${encodeURIComponent(article.title)}`}
-                target="_blank"
-                aria-label="Share on X"
-              >
-                <TwitterIcon />
-              </IconButton>
-              <Typography variant="caption">X</Typography>
-            </Box>
+          <Box
+            sx={{
+              mt: 4,
+              display: "flex",
+              justifyContent: "center",
+              gap: 2,
+              flexWrap: "wrap",
+            }}
+          >
+            <IconButton
+              color="primary"
+              href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(
+                shareURL
+              )}&text=${encodeURIComponent(article.title)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Share on Twitter"
+            >
+              <TwitterIcon />
+            </IconButton>
 
-            <Box sx={{ textAlign: "center" }}>
-              <IconButton
-                color="primary"
-                href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                  shareURL
-                )}`}
-                target="_blank"
-                aria-label="Share on Facebook"
-              >
-                <FacebookIcon />
-              </IconButton>
-              <Typography variant="caption">Facebook</Typography>
-            </Box>
+            <IconButton
+              color="primary"
+              href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                shareURL
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Share on Facebook"
+            >
+              <FacebookIcon />
+            </IconButton>
 
-            <Box sx={{ textAlign: "center" }}>
-              <IconButton
-                color="primary"
-                href={`https://t.me/share/url?url=${encodeURIComponent(
-                  shareURL
-                )}&text=${encodeURIComponent(article.title)}`}
-                target="_blank"
-                aria-label="Share on Telegram"
-              >
-                <TelegramIcon />
-              </IconButton>
-              <Typography variant="caption">Telegram</Typography>
-            </Box>
+            <IconButton
+              color="primary"
+              href={`https://t.me/share/url?url=${encodeURIComponent(
+                shareURL
+              )}&text=${encodeURIComponent(article.title)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Share on Telegram"
+            >
+              <TelegramIcon />
+            </IconButton>
 
-            <Box sx={{ textAlign: "center" }}>
-              <IconButton
-                color="primary"
-                onClick={() =>
-                  navigator.share({ title: article.title, url: shareURL })
+            <IconButton
+              color="primary"
+              onClick={() => {
+                if (navigator.share) {
+                  navigator
+                    .share({
+                      title: article.title,
+                      url: shareURL,
+                    })
+                    .catch((error) => console.error("Error sharing:", error));
                 }
-                aria-label="Share"
-              >
-                <ShareIcon />
-              </IconButton>
-              <Typography variant="caption">Share</Typography>
-            </Box>
+              }}
+              aria-label="Share"
+            >
+              <ShareIcon />
+            </IconButton>
           </Box>
         </Paper>
-      </Box>
+      </Container>
 
       {/* Footer */}
       <Footer
