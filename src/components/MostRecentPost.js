@@ -71,10 +71,9 @@ function MostRecentPost({ post, imageSize }) {
                 position: "absolute",
                 top: 16, // Adjust this value for spacing from bottom
                 right: 16, // Adjust this value for spacing from left
-                zIndex: 1, // Ensure title is above the overlay
               }}
             >
-              <Typography variant="h3" color="inherit" gutterBottom>
+              <Typography variant="h5" color="inherit" gutterBottom>
                 {post.title}
               </Typography>
             </Box>
