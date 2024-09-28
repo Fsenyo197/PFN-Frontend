@@ -134,9 +134,9 @@ const BlogPost = () => {
               {article.image_credit && (
                 <Typography
                   variant="caption"
-                  sx={{ display: "block", textAlign: "right", mt: 1 }}
+                  sx={{ display: "block", textAlign: "center", mt: 1 }}
                 >
-                  Image credit: {article.image_credit}
+                  {article.image_credit}
                 </Typography>
               )}
             </Box>
