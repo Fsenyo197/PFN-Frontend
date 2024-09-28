@@ -5,6 +5,7 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import { useRouter } from "next/router";
+import { format } from "date-fns"; // Import date-fns for date formatting
 
 function MostRecentPost({ post, imageSize }) {
   const router = useRouter();
@@ -17,6 +18,9 @@ function MostRecentPost({ post, imageSize }) {
   const handleClick = () => {
     router.push(`/blog/${post.slug}`);
   };
+
+  // Convert date_published to a more readable format
+  const formattedDate = format(new Date(post.date_published), "MMMM d, yyyy");
 
   return (
     <Paper
@@ -35,11 +39,7 @@ function MostRecentPost({ post, imageSize }) {
       onClick={handleClick}
     >
       {/* Hidden image for SEO */}
-      <image
-        style={{ display: "none" }}
-        src={post.image}
-        alt={post.imageText}
-      />
+      <image style={{ display: "none" }} src={post.image} />
       <Box
         sx={{
           position: "absolute",
@@ -64,19 +64,25 @@ function MostRecentPost({ post, imageSize }) {
           >
             <Typography
               component="h1"
-              variant="h3"
+              variant="h1"
               color="inherit"
               gutterBottom
             >
               {post.title}
             </Typography>
-            <Typography
-              variant="body1"
-              color="inherit"
-              sx={{ display: { xs: "block", md: "none" } }} // Show on small screens
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between", // Space between date and read time
+                alignItems: "center", // Center align items vertically
+                color: "#ddd", // Light grey text color for contrast
+                fontSize: "0.875rem", // Font size for smaller text
+                mt: 2, // Add margin-top for spacing
+              }}
             >
-              {post.meta_description}
-            </Typography>
+              <Typography variant="caption">{formattedDate}</Typography>
+              <Typography variant="caption">{`${post.read_time} min read`}</Typography>
+            </Box>
           </Box>
         </Grid>
       </Grid>
@@ -91,7 +97,12 @@ MostRecentPost.propTypes = {
     title: PropTypes.string.isRequired,
     slug: PropTypes.string.isRequired, // Added slug for routing
     meta_description: PropTypes.string, // Added meta_description
+    date_published: PropTypes.string.isRequired, // Ensure date_published is included
+    read_time: PropTypes.number.isRequired, // Ensure read_time is included
   }).isRequired,
+  imageSize: PropTypes.shape({
+    height: PropTypes.oneOfType([PropTypes.number, PropTypes.object]), // Optional height for image
+  }),
 };
 
 export default MostRecentPost;

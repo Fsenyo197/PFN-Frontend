@@ -80,7 +80,7 @@ function FeaturedPost({ post }) {
                 display: "flex",
                 justifyContent: "space-between", // Space between date and read time
                 alignItems: "center", // Center align items vertically
-                color: "#02353C", // Text color
+                color: "#666", // Text color
                 fontSize: "0.875rem", // Font size
               }}
             >
