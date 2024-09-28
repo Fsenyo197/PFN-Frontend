@@ -69,14 +69,14 @@ function MostRecentPost({ post, imageSize }) {
             <Box
               sx={{
                 position: "absolute",
-                bottom: 16, // Adjust this value for spacing from bottom
-                left: 16, // Adjust this value for spacing from left
+                top: 16, // Adjust this value for spacing from bottom
+                right: 16, // Adjust this value for spacing from left
                 zIndex: 1, // Ensure title is above the overlay
               }}
             >
               <Typography
-                component="h1"
-                variant="h1"
+                component="h5"
+                variant="h5"
                 color="inherit"
                 gutterBottom
               >
