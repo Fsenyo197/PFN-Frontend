@@ -74,12 +74,7 @@ function MostRecentPost({ post, imageSize }) {
                 zIndex: 1, // Ensure title is above the overlay
               }}
             >
-              <Typography
-                component="h5"
-                variant="h5"
-                color="inherit"
-                gutterBottom
-              >
+              <Typography variant="h3" color="inherit" gutterBottom>
                 {post.title}
               </Typography>
             </Box>
