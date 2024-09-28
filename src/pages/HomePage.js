@@ -37,7 +37,7 @@ const HomePage = () => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Header />
-      <Container maxWidth="64">
+      <Container maxWidth="100">
         <main>
           {mostRecentPost && mostRecentPost.title ? (
             <MostRecentPost post={mostRecentPost} />
