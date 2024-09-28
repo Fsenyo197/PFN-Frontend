@@ -134,7 +134,13 @@ const BlogPost = () => {
               {article.image_credit && (
                 <Typography
                   variant="caption"
-                  sx={{ display: "block", textAlign: "center", mb: 2 }}
+                  sx={{
+                    display: "block",
+                    color: "#666",
+                    textAlign: "center",
+                    fontSize: "0.875rem",
+                    mb: 4,
+                  }}
                 >
                   {article.image_credit}
                 </Typography>

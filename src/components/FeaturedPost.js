@@ -7,7 +7,9 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box"; // Import Box component for layout
 import { useRouter } from "next/router";
+import { format } from "date-fns"; // Import date-fns for date formatting
 
 function FeaturedPost({ post }) {
   const router = useRouter();
@@ -15,6 +17,9 @@ function FeaturedPost({ post }) {
   const handleClick = () => {
     router.push(`/blog/${post.slug}`);
   };
+
+  // Convert date_published to a more readable format
+  const formattedDate = format(new Date(post.date_published), "MMMM d, yyyy");
 
   return (
     <>
@@ -70,9 +75,18 @@ function FeaturedPost({ post }) {
             />
           </Card>
           <CardContent>
-            <Typography variant="caption" sx={{ color: "#666" }}>
-              {`${post.read_time} min read`}
-            </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between", // Space between date and read time
+                alignItems: "center", // Center align items vertically
+                color: "#02353C", // Text color
+                fontSize: "0.875rem", // Font size
+              }}
+            >
+              <Typography variant="caption">{formattedDate}</Typography>
+              <Typography variant="caption">{`${post.read_time} min read`}</Typography>
+            </Box>
           </CardContent>
         </CardActionArea>
 
@@ -85,7 +99,7 @@ function FeaturedPost({ post }) {
 
 FeaturedPost.propTypes = {
   post: PropTypes.shape({
-    date: PropTypes.string.isRequired,
+    date_published: PropTypes.string.isRequired, // Corrected prop name to match post data
     meta_description: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
