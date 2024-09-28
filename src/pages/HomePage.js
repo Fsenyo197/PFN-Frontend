@@ -37,18 +37,16 @@ const HomePage = () => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Header />
-      <Container maxWidth="100">
-        <main>
-          {mostRecentPost && mostRecentPost.title ? (
-            <MostRecentPost post={mostRecentPost} />
-          ) : null}
-          <Grid container>
-            {featuredPosts.map((post) => (
-              <FeaturedPost key={post.title} post={post} />
-            ))}
-          </Grid>
-        </main>
-      </Container>
+      <main>
+        {mostRecentPost && mostRecentPost.title ? (
+          <MostRecentPost post={mostRecentPost} />
+        ) : null}
+        <Grid container>
+          {featuredPosts.map((post) => (
+            <FeaturedPost key={post.title} post={post} />
+          ))}
+        </Grid>
+      </main>
       <Footer
         title="Footer"
         description="Something here to give the footer a purpose!"
