@@ -42,7 +42,7 @@ function MostRecentPost({ post, imageSize }) {
       onClick={handleClick}
     >
       {/* Hidden image for SEO */}
-      <image style={{ display: "none" }} src={post.image} />
+      <img style={{ display: "none" }} src={post.image} alt={post.title} />
       <Box
         sx={{
           position: "absolute",
@@ -65,14 +65,26 @@ function MostRecentPost({ post, imageSize }) {
               pr: { md: 0 },
             }}
           >
-            <Typography
-              component="h1"
-              variant="h1"
-              color="inherit"
-              gutterBottom
+            {/* Title positioned in the bottom left corner */}
+            <Box
+              sx={{
+                position: "absolute",
+                bottom: 16, // Adjust this value for spacing from bottom
+                left: 16, // Adjust this value for spacing from left
+                zIndex: 1, // Ensure title is above the overlay
+              }}
             >
-              {post.title}
-            </Typography>
+              <Typography
+                component="h1"
+                variant="h1"
+                color="inherit"
+                gutterBottom
+              >
+                {post.title}
+              </Typography>
+            </Box>
+
+            {/* Flex container for date and read time */}
             <Box
               sx={{
                 display: "flex",
@@ -96,10 +108,8 @@ function MostRecentPost({ post, imageSize }) {
 MostRecentPost.propTypes = {
   post: PropTypes.shape({
     image: PropTypes.string.isRequired,
-    imageText: PropTypes.string,
     title: PropTypes.string.isRequired,
     slug: PropTypes.string.isRequired, // Added slug for routing
-    meta_description: PropTypes.string, // Added meta_description
     date_published: PropTypes.string.isRequired, // Ensure date_published is included
     read_time: PropTypes.number.isRequired, // Ensure read_time is included
   }).isRequired,
