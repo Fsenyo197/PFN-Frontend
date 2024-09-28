@@ -25,11 +25,12 @@ const DrawerComponent = ({
 }) => {
   // Icon mapping for each category
   const categoryIcons = {
+    Home: <HomeIcon />,
     News: <ArticleIcon />,
     Prices: <PriceCheckIcon />,
     Payouts: <MonetizationOnIcon />,
     Rules: <GavelIcon />,
-    "Trading Platform": <AccountBalanceIcon />,
+    Platforms: <AccountBalanceIcon />,
   };
 
   return (
@@ -46,20 +47,14 @@ const DrawerComponent = ({
 
       <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer}>
         <List>
-          {/* Home at the top */}
+          {/* Home Navigation */}
           <ListItemButton onClick={() => handleNavigation("/")}>
-            <ListItemIcon>
-              <HomeIcon /> {/* Color for HomeIcon */}
-            </ListItemIcon>
+            <ListItemIcon>{categoryIcons["Home"]}</ListItemIcon>
             <ListItemText primary="Home" />
           </ListItemButton>
-
-          {/* Divider and Space before Categories */}
-          <Divider />
-          <Box sx={{ flexGrow: 1 }} />
-
+          <Divider /> {/* Divider right after Home */}
           {/* Categories in the middle */}
-          {categories?.map((category) => (
+          {categories?.slice(1).map((category) => (
             <ListItemButton
               key={category}
               onClick={() =>
@@ -70,10 +65,9 @@ const DrawerComponent = ({
               <ListItemText primary={category} />
             </ListItemButton>
           ))}
-
-          {/* Divider and space after Categories */}
-          <Box sx={{ flexGrow: 1 }} />
-          <Divider />
+          {/* Additional Divider if needed */}
+          {/* <Box sx={{ flexGrow: 1 }} /> */}
+          {/* <Divider /> */}
         </List>
       </Drawer>
     </>
