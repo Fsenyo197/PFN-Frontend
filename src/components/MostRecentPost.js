@@ -66,7 +66,7 @@ function MostRecentPost({ post, imageSize }) {
             }}
           >
             {/* Title positioned in the bottom left corner */}
-            <Box sx={{ mt: { xs: 4, md: 18 }, ml: { xs: 4, md: 52 } }}>
+            <Box sx={{ mt: { xs: 4, md: 18 } }}>
               <Typography variant="h5" color="inherit" gutterBottom>
                 {post.title}
               </Typography>
@@ -80,7 +80,7 @@ function MostRecentPost({ post, imageSize }) {
                 alignItems: "center", // Center align items vertically
                 color: "#ddd", // Light grey text color for contrast
                 fontSize: "0.875rem", // Font size for smaller text
-                mt: { xs: 8, md: 64 }, // Add margin-top for spacing
+                mt: { xs: 8, md: 44 }, // Add margin-top for spacing
                 pr: { xs: 2 }, // Adjust padding to control horizontal spacing
               }}
             >
