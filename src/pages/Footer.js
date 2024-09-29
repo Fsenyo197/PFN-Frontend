@@ -47,7 +47,6 @@ function Footer() {
           sx={{
             display: "flex",
             flexDirection: "column", // Set flex direction to column
-            alignItems: "center", // Center the items
             mb: 2,
           }}
         >
