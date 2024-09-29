@@ -6,9 +6,19 @@ import Link from "@mui/material/Link";
 
 function Copyright() {
   return (
-    <Typography variant="body2" color="text.secondary" align="center">
+    <Typography
+      variant="body2"
+      color="white"
+      align="center"
+      sx={{ fontSize: "0.875rem", mt: 2 }}
+    >
       {"Copyright © "}
-      <Link color="inherit" href="https://propfirmnews.live/">
+      <Link
+        color="inherit"
+        href="https://propfirmnews.live/"
+        underline="hover"
+        sx={{ fontWeight: "bold" }}
+      >
         Prop Firm News
       </Link>{" "}
       {new Date().getFullYear()}
@@ -33,13 +43,23 @@ function Footer() {
       }}
     >
       <Box sx={{ px: 2 }}>
-        <Typography variant="h6" align="center" gutterBottom>
-          Quick Links
-        </Typography>
         <Box
-          sx={{ display: "flex", justifyContent: "center", flexWrap: "wrap" }}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            flexWrap: "wrap",
+            mb: 2,
+          }}
         >
-          <Link color="inherit" href="/" sx={{ mx: 2 }}>
+          <Link
+            color="inherit"
+            href="/"
+            sx={{
+              mx: 2,
+              fontWeight: "bold",
+              "&:hover": { textDecoration: "underline" },
+            }}
+          >
             Home
           </Link>
           {categories.map((category) => (
@@ -47,14 +67,11 @@ function Footer() {
               key={category}
               color="inherit"
               href={`/categories/${category.toLowerCase()}`}
-              sx={{ mx: 2 }}
+              sx={{ mx: 2, "&:hover": { textDecoration: "underline" } }}
             >
               {category}
             </Link>
           ))}
-          <Link color="inherit" href="/sitemap" sx={{ mx: 2 }}>
-            Sitemap
-          </Link>
         </Box>
         <Copyright />
       </Box>
