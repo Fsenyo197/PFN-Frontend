@@ -126,10 +126,7 @@ const SearchResultsPage = () => {
           </Typography>
         )}
       </Container>
-      <Footer
-        title="Footer"
-        description="Something here to give the footer a purpose!"
-      />
+      <Footer />
     </>
   );
 };

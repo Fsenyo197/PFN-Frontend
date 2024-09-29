@@ -46,7 +46,7 @@ function Footer() {
             <Link
               key={category}
               color="inherit"
-              href={`/category/${category.toLowerCase()}`}
+              href={`/categories/${category.toLowerCase()}`}
               sx={{ mx: 2 }}
             >
               {category}

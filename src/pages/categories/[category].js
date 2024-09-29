@@ -85,10 +85,7 @@ const CategoryPage = ({ category, articles }) => {
           </>
         )}
       </div>
-      <Footer
-        title="Footer"
-        description="Something here to give the footer a purpose!"
-      />
+      <Footer />
     </>
   );
 };
