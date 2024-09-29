@@ -69,28 +69,31 @@ function MostRecentPost({ post, imageSize }) {
             <Box
               sx={{
                 position: "absolute",
-                bottom: 16, // Adjust this value for spacing from bottom
-                left: 16, // Adjust this value for spacing from left
+                top: 64, // Adjust this value for spacing from bottom
+                right: 16, // Adjust this value for spacing from left
               }}
             >
               <Typography variant="h5" color="inherit" gutterBottom>
                 {post.title}
               </Typography>
+            </Box>
 
-              {/* Flex container for date and read time */}
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between", // Space between date and read time
-                  alignItems: "center", // Center align items vertically
-                  color: "#ddd", // Light grey text color for contrast
-                  fontSize: "0.875rem", // Font size for smaller text
-                  mt: 1, // Add margin-top for spacing under the title
-                }}
-              >
-                <Typography variant="caption">{formattedDate}</Typography>
-                <Typography variant="caption">{`${post.read_time} min read`}</Typography>
-              </Box>
+            {/* Flex container for date and read time */}
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between", // Space between date and read time
+                alignItems: "center", // Center align items vertically
+                color: "#ddd", // Light grey text color for contrast
+                fontSize: "0.875rem", // Font size for smaller text
+                mt: 2, // Add margin-top for spacing
+                position: "absolute",
+                top: 64, // Adjust this value for spacing from bottom
+                right: 16, // Adjust this value for spacing from left
+              }}
+            >
+              <Typography variant="caption">{formattedDate}</Typography>
+              <Typography variant="caption">{`${post.read_time} min read`}</Typography>
             </Box>
           </Box>
         </Grid>
