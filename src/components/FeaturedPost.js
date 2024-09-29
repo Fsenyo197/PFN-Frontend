@@ -66,8 +66,8 @@ function FeaturedPost({ post }) {
             <CardMedia
               component="img"
               sx={{
-                width: 120,
-                height: 80,
+                width: 160,
+                height: 100,
                 borderRadius: "4px", // Rounded corners for image
                 margin: "auto 16px", // Spacing for the image
               }}
