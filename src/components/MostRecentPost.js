@@ -80,7 +80,7 @@ function MostRecentPost({ post, imageSize }) {
                 alignItems: "center", // Center align items vertically
                 color: "#ddd", // Light grey text color for contrast
                 fontSize: "0.875rem", // Font size for smaller text
-                mt: { xs: 8, md: 44 }, // Add margin-top for spacing
+                mt: { xs: 8, md: 20 }, // Add margin-top for spacing
                 pr: { xs: 2 }, // Adjust padding to control horizontal spacing
               }}
             >
