@@ -74,6 +74,7 @@ const SearchResultsPage = () => {
 
   return (
     <>
+      <Header />
       <Container>
         <Typography
           variant="h4"
@@ -123,6 +124,10 @@ const SearchResultsPage = () => {
           </Typography>
         )}
       </Container>
+      <Footer
+        title="Footer"
+        description="Something here to give the footer a purpose!"
+      />
     </>
   );
 };
