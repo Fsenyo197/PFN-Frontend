@@ -88,7 +88,7 @@ function MostRecentPost({ post, imageSize }) {
                 fontSize: "0.875rem", // Font size for smaller text
                 mt: 2, // Add margin-top for spacing
                 position: "absolute",
-                top: 128, // Adjust this value for spacing from bottom
+                top: 140, // Adjust this value for spacing from bottom
               }}
             >
               <Typography variant="caption">{formattedDate}</Typography>

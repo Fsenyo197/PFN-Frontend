@@ -94,6 +94,7 @@ function Footer() {
               display: "flex",
               justifyContent: "space-between",
               width: "150px",
+              alignItems: "center",
             }}
           >
             <Link
