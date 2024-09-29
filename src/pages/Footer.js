@@ -110,36 +110,36 @@ function Footer() {
               </Link>
             </Box>
           </Box>
-          {/* Categories Section */}
-          <Box
+        </Box>
+        {/* Categories Section */}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column", // Set flex direction to column
+            mb: 2,
+          }}
+        >
+          <Link
+            color="inherit"
+            href="/"
             sx={{
-              display: "flex",
-              flexDirection: "column", // Set flex direction to column
-              mb: 2,
+              my: 1, // Add vertical margin for spacing
+              fontWeight: "bold",
+              "&:hover": { textDecoration: "none" },
             }}
           >
+            Home
+          </Link>
+          {categories.map((category) => (
             <Link
+              key={category}
               color="inherit"
-              href="/"
-              sx={{
-                my: 1, // Add vertical margin for spacing
-                fontWeight: "bold",
-                "&:hover": { textDecoration: "none" },
-              }}
+              href={`/categories/${category.toLowerCase()}`}
+              sx={{ my: 1, "&:hover": { textDecoration: "none" } }} // Add vertical margin for spacing
             >
-              Home
+              {category}
             </Link>
-            {categories.map((category) => (
-              <Link
-                key={category}
-                color="inherit"
-                href={`/categories/${category.toLowerCase()}`}
-                sx={{ my: 1, "&:hover": { textDecoration: "none" } }} // Add vertical margin for spacing
-              >
-                {category}
-              </Link>
-            ))}
-          </Box>
+          ))}
         </Box>
 
         {/* Copyright Section */}
