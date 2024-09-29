@@ -17,8 +17,8 @@ function Copyright() {
   );
 }
 
-function Footer(props) {
-  const { description, title } = props;
+function Footer() {
+  const categories = ["News", "Prices", "Payouts", "Rules", "Platforms"]; // Add your dynamic categories if needed
 
   return (
     <Box
@@ -27,25 +27,35 @@ function Footer(props) {
         bgcolor: "#02353C", // Set background color to #02353C
         color: "white", // Text color for better contrast
         py: 6,
-        width: "64", // Full width of the viewport
+        width: "100%", // Full width of the viewport
         position: "relative",
         left: 0, // Ensure it starts from the left edge
       }}
     >
       <Box sx={{ px: 2 }}>
-        {" "}
-        {/* Use Box instead of Container */}
         <Typography variant="h6" align="center" gutterBottom>
-          {title}
+          Quick Links
         </Typography>
-        <Typography
-          variant="subtitle1"
-          align="center"
-          color="inherit" // Use 'inherit' to apply the white text color
-          component="p"
+        <Box
+          sx={{ display: "flex", justifyContent: "center", flexWrap: "wrap" }}
         >
-          {description}
-        </Typography>
+          <Link color="inherit" href="/" sx={{ mx: 2 }}>
+            Home
+          </Link>
+          {categories.map((category) => (
+            <Link
+              key={category}
+              color="inherit"
+              href={`/category/${category.toLowerCase()}`}
+              sx={{ mx: 2 }}
+            >
+              {category}
+            </Link>
+          ))}
+          <Link color="inherit" href="/sitemap" sx={{ mx: 2 }}>
+            Sitemap
+          </Link>
+        </Box>
         <Copyright />
       </Box>
     </Box>

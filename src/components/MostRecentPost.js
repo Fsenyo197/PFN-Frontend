@@ -42,7 +42,7 @@ function MostRecentPost({ post, imageSize }) {
       onClick={handleClick}
     >
       {/* Hidden image for SEO */}
-      <img style={{ display: "none" }} src={post.image} alt={post.title} />
+      <image style={{ display: "none" }} src={post.image} alt={post.title} />
       <Box
         sx={{
           position: "absolute",
