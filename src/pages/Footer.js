@@ -102,6 +102,7 @@ function Footer() {
             </Box>
           </Box>
         </Box>
+
         {/* Categories Section */}
         <Box
           sx={{
@@ -131,6 +132,31 @@ function Footer() {
               {category}
             </Link>
           ))}
+        </Box>
+
+        {/* Disclaimer Section */}
+        <Box sx={{ mt: 3, mb: 3 }}>
+          <Typography
+            variant="body2"
+            color="white"
+            align="center"
+            sx={{ fontSize: "0.875rem", mb: 2 }}
+          >
+            <strong>Disclaimer:</strong> The content published on{" "}
+            <Link
+              color="inherit"
+              href="https://propfirmnews.live/"
+              underline="hover"
+            >
+              Prop Firm News
+            </Link>{" "}
+            is for general informational purposes only. Nothing on this website
+            should be considered as professional investment advice, an offer, or
+            a solicitation of any kind. Users should seek independent financial
+            advice. Trading in financial markets involves risk, and the website
+            and its affiliates assume no responsibility for any losses or
+            damages resulting from the use or misuse of the content provided.
+          </Typography>
         </Box>
 
         {/* Copyright Section */}
