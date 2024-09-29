@@ -81,7 +81,7 @@ function MostRecentPost({ post, imageSize }) {
                 color: "#ddd", // Light grey text color for contrast
                 fontSize: "0.875rem", // Font size for smaller text
                 mt: { xs: 8, md: 20 }, // Add margin-top for spacing
-                pr: { xs: 2, md: 8 }, // Adjust padding to control horizontal spacing
+                pr: { xs: 2, md: 20 }, // Adjust padding to control horizontal spacing
               }}
             >
               <Typography variant="caption">{formattedDate}</Typography>
