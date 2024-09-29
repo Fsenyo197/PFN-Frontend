@@ -156,15 +156,7 @@ const BlogPost = () => {
           />
 
           {/* Social Share Buttons */}
-          <Box
-            sx={{
-              mt: 4,
-              display: "flex",
-              justifyContent: "center",
-              gap: 2,
-              flexWrap: "wrap",
-            }}
-          >
+          <Box>
             <Box sx={{ textAlign: "center" }}>
               <IconButton
                 color="primary"
