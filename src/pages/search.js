@@ -1,86 +1,67 @@
+import React, { useState } from "react";
+import { Box, InputBase, IconButton, Paper } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import ClearIcon from "@mui/icons-material/Clear";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import FeaturedPost from "../components/FeaturedPost";
-import FetchArticles from "../utils/FetchArticles";
-import CircularProgress from "@mui/material/CircularProgress";
-import Footer from "./Footer";
-import Header from "../components/Header";
 
-const SearchResultsPage = () => {
+const SearchBar = () => {
+  const [searchQuery, setSearchQuery] = useState("");
   const router = useRouter();
-  const { query } = router.query || {};
-  const [results, setResults] = useState([]);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (router.isReady && query) {
-      const fetchAndFilterArticles = async () => {
-        setLoading(true);
-        try {
-          const articles = await FetchArticles();
-
-          // Convert query to lowercase and check for undefined or empty values
-          const searchQuery = query.toLowerCase() || "";
-
-          // Filter articles based on the search query
-          const filteredResults = articles.filter(
-            (article) =>
-              (article.title &&
-                article.title.toLowerCase().includes(searchQuery)) ||
-              (article.description &&
-                article.description.toLowerCase().includes(searchQuery))
-          );
-
-          setResults(filteredResults);
-        } catch (error) {
-          console.error("Error fetching search results:", error);
-        } finally {
-          setLoading(false);
-        }
-      };
-
-      fetchAndFilterArticles();
-    } else {
-      setLoading(false);
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/search?query=${encodeURIComponent(searchQuery)}`);
     }
-  }, [router.isReady, query]);
+  };
+
+  const handleClear = () => {
+    setSearchQuery("");
+  };
 
   return (
-    <>
-      <Header />
-      <Container>
-        <Typography
-          variant="h4"
-          gutterBottom
-          style={{
-            textAlign: "center",
-            marginBottom: "40px",
-          }}
-        >
-          Search Results for: &quot;{query || ""}&quot;
-        </Typography>
-
-        {loading ? (
-          <CircularProgress />
-        ) : results.length > 0 ? (
-          <Grid container spacing={4}>
-            {results.map((post, index) => (
-              <FeaturedPost key={index} post={post} />
-            ))}
-          </Grid>
-        ) : (
-          <Typography variant="body1">No results found.</Typography>
-        )}
-      </Container>
-      <Footer
-        title="Footer"
-        description="Something here to give the footer a purpose!"
+    <Paper
+      component="form"
+      onSubmit={handleSearchSubmit}
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        width: "100%",
+        boxShadow: "none",
+        border: "1px solid #d3d3d3",
+        borderRadius: 1,
+      }}
+    >
+      <InputBase
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        placeholder="Search..."
+        sx={{
+          ml: 2,
+          flex: 1,
+          fontSize: "1.2rem",
+        }}
+        inputProps={{ "aria-label": "search" }}
       />
-    </>
+      {searchQuery && (
+        <IconButton onClick={handleClear} aria-label="clear" sx={{ p: "10px" }}>
+          <ClearIcon />
+        </IconButton>
+      )}
+      <IconButton
+        type="submit"
+        aria-label="search"
+        sx={{
+          p: "10px",
+          backgroundColor: "#000",
+          borderRadius: 0,
+          "&:hover": { backgroundColor: "#333" },
+        }}
+      >
+        <SearchIcon sx={{ color: "#fff" }} />
+      </IconButton>
+    </Paper>
   );
 };
 
-export default SearchResultsPage;
+export default SearchBar;

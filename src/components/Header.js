@@ -27,6 +27,17 @@ function Header() {
     }
   };
 
+  // Handle search icon click
+  const handleSearchIconClick = () => {
+    if (searchOpen && searchQuery.trim()) {
+      // If search is open and query is not empty, submit the search
+      router.push(`/search?query=${encodeURIComponent(searchQuery)}`);
+    } else {
+      // Otherwise, just toggle the search input visibility
+      setSearchOpen((prev) => !prev);
+    }
+  };
+
   // Extract current category from the URL
   const currentPath = router.asPath.toLowerCase();
 
@@ -41,7 +52,7 @@ function Header() {
           justifyContent: "space-between",
           alignItems: "center",
           flexWrap: "nowrap",
-          width: "64",
+          width: "100%", // Updated width to full width
           position: "sticky",
           top: 0,
           zIndex: 1000,
@@ -79,10 +90,7 @@ function Header() {
           </form>
         ) : null}
 
-        <IconButton
-          onClick={() => setSearchOpen((prev) => !prev)}
-          sx={{ marginLeft: "auto" }}
-        >
+        <IconButton onClick={handleSearchIconClick} sx={{ marginLeft: "auto" }}>
           <SearchIcon sx={{ color: "#ffffff" }} />
         </IconButton>
       </Toolbar>
@@ -94,7 +102,7 @@ function Header() {
           justifyContent: "space-between",
           overflowX: "auto",
           bgcolor: "#02353C",
-          width: "64",
+          width: "100%", // Updated width to full width
           position: "sticky",
           top: 56,
           zIndex: 999,
