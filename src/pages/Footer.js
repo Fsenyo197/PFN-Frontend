@@ -5,7 +5,8 @@ import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
-import TelegramIcon from "@mui/icons-material/Telegram";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
 
 function Copyright() {
   return (
@@ -77,50 +78,68 @@ function Footer() {
           ))}
         </Box>
 
-        {/* Follow Us Section */}
+        {/* Centered Follow Us Section */}
         <Box
           sx={{
             display: "flex",
             flexDirection: "column",
-            mb: 2,
+            alignItems: "center", // Center items horizontally
+            justifyContent: "center", // Center items vertically
             mt: 4, // Add top margin for spacing
           }}
         >
           <Typography variant="h6" sx={{ mb: 1 }}>
             Follow Us
           </Typography>
+
+          {/* Social Media Icons Wrapper */}
           <Box
             sx={{
               display: "flex",
-              justifyContent: "space-between",
-              width: "150px",
-              alignItems: "center",
+              justifyContent: "center", // Center icons
+              width: "100%", // Full width
             }}
           >
-            <Link
-              href="https://facebook.com"
-              target="_blank"
-              color="inherit"
-              sx={{ "&:hover": { color: "#1877F2" } }}
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                width: "150px", // Width for icons container
+              }}
             >
-              <FacebookIcon />
-            </Link>
-            <Link
-              href="https://twitter.com"
-              target="_blank"
-              color="inherit"
-              sx={{ "&:hover": { color: "#1DA1F2" } }}
-            >
-              <TwitterIcon />
-            </Link>
-            <Link
-              href="https://telegram.com"
-              target="_blank"
-              color="inherit"
-              sx={{ "&:hover": { color: "#E1306C" } }}
-            >
-              <TelegramIcon />
-            </Link>
+              <Link
+                href="https://facebook.com"
+                target="_blank"
+                color="inherit"
+                sx={{ "&:hover": { color: "#1877F2" } }}
+              >
+                <FacebookIcon />
+              </Link>
+              <Link
+                href="https://twitter.com"
+                target="_blank"
+                color="inherit"
+                sx={{ "&:hover": { color: "#1DA1F2" } }}
+              >
+                <TwitterIcon />
+              </Link>
+              <Link
+                href="https://instagram.com"
+                target="_blank"
+                color="inherit"
+                sx={{ "&:hover": { color: "#E1306C" } }}
+              >
+                <InstagramIcon />
+              </Link>
+              <Link
+                href="https://linkedin.com"
+                target="_blank"
+                color="inherit"
+                sx={{ "&:hover": { color: "#0A66C2" } }}
+              >
+                <LinkedInIcon />
+              </Link>
+            </Box>
           </Box>
         </Box>
 
