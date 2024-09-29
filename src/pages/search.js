@@ -8,6 +8,7 @@ import FetchArticles from "../utils/FetchArticles";
 import CircularProgress from "@mui/material/CircularProgress";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
+import IconButton from "@mui/material/IconButton"; // Imported IconButton
 
 const SearchResultsPage = () => {
   const router = useRouter();
@@ -15,15 +16,15 @@ const SearchResultsPage = () => {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // Define searchQuery in the component scope
+  const searchQuery = query ? query.toLowerCase() : "";
+
   useEffect(() => {
     if (router.isReady && query) {
       const fetchAndFilterArticles = async () => {
         setLoading(true);
         try {
           const articles = await FetchArticles();
-
-          // Convert query to lowercase and check for undefined or empty values
-          const searchQuery = query.toLowerCase() || "";
 
           // Filter articles based on the search query
           const filteredResults = articles.filter(
@@ -61,7 +62,12 @@ const SearchResultsPage = () => {
     } else {
       setLoading(false);
     }
-  }, [router.isReady, query]);
+  }, [router.isReady, query, searchQuery]);
+
+  const handleClear = () => {
+    // Navigate back to the home page or any other desired route
+    router.push("/");
+  };
 
   return (
     <Container>
@@ -77,10 +83,10 @@ const SearchResultsPage = () => {
           <IconButton
             onClick={handleClear}
             aria-label="clear"
-            sx={{ p: "10px" }}
+            sx={{ p: "10px", color: "#02353C" }}
           >
             <ClearIcon />
-            <SearchIcon sx={{ color: "#02353C" }} />
+            <SearchIcon />
           </IconButton>
         )}
       </Typography>
