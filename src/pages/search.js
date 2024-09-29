@@ -8,16 +8,23 @@ import FetchArticles from "../utils/FetchArticles";
 import CircularProgress from "@mui/material/CircularProgress";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
-import IconButton from "@mui/material/IconButton"; // Imported IconButton
+import IconButton from "@mui/material/IconButton";
+import TextField from "@mui/material/TextField";
+import InputAdornment from "@mui/material/InputAdornment";
 
 const SearchResultsPage = () => {
   const router = useRouter();
   const { query } = router.query || {};
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchInput, setSearchInput] = useState("");
 
-  // Define searchQuery in the component scope
-  const searchQuery = query ? query.toLowerCase() : "";
+  // Initialize searchInput with query from URL
+  useEffect(() => {
+    if (query) {
+      setSearchInput(query);
+    }
+  }, [query]);
 
   useEffect(() => {
     if (router.isReady && query) {
@@ -25,6 +32,9 @@ const SearchResultsPage = () => {
         setLoading(true);
         try {
           const articles = await FetchArticles();
+
+          // Convert query to lowercase for case-insensitive search
+          const searchQuery = query.toLowerCase();
 
           // Filter articles based on the search query
           const filteredResults = articles.filter(
@@ -62,11 +72,18 @@ const SearchResultsPage = () => {
     } else {
       setLoading(false);
     }
-  }, [router.isReady, query, searchQuery]);
+  }, [router.isReady, query]);
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (searchInput.trim()) {
+      router.push(`/search?query=${encodeURIComponent(searchInput.trim())}`);
+    }
+  };
 
   const handleClear = () => {
-    // Navigate back to the home page or any other desired route
-    router.push("/");
+    setSearchInput("");
+    router.push("/"); // Redirect to home or any desired page after clearing
   };
 
   return (
@@ -79,20 +96,38 @@ const SearchResultsPage = () => {
           marginBottom: "40px",
         }}
       >
-        {searchQuery && (
-          <IconButton
-            onClick={handleClear}
-            aria-label="clear"
-            sx={{ p: "10px", color: "#02353C" }}
-          >
-            <ClearIcon />
-            <SearchIcon />
-          </IconButton>
-        )}
+        <form onSubmit={handleSearchSubmit}>
+          <TextField
+            variant="outlined"
+            placeholder="Search..."
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon sx={{ color: "#02353C" }} />
+                </InputAdornment>
+              ),
+              endAdornment: searchInput && (
+                <InputAdornment position="end">
+                  <IconButton onClick={handleClear} aria-label="clear">
+                    <ClearIcon />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+            sx={{
+              width: "100%",
+              maxWidth: "500px",
+            }}
+          />
+        </form>
       </Typography>
 
       {loading ? (
-        <CircularProgress />
+        <Grid container justifyContent="center">
+          <CircularProgress />
+        </Grid>
       ) : results.length > 0 ? (
         <Grid container spacing={4}>
           {results.map((post, index) => (
@@ -100,7 +135,7 @@ const SearchResultsPage = () => {
           ))}
         </Grid>
       ) : (
-        <Typography variant="body1">
+        <Typography variant="body1" align="center">
           No exact results found. Here are some related articles:
         </Typography>
       )}
