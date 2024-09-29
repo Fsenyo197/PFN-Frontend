@@ -40,6 +40,7 @@ function Footer() {
       sx={{
         bgcolor: "#02353C", // Set background color to #02353C
         color: "white", // Text color for better contrast
+        py: 3,
         width: "100%", // Full width of the viewport
         position: "relative",
         left: 0, // Ensure it starts from the left edge
