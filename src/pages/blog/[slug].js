@@ -10,23 +10,18 @@ import {
   Paper,
   IconButton,
 } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ShareIcon from "@mui/icons-material/Share";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
-import DrawerComponent from "../../components/DrawerComponent";
-import { useHeader } from "../../contexts/HeaderContext";
 
 const BlogPost = () => {
   const router = useRouter();
   const { slug } = router.query;
   const [article, setArticle] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [drawerOpen, setDrawerOpen] = useState(false);
   const [error, setError] = useState(null);
   const [shareURL, setShareURL] = useState("");
-  const { categories } = useHeader();
 
   useEffect(() => {
     if (slug) {
@@ -59,19 +54,6 @@ const BlogPost = () => {
     }
   }, []);
 
-  const toggleDrawer = () => {
-    setDrawerOpen(!drawerOpen);
-  };
-
-  const handleNavigation = (path) => {
-    setDrawerOpen(false); // Close the drawer after navigation
-    router.push(path);
-  };
-
-  const handleBack = () => {
-    router.back(); // Navigate back
-  };
-
   if (loading) {
     return (
       <Box
@@ -102,17 +84,7 @@ const BlogPost = () => {
 
   return (
     <>
-      {/* Main content */}
-      <Box sx={{ display: "flex", justifyContent: "space-between", p: 2 }}>
-        <DrawerComponent
-          drawerOpen={drawerOpen}
-          toggleDrawer={toggleDrawer}
-          categories={categories}
-          handleNavigation={handleNavigation}
-          handleBack={handleBack}
-        />
-      </Box>
-
+      <Header />
       <Box sx={{ display: "flex", justifyContent: "center", p: 2 }}>
         <Paper sx={{ maxWidth: 800, p: 3 }}>
           <Typography variant="h4">{article.title}</Typography>
@@ -156,7 +128,7 @@ const BlogPost = () => {
           />
 
           {/* Social Share Buttons */}
-          <Box>
+          <Box sx={{ mt: 4, display: "flex", justifyContent: "space-around" }}>
             <Box sx={{ textAlign: "center" }}>
               <IconButton
                 color="primary"
