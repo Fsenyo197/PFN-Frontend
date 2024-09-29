@@ -6,6 +6,8 @@ import Grid from "@mui/material/Grid";
 import FeaturedPost from "../components/FeaturedPost";
 import FetchArticles from "../utils/FetchArticles";
 import CircularProgress from "@mui/material/CircularProgress";
+import Footer from "./Footer";
+import Header from "../components/Header";
 
 const SearchResultsPage = () => {
   const router = useRouter();
