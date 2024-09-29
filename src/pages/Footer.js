@@ -3,6 +3,9 @@ import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import TelegramIcon from "@mui/icons-material/Telegram";
 
 function Copyright() {
   return (
@@ -43,6 +46,7 @@ function Footer() {
       }}
     >
       <Box sx={{ px: 2 }}>
+        {/* Categories Section */}
         <Box
           sx={{
             display: "flex",
@@ -72,6 +76,54 @@ function Footer() {
             </Link>
           ))}
         </Box>
+
+        {/* Follow Us Section */}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            mb: 2,
+            mt: 4, // Add top margin for spacing
+          }}
+        >
+          <Typography variant="h6" sx={{ mb: 1 }}>
+            Follow Us
+          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              width: "150px",
+            }}
+          >
+            <Link
+              href="https://facebook.com"
+              target="_blank"
+              color="inherit"
+              sx={{ "&:hover": { color: "#1877F2" } }}
+            >
+              <FacebookIcon />
+            </Link>
+            <Link
+              href="https://twitter.com"
+              target="_blank"
+              color="inherit"
+              sx={{ "&:hover": { color: "#1DA1F2" } }}
+            >
+              <TwitterIcon />
+            </Link>
+            <Link
+              href="https://telegram.com"
+              target="_blank"
+              color="inherit"
+              sx={{ "&:hover": { color: "#E1306C" } }}
+            >
+              <TelegramIcon />
+            </Link>
+          </Box>
+        </Box>
+
+        {/* Copyright Section */}
         <Copyright />
       </Box>
     </Box>
