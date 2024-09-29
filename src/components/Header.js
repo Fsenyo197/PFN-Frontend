@@ -47,7 +47,7 @@ function Header() {
         sx={{
           borderBottom: 1,
           borderColor: "divider",
-          bgcolor: "#02353C",
+          bgcolor: "#666",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",

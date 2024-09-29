@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import FetchArticles from "../../utils/FetchArticles";
 import Footer from "../Footer";
+import Header from "@/components/Header";
 import DOMPurify from "dompurify";
 import {
   CircularProgress,
