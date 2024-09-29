@@ -46,8 +46,8 @@ function Footer() {
         <Box
           sx={{
             display: "flex",
-            justifyContent: "center",
-            flexWrap: "wrap",
+            flexDirection: "column", // Set flex direction to column
+            alignItems: "center", // Center the items
             mb: 2,
           }}
         >
@@ -55,9 +55,9 @@ function Footer() {
             color="inherit"
             href="/"
             sx={{
-              mx: 2,
+              my: 1, // Add vertical margin for spacing
               fontWeight: "bold",
-              "&:hover": { textDecoration: "underline" },
+              "&:hover": { textDecoration: "none" },
             }}
           >
             Home
@@ -67,7 +67,7 @@ function Footer() {
               key={category}
               color="inherit"
               href={`/categories/${category.toLowerCase()}`}
-              sx={{ mx: 2, "&:hover": { textDecoration: "underline" } }}
+              sx={{ my: 1, "&:hover": { textDecoration: "none" } }} // Add vertical margin for spacing
             >
               {category}
             </Link>

@@ -47,7 +47,7 @@ function Header() {
         sx={{
           borderBottom: 1,
           borderColor: "divider",
-          bgcolor: "#666",
+          bgcolor: "#02353C",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
@@ -133,10 +133,12 @@ function Header() {
                 color: isActive ? "#02353C" : "#ffffff",
                 backgroundColor: isActive ? "#ffffff" : "transparent",
                 borderRadius: "4px",
+                textDecoration: "none", // Remove underline
                 "&:hover": {
                   backgroundColor: "#ffffff",
                   color: "#02353C",
                   borderRadius: "4px",
+                  textDecoration: "none", // Remove underline on hover
                 },
               }}
             >
