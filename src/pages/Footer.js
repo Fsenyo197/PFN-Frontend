@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
-import InstagramIcon from "@mui/icons-material/Instagram";
+import TelegramIcon from "@mui/icons-material/Telegram";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 
 function Copyright() {
@@ -40,7 +40,6 @@ function Footer() {
       sx={{
         bgcolor: "#02353C", // Set background color to #02353C
         color: "white", // Text color for better contrast
-        py: 6,
         width: "100%", // Full width of the viewport
         position: "relative",
         left: 0, // Ensure it starts from the left edge
@@ -93,20 +92,12 @@ function Footer() {
                 <TwitterIcon />
               </Link>
               <Link
-                href="https://instagram.com"
+                href="https://telegram.com"
                 target="_blank"
                 color="inherit"
                 sx={{ "&:hover": { color: "#E1306C" } }}
               >
-                <InstagramIcon />
-              </Link>
-              <Link
-                href="https://linkedin.com"
-                target="_blank"
-                color="inherit"
-                sx={{ "&:hover": { color: "#0A66C2" } }}
-              >
-                <LinkedInIcon />
+                <TelegramIcon />
               </Link>
             </Box>
           </Box>
