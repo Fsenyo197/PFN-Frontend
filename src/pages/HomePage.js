@@ -1,5 +1,5 @@
-import React from "react";
-import { Container, Grid, CircularProgress } from "@mui/material";
+import * as React from "react";
+import { Container, Grid, CircularProgress } from "@mui/material"; // Import CircularProgress for the spinner
 import MostRecentPost from "../components/MostRecentPost";
 import FeaturedPost from "../components/FeaturedPost";
 import { useHomePage } from "../contexts/HomePageContext";
@@ -21,6 +21,7 @@ const HomePage = () => {
   const { mostRecentPost, featuredPosts, error, loading } = useHomePage();
 
   if (loading) {
+    // Show only the spinner and nothing else while loading
     return (
       <div style={{ textAlign: "center", marginTop: "20%" }}>
         <CircularProgress />
@@ -32,22 +33,18 @@ const HomePage = () => {
     return <p>Error loading content: {error.message}</p>;
   }
 
-  console.log("HomePage mostRecentPost:", mostRecentPost); // Debugging line
-
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Header />
       <Container maxWidth="64">
-        {" "}
-        {/* Changed from "64" to "lg" for valid MUI breakpoint */}
         <main>
           {mostRecentPost && mostRecentPost.title ? (
             <MostRecentPost post={mostRecentPost} />
           ) : null}
           <Grid container>
             {featuredPosts.map((post) => (
-              <FeaturedPost key={post.slug} post={post} />
+              <FeaturedPost key={post.title} post={post} />
             ))}
           </Grid>
         </main>

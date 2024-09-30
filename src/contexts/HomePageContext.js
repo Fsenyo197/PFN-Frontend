@@ -1,3 +1,5 @@
+// contexts/HomePageContext.js
+
 import React, { createContext, useContext, useState, useEffect } from "react";
 import FetchArticles from "../utils/FetchArticles";
 
@@ -23,7 +25,7 @@ export const HomePageProvider = ({ children }) => {
           title: mostRecent.title,
           image: mostRecent.image,
           slug: mostRecent.slug, // Add slug for routing
-          read_time: mostRecent.read_time, // Include read_time
+          date_published: mostRecent.date_published, // Include date_published
         });
 
         setFeaturedPosts(articlesData.slice(1));
