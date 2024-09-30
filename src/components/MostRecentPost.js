@@ -79,7 +79,7 @@ function MostRecentPost({ post, imageSize }) {
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
-                color: "#666",
+                color: "#ddd",
                 fontSize: "0.875rem",
                 mt: { xs: 8, md: 20 },
                 pr: { xs: 2 },
