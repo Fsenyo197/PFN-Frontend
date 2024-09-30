@@ -1,11 +1,9 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import FetchCategories from "../utils/FetchCategories";
 import FetchArticles from "../utils/FetchArticles";
 
 const HomePageContext = createContext();
 
 export const HomePageProvider = ({ children }) => {
-  const [categories, setCategories] = useState([]);
   const [mostRecentPost, setMostRecentPost] = useState({});
   const [featuredPosts, setFeaturedPosts] = useState([]);
   const [loading, setLoading] = useState(true); // Add loading state
@@ -14,19 +12,18 @@ export const HomePageProvider = ({ children }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [categoriesData, articlesData] = await Promise.all([
-          FetchCategories(),
-          FetchArticles(),
-        ]);
+        const articlesData = await FetchArticles(); // Assuming FetchArticles returns an array
 
-        setCategories(categoriesData);
+        if (articlesData.length === 0) {
+          throw new Error("No articles found");
+        }
 
         const mostRecent = articlesData[0];
         setMostRecentPost({
           title: mostRecent.title,
           image: mostRecent.image,
           slug: mostRecent.slug, // Add slug for routing
-          imageText: mostRecent.imageText || mostRecent.title, // Optional: Use title as fallback for imageText
+          read_time: mostRecent.read_time, // Include read_time
         });
 
         setFeaturedPosts(articlesData.slice(1));
@@ -42,7 +39,7 @@ export const HomePageProvider = ({ children }) => {
 
   return (
     <HomePageContext.Provider
-      value={{ categories, mostRecentPost, featuredPosts, error, loading }}
+      value={{ mostRecentPost, featuredPosts, error, loading }}
     >
       {children}
     </HomePageContext.Provider>

@@ -11,7 +11,7 @@ function Copyright() {
   return (
     <Typography
       variant="body2"
-      color="white"
+      color="#666"
       align="center"
       sx={{ fontSize: "0.875rem", mt: 2 }}
     >
