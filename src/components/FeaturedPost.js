@@ -7,9 +7,9 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box"; // Import Box component for layout
+import Box from "@mui/material/Box";
 import { useRouter } from "next/router";
-import { format } from "date-fns"; // Import date-fns for date formatting
+import { format, differenceInHours, differenceInDays, isValid } from "date-fns"; // Import additional functions
 
 function FeaturedPost({ post }) {
   const router = useRouter();
@@ -18,8 +18,22 @@ function FeaturedPost({ post }) {
     router.push(`/blog/${post.slug}`);
   };
 
-  // Convert date_published to a more readable format
-  const formattedDate = format(new Date(post.date_published), "MMMM d, yyyy");
+  // Determine time difference in hours and days
+  let formattedDate = "Invalid date";
+  const postDate = new Date(post.date_published);
+  if (isValid(postDate)) {
+    const now = new Date();
+    const hoursDifference = differenceInHours(now, postDate);
+    const daysDifference = differenceInDays(now, postDate);
+
+    if (hoursDifference < 24) {
+      formattedDate = `${hoursDifference} hours ago`;
+    } else if (daysDifference < 30) {
+      formattedDate = `${daysDifference} days ago`;
+    } else {
+      formattedDate = format(postDate, "MMMM d, yyyy");
+    }
+  }
 
   return (
     <>
@@ -99,12 +113,12 @@ function FeaturedPost({ post }) {
 
 FeaturedPost.propTypes = {
   post: PropTypes.shape({
-    date_published: PropTypes.string.isRequired, // Corrected prop name to match post data
+    date_published: PropTypes.string.isRequired,
     meta_description: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     slug: PropTypes.string.isRequired,
-    read_time: PropTypes.number.isRequired, // Added read_time prop
+    read_time: PropTypes.number.isRequired,
   }).isRequired,
 };
 
