@@ -5,13 +5,14 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import { useRouter } from "next/router";
-import { format, isValid, differenceInHours, differenceInDays } from "date-fns"; // Import additional functions from date-fns
+import { format, isValid, differenceInHours, differenceInDays } from "date-fns"; // Import isValid from date-fns for date validation
 
 function MostRecentPost({ post, imageSize }) {
   const router = useRouter();
 
+  // Ensure that `post` and its properties are defined before attempting to use them
   if (!post || !post.image || !post.title || !post.slug) {
-    return null;
+    return null; // Render nothing if the post data is incomplete
   }
 
   const handleClick = () => {
@@ -46,11 +47,13 @@ function MostRecentPost({ post, imageSize }) {
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
         backgroundImage: `url(${post.image})`,
-        cursor: "pointer",
-        height: imageSize?.height || { xs: 200, md: 400 },
+        cursor: "pointer", // Change cursor to pointer to indicate it's clickable
+        height: imageSize?.height || { xs: 200, md: 400 }, // Use the height from the imageSize prop
       }}
       onClick={handleClick}
     >
+      {/* Hidden image for SEO */}
+      <image style={{ display: "none" }} src={post.image} alt={post.title} />
       <Box
         sx={{
           position: "absolute",
@@ -61,7 +64,10 @@ function MostRecentPost({ post, imageSize }) {
           backgroundColor: "rgba(0,0,0,.3)",
         }}
       />
-      <Grid container direction={{ xs: "column", md: "row" }}>
+      <Grid
+        container
+        direction={{ xs: "column", md: "row" }} // Stacks content vertically on small screens, horizontally on larger screens
+      >
         <Grid item xs={12} md={6}>
           <Box
             sx={{
@@ -70,19 +76,23 @@ function MostRecentPost({ post, imageSize }) {
               pr: { md: 0 },
             }}
           >
-            <Typography variant="h5" color="inherit" gutterBottom>
-              {post.title}
-            </Typography>
+            {/* Title positioned in the bottom left corner */}
+            <Box sx={{ mt: { xs: 4, md: 18 } }}>
+              <Typography variant="h5" color="inherit" gutterBottom>
+                {post.title}
+              </Typography>
+            </Box>
 
+            {/* Flex container for date and read time */}
             <Box
               sx={{
                 display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                color: "#ddd",
-                fontSize: "0.875rem",
-                mt: { xs: 8, md: 20 },
-                pr: { xs: 2 },
+                justifyContent: "space-between", // Space between date and read time
+                alignItems: "center", // Center align items vertically
+                color: "#ddd", // Light grey text color for contrast
+                fontSize: "0.875rem", // Font size for smaller text
+                mt: { xs: 8, md: 20 }, // Add margin-top for spacing
+                pr: { xs: 2 }, // Adjust padding to control horizontal spacing
               }}
             >
               <Typography variant="caption">{formattedDate}</Typography>
@@ -98,12 +108,11 @@ MostRecentPost.propTypes = {
   post: PropTypes.shape({
     image: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    slug: PropTypes.string.isRequired,
+    slug: PropTypes.string.isRequired, // Added slug for routing
     date_published: PropTypes.string.isRequired,
-    read_time: PropTypes.number.isRequired,
   }).isRequired,
   imageSize: PropTypes.shape({
-    height: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
+    height: PropTypes.oneOfType([PropTypes.number, PropTypes.object]), // Optional height for image
   }),
 };
 
