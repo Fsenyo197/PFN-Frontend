@@ -142,43 +142,17 @@ function Footer() {
             align="center"
             sx={{ fontSize: "0.875rem", mb: 2 }}
           >
-            <strong>Disclaimer:</strong> The content published on{" "}
-            <Link
-              color="inherit"
-              href="https://propfirmnews.live/"
-              underline="hover"
-            >
-              Prop Firm News
-            </Link>{" "}
-            The content published on Prop Firm News is provided for general
-            informational purposes only and should not be construed as
-            professional investment advice. None of the articles, reports,
-            opinions, or other materials available on this website constitute an
-            offer, recommendation, or endorsement of any particular security,
-            investment, company, financial product, or trading strategy. Prop
-            Firm News does not offer personalized financial advice or make any
-            investment recommendations. The information presented is based on
-            publicly available data and should not be relied upon as the sole
-            basis for making investment decisions. Users are encouraged to seek
-            independent financial advice from a qualified professional before
-            making any investment. Risk Disclosure The use of information
-            contained on this website is at your own risk. Prop Firm News and
-            its affiliates assume no responsibility for any losses, damages, or
-            adverse outcomes resulting from reliance on the information
-            provided. Trading in financial markets involves significant risk,
-            including the potential loss of capital, and may not be suitable for
-            all investors. No Offer or Solicitation Nothing contained on this
-            website should be interpreted as an offer to buy or sell any
-            security, commodity, futures, forex, or financial product, nor as a
-            solicitation of any offer to engage in any trading activity. Prop
-            Firm News is not responsible for the accuracy, completeness, or
-            reliability of third-party content, including news articles, market
-            data, and analysis. By accessing and using this website, you
-            acknowledge that Prop Firm News is not liable for any decisions made
-            or actions taken based on the information provided herein. This
-            version adds more specific details and clarifies that the website is
-            not responsible for the accuracy of third-party information, while
-            also encouraging users to seek independent advice.
+            <strong>Disclaimer:</strong> The content provided by Prop Firm News
+            is intended for general informational purposes only. It does not
+            constitute professional financial advice, recommendations, or
+            endorsements of any securities, investment strategies, or financial
+            products. All information is based on publicly available data and is
+            not guaranteed for accuracy or completeness. Users should conduct
+            their own research and consult with a qualified financial advisor
+            before making any investment decisions. Prop Firm News and its
+            affiliates are not liable for any losses or damages resulting from
+            the use of this information. Trading in financial markets involves
+            significant risk, and it may not be suitable for all investors.
           </Typography>
         </Box>
 
