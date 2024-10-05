@@ -17,10 +17,6 @@ import {
 function MostRecentPost({ post, imageSize }) {
   const router = useRouter();
 
-  if (!post || !post.image || !post.title || !post.slug) {
-    return null;
-  }
-
   const handleClick = () => {
     router.push(`/blog/${post.slug}`);
   };
