@@ -4,6 +4,7 @@ import FetchArticles from "../../utils/FetchArticles";
 import Footer from "../Footer";
 import Header from "@/components/Header";
 import DOMPurify from "dompurify";
+import Head from "next/head"; // Import Head for managing meta tags
 import {
   CircularProgress,
   Typography,
@@ -66,8 +67,8 @@ const BlogPost = () => {
         }}
       >
         <CircularProgress />
-        <Typography variant="h6" sx={{ ml: 2 }}>
-          Loading...
+        <Typography variant="h6" sx={{ ml: 2, color: "#02353C" }}>
+          just a moment...
         </Typography>
       </Box>
     );
@@ -83,8 +84,20 @@ const BlogPost = () => {
     );
   }
 
+  // Modify the body to make images responsive
+  const sanitizedBody = DOMPurify.sanitize(article.body).replace(
+    /<img\s+src="([^"]+)"\s+alt="([^"]+)"\s*\/?>/g,
+    '<div style="width: 100%; overflow: hidden; display: flex; justify-content: center;"><img src="$1" alt="$2" style="max-width: 100%; height: auto; border-radius: 8px;" /></div>'
+  );
+
   return (
     <>
+      <Head>
+        <title>{article.title}</title>
+        <meta name="description" content={article.meta_description} />
+        <meta name="keywords" content={article.meta_keywords} />{" "}
+        {/* Set meta keywords */}
+      </Head>
       <Header />
       <Box sx={{ display: "flex", justifyContent: "center", p: 2 }}>
         <Paper elevation={0} sx={{ maxWidth: 800, p: 3 }}>
@@ -123,9 +136,7 @@ const BlogPost = () => {
 
           <Box
             sx={{ mt: 2 }}
-            dangerouslySetInnerHTML={{
-              __html: DOMPurify.sanitize(article.body), // Sanitize HTML content
-            }}
+            dangerouslySetInnerHTML={{ __html: sanitizedBody }} // Use the modified body with responsive images
           />
 
           {/* Social Share Buttons */}
