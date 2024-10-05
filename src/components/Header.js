@@ -102,7 +102,7 @@ function Header() {
           justifyContent: "space-between",
           overflowX: "auto",
           bgcolor: "#02353C",
-          width: "100%", // Updated width to full width
+          width: "100%",
           position: "sticky",
           top: 56,
           zIndex: 999,
@@ -110,7 +110,6 @@ function Header() {
         }}
       >
         {categories.map((category) => {
-          // Manually set the correct path for "Trading Platform"
           let categoryPath;
           if (category === "Home") {
             categoryPath = "/";
@@ -133,12 +132,12 @@ function Header() {
                 color: isActive ? "#02353C" : "#ffffff",
                 backgroundColor: isActive ? "#ffffff" : "transparent",
                 borderRadius: "4px",
-                textDecoration: "none", // Remove underline
+                textDecoration: "none",
                 "&:hover": {
                   backgroundColor: "#ffffff",
                   color: "#02353C",
                   borderRadius: "4px",
-                  textDecoration: "none", // Remove underline on hover
+                  textDecoration: "none",
                 },
               }}
             >

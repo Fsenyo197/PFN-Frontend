@@ -6,7 +6,6 @@ import { fetchArticlesByCategory } from "../../utils/FetchArticles";
 import Footer from "../Footer";
 import Header from "../../components/Header";
 
-// Define the possible categories
 const categories = ["News", "Prices", "Payouts", "Rules", "Platforms"];
 
 // Generate static paths for each category
@@ -17,7 +16,7 @@ export async function getStaticPaths() {
 
   return {
     paths,
-    fallback: false, // Return 404 for undefined categories
+    fallback: false,
   };
 }
 
@@ -50,7 +49,7 @@ const CategoryPage = ({ category, articles }) => {
   return (
     <>
       <Header /> {/* Navigation Header */}
-      <div style={{ padding: "0 16px" }}>
+      <div>
         {articles.length === 0 ? (
           <p style={{ textAlign: "center" }}>
             No articles available under this category.
@@ -61,13 +60,19 @@ const CategoryPage = ({ category, articles }) => {
             {mostRecentPost && <MostRecentPost post={mostRecentPost} />}
 
             {/* Render featured posts */}
-            <Grid container spacing={3}>
-              {featuredArticles.map((article) => (
-                <Grid item key={article.slug} xs={12} md={6}>
-                  <FeaturedPost post={article} />
-                </Grid>
-              ))}
-            </Grid>
+            {featuredArticles.length > 0 ? (
+              <Grid container>
+                {featuredArticles.map((article) => (
+                  <Grid item key={article.slug}>
+                    <FeaturedPost post={article} />
+                  </Grid>
+                ))}
+              </Grid>
+            ) : (
+              <p style={{ textAlign: "center" }}>
+                No featured articles available.
+              </p>
+            )}
           </>
         )}
       </div>

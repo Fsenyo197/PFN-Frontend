@@ -61,7 +61,7 @@ const SearchResultsPage = () => {
 
   const handleClear = () => {
     setSearchQuery("");
-    router.push("/search"); // Navigate to a default state (or you can navigate to the homepage or another route)
+    router.push("/search");
   };
 
   const handleInputChange = (e) => {

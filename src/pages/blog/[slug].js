@@ -4,6 +4,7 @@ import FetchArticles from "../../utils/FetchArticles";
 import Footer from "../Footer";
 import Header from "@/components/Header";
 import DOMPurify from "dompurify";
+import Head from "next/head";
 import {
   CircularProgress,
   Typography,
@@ -15,6 +16,7 @@ import ShareIcon from "@mui/icons-material/Share";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
+import parse, { domToReact } from "html-react-parser";
 
 const BlogPost = () => {
   const router = useRouter();
@@ -66,8 +68,8 @@ const BlogPost = () => {
         }}
       >
         <CircularProgress />
-        <Typography variant="h6" sx={{ ml: 2 }}>
-          Loading...
+        <Typography variant="h6" sx={{ ml: 2, color: "#02353C" }}>
+          just a moment...
         </Typography>
       </Box>
     );
@@ -83,19 +85,77 @@ const BlogPost = () => {
     );
   }
 
+  // Sanitize the body and parse it using html-react-parser
+  const sanitizedBody = DOMPurify.sanitize(article.body);
+
+  // Define a function to handle img tag parsing and make them responsive
+  const options = {
+    replace: (domNode) => {
+      if (domNode.name === "img") {
+        const { src, alt } = domNode.attribs;
+        return (
+          <div
+            style={{
+              width: "100%",
+              overflow: "hidden",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <image
+              src={src}
+              alt={alt}
+              style={{
+                maxWidth: "100%",
+                height: "auto",
+                borderRadius: "8px",
+              }}
+            />
+          </div>
+        );
+      }
+    },
+  };
+
   return (
     <>
+      <Head>
+        <title>{article.title}</title>
+        <meta name="description" content={article.meta_description} />
+        <meta name="keywords" content={article.meta_keywords} />{" "}
+        {/* Set meta keywords */}
+      </Head>
       <Header />
       <Box sx={{ display: "flex", justifyContent: "center", p: 2 }}>
         <Paper elevation={0} sx={{ maxWidth: 800, p: 3 }}>
-          <Typography variant="h4">{article.title}</Typography>
+          <Typography
+            variant="h3"
+            sx={{ fontSize: "2rem", fontWeight: "bold" }}
+          >
+            {article.title}
+          </Typography>
+
+          {/* Display Date Published */}
+          <Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>
+            Published on:{" "}
+            {new Date(article.date_published).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
+          </Typography>
+
+          {/* Display Category */}
+          <Typography variant="body2" color="textSecondary" sx={{ mb: 2 }}>
+            Category: {article.category}
+          </Typography>
 
           {article.image && (
             <Box sx={{ position: "relative" }}>
               <Box
                 component="img"
                 src={article.image}
-                alt={article.title} // Use a more descriptive alt text
+                alt={article.title}
                 sx={{
                   width: "100%",
                   height: "auto",
@@ -121,12 +181,8 @@ const BlogPost = () => {
             </Box>
           )}
 
-          <Box
-            sx={{ mt: 2 }}
-            dangerouslySetInnerHTML={{
-              __html: DOMPurify.sanitize(article.body), // Sanitize HTML content
-            }}
-          />
+          {/* Parse the body using html-react-parser */}
+          <Box sx={{ mt: 2 }}>{parse(sanitizedBody, options)}</Box>
 
           {/* Social Share Buttons */}
           <Box sx={{ mt: 4, display: "flex", justifyContent: "space-around" }}>

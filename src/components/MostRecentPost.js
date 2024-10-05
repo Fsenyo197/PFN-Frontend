@@ -5,29 +5,37 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import { useRouter } from "next/router";
-import { format, isValid, differenceInHours, differenceInDays } from "date-fns";
+import {
+  format,
+  isValid,
+  differenceInHours,
+  differenceInDays,
+  differenceInMinutes,
+  differenceInSeconds,
+} from "date-fns";
 
 function MostRecentPost({ post, imageSize }) {
   const router = useRouter();
-
-  // Ensure that `post` and its properties are defined before attempting to use them
-  if (!post || !post.image || !post.title || !post.slug) {
-    return null; // Render nothing if the post data is incomplete
-  }
 
   const handleClick = () => {
     router.push(`/blog/${post.slug}`);
   };
 
-  // Determine time difference in hours and days
+  // Determine time difference in hours, minutes, seconds, and days
   let formattedDate = "Invalid date";
   const postDate = new Date(post.date_published);
   if (isValid(postDate)) {
     const now = new Date();
     const hoursDifference = differenceInHours(now, postDate);
     const daysDifference = differenceInDays(now, postDate);
+    const minutesDifference = differenceInMinutes(now, postDate);
+    const secondsDifference = differenceInSeconds(now, postDate);
 
-    if (hoursDifference < 24) {
+    if (secondsDifference < 60) {
+      formattedDate = `${secondsDifference} seconds ago`;
+    } else if (minutesDifference < 60) {
+      formattedDate = `${minutesDifference} minutes ago`;
+    } else if (hoursDifference < 24) {
       formattedDate = `${hoursDifference} hours ago`;
     } else if (daysDifference < 30) {
       formattedDate = `${daysDifference} days ago`;
@@ -47,12 +55,11 @@ function MostRecentPost({ post, imageSize }) {
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
         backgroundImage: `url(${post.image})`,
-        cursor: "pointer", // Change cursor to pointer to indicate it's clickable
-        height: imageSize?.height || { xs: 200, md: 400 }, // Use the height from the imageSize prop
+        cursor: "pointer",
+        height: imageSize?.height || { xs: 200, md: 400 },
       }}
       onClick={handleClick}
     >
-      {/* Hidden image for SEO */}
       <image style={{ display: "none" }} src={post.image} alt={post.title} />
       <Box
         sx={{
@@ -64,10 +71,7 @@ function MostRecentPost({ post, imageSize }) {
           backgroundColor: "rgba(0,0,0,.3)",
         }}
       />
-      <Grid
-        container
-        direction={{ xs: "column", md: "row" }} // Stacks content vertically on small screens, horizontally on larger screens
-      >
+      <Grid container direction={{ xs: "column", md: "row" }}>
         <Grid item xs={12} md={6}>
           <Box
             sx={{
@@ -76,23 +80,21 @@ function MostRecentPost({ post, imageSize }) {
               pr: { md: 0 },
             }}
           >
-            {/* Title positioned in the bottom left corner */}
             <Box sx={{ mt: { xs: 4, md: 18 } }}>
               <Typography variant="h5" color="inherit" gutterBottom>
                 {post.title}
               </Typography>
             </Box>
 
-            {/* Flex container for date and read time */}
             <Box
               sx={{
                 display: "flex",
-                justifyContent: "space-between", // Space between date and read time
-                alignItems: "center", // Center align items vertically
-                color: "#ddd", // Light grey text color for contrast
-                fontSize: "0.875rem", // Font size for smaller text
-                mt: { xs: 8, md: 20 }, // Add margin-top for spacing
-                pr: { xs: 2 }, // Adjust padding to control horizontal spacing
+                justifyContent: "space-between",
+                alignItems: "center",
+                color: "#ddd",
+                fontSize: "0.875rem",
+                mt: { xs: 8, md: 20 },
+                pr: { xs: 2 },
               }}
             >
               <Typography variant="caption">{formattedDate}</Typography>
@@ -108,11 +110,11 @@ MostRecentPost.propTypes = {
   post: PropTypes.shape({
     image: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    slug: PropTypes.string.isRequired, // Added slug for routing
+    slug: PropTypes.string.isRequired,
     date_published: PropTypes.string.isRequired,
   }).isRequired,
   imageSize: PropTypes.shape({
-    height: PropTypes.oneOfType([PropTypes.number, PropTypes.object]), // Optional height for image
+    height: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
   }),
 };
 
