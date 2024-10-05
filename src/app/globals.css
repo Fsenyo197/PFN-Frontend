@@ -44,3 +44,28 @@ body {
     font-size: 14px;
   }
 }
+
+/* Ensure images with the 'responsive-image' class are responsive */
+.responsive-image {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 20px auto; /* Adds vertical spacing and centers the image */
+  border-radius: 8px; /* Optional: Adds rounded corners */
+}
+
+/* Ensure images within article-content are responsive */
+.article-content img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 20px auto; /* Adds vertical spacing and centers the image */
+  border-radius: 8px; /* Optional: Adds rounded corners */
+}
+
+/* Optional: Remove width and height attributes if they cause issues */
+.article-content img[width],
+.article-content img[height] {
+  width: auto !important;
+  height: auto !important;
+}

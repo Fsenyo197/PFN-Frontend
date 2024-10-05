@@ -4,7 +4,7 @@ import FetchArticles from "../../utils/FetchArticles";
 import Footer from "../Footer";
 import Header from "@/components/Header";
 import DOMPurify from "dompurify";
-import Head from "next/head"; // Import Head for managing meta tags
+import Head from "next/head";
 import {
   CircularProgress,
   Typography,
@@ -16,6 +16,7 @@ import ShareIcon from "@mui/icons-material/Share";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
+import parse, { domToReact } from "html-react-parser"; // Import html-react-parser
 
 const BlogPost = () => {
   const router = useRouter();
@@ -84,11 +85,37 @@ const BlogPost = () => {
     );
   }
 
-  // Modify the body to make images responsive
-  const sanitizedBody = DOMPurify.sanitize(article.body).replace(
-    /<img\s+src="([^"]+)"\s+alt="([^"]+)"\s*\/?>/g,
-    '<div style="width: 100%; overflow: hidden; display: flex; justify-content: center;"><img src="$1" alt="$2" style="max-width: 100%; height: auto; border-radius: 8px;" /></div>'
-  );
+  // Sanitize the body and parse it using html-react-parser
+  const sanitizedBody = DOMPurify.sanitize(article.body);
+
+  // Define a function to handle img tag parsing and make them responsive
+  const options = {
+    replace: (domNode) => {
+      if (domNode.name === "img") {
+        const { src, alt } = domNode.attribs;
+        return (
+          <div
+            style={{
+              width: "100%",
+              overflow: "hidden",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <img
+              src={src}
+              alt={alt}
+              style={{
+                maxWidth: "100%",
+                height: "auto",
+                borderRadius: "8px",
+              }}
+            />
+          </div>
+        );
+      }
+    },
+  };
 
   return (
     <>
@@ -154,10 +181,8 @@ const BlogPost = () => {
             </Box>
           )}
 
-          <Box
-            sx={{ mt: 2 }}
-            dangerouslySetInnerHTML={{ __html: sanitizedBody }} // Use the modified body with responsive images
-          />
+          {/* Parse the body using html-react-parser */}
+          <Box sx={{ mt: 2 }}>{parse(sanitizedBody, options)}</Box>
 
           {/* Social Share Buttons */}
           <Box sx={{ mt: 4, display: "flex", justifyContent: "space-around" }}>
