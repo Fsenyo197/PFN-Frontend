@@ -50,7 +50,7 @@ const CategoryPage = ({ category, articles }) => {
   return (
     <>
       <Header /> {/* Navigation Header */}
-      <div style={{ padding: "0 16px" }}>
+      <div>
         {articles.length === 0 ? (
           <p style={{ textAlign: "center" }}>
             No articles available under this category.
@@ -62,7 +62,7 @@ const CategoryPage = ({ category, articles }) => {
 
             {/* Render featured posts */}
             {featuredArticles.length > 0 ? (
-              <Grid container spacing={3}>
+              <Grid container>
                 {featuredArticles.map((article) => (
                   <Grid item key={article.slug}>
                     <FeaturedPost post={article} />
