@@ -14,6 +14,7 @@ import {
   differenceInHours,
   differenceInDays,
   differenceInMinutes,
+  differenceInSeconds,
   isValid,
 } from "date-fns"; // Import additional functions
 
@@ -24,7 +25,7 @@ function FeaturedPost({ post }) {
     router.push(`/blog/${post.slug}`);
   };
 
-  // Determine time difference in hours, minutes, and days
+  // Determine time difference in hours, minutes, seconds, and days
   let formattedDate = "Invalid date";
   const postDate = new Date(post.date_published);
   if (isValid(postDate)) {
@@ -32,8 +33,11 @@ function FeaturedPost({ post }) {
     const hoursDifference = differenceInHours(now, postDate);
     const daysDifference = differenceInDays(now, postDate);
     const minutesDifference = differenceInMinutes(now, postDate); // Calculate minutes difference
+    const secondsDifference = differenceInSeconds(now, postDate); // Calculate seconds difference
 
-    if (hoursDifference < 1) {
+    if (secondsDifference < 60) {
+      formattedDate = `${secondsDifference} seconds ago`; // Less than 1 minute
+    } else if (minutesDifference < 60) {
       formattedDate = `${minutesDifference} minutes ago`; // Less than 1 hour
     } else if (hoursDifference < 24) {
       formattedDate = `${hoursDifference} hours ago`;
