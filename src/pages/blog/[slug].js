@@ -108,6 +108,21 @@ const BlogPost = () => {
             {article.title}
           </Typography>
 
+          {/* Display Date Published */}
+          <Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>
+            Published on:{" "}
+            {new Date(article.date_published).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
+          </Typography>
+
+          {/* Display Category */}
+          <Typography variant="body2" color="textSecondary" sx={{ mb: 2 }}>
+            Category: {article.category}
+          </Typography>
+
           {article.image && (
             <Box sx={{ position: "relative" }}>
               <Box
