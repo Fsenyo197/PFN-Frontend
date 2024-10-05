@@ -9,7 +9,13 @@ import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import { useRouter } from "next/router";
-import { format, differenceInHours, differenceInDays, isValid } from "date-fns"; // Import additional functions
+import {
+  format,
+  differenceInHours,
+  differenceInDays,
+  differenceInMinutes,
+  isValid,
+} from "date-fns"; // Import additional functions
 
 function FeaturedPost({ post }) {
   const router = useRouter();
@@ -18,15 +24,18 @@ function FeaturedPost({ post }) {
     router.push(`/blog/${post.slug}`);
   };
 
-  // Determine time difference in hours and days
+  // Determine time difference in hours, minutes, and days
   let formattedDate = "Invalid date";
   const postDate = new Date(post.date_published);
   if (isValid(postDate)) {
     const now = new Date();
     const hoursDifference = differenceInHours(now, postDate);
     const daysDifference = differenceInDays(now, postDate);
+    const minutesDifference = differenceInMinutes(now, postDate); // Calculate minutes difference
 
-    if (hoursDifference < 24) {
+    if (hoursDifference < 1) {
+      formattedDate = `${minutesDifference} minutes ago`; // Less than 1 hour
+    } else if (hoursDifference < 24) {
       formattedDate = `${hoursDifference} hours ago`;
     } else if (daysDifference < 30) {
       formattedDate = `${daysDifference} days ago`;
@@ -42,37 +51,37 @@ function FeaturedPost({ post }) {
         xs={12}
         md={6}
         sx={{
-          padding: { md: "0 16px" }, // Adds horizontal padding between posts on medium and larger screens
+          padding: { md: "0 16px" },
         }}
       >
         <CardActionArea onClick={handleClick}>
           <Card
-            elevation={0} // Set elevation to 0 to remove shadow
+            elevation={0}
             sx={{
               display: "flex",
               flexDirection: "row",
               alignItems: "flex-start",
-              padding: "16px 0", // Padding for vertical spacing
+              padding: "16px 0",
               bgcolor: "white",
             }}
           >
             <CardContent
               sx={{
                 flex: 1,
-                paddingLeft: "16px", // Left padding for content
-                paddingRight: "16px", // Right padding for content
+                paddingLeft: "16px",
+                paddingRight: "16px",
               }}
             >
               <Typography
                 component="h2"
-                variant="h6" // Smaller variant for title
-                sx={{ fontSize: "1rem", fontWeight: "bold" }} // Smaller title font
+                variant="h6"
+                sx={{ fontSize: "1rem", fontWeight: "bold" }}
               >
                 {post.title}
               </Typography>
               <Typography
                 variant="body2"
-                sx={{ marginTop: "8px", color: "#000", fontSize: "0.875rem" }} // Description text with smaller font
+                sx={{ marginTop: "8px", color: "#000", fontSize: "0.875rem" }}
               >
                 {post.meta_description}
               </Typography>
@@ -82,8 +91,8 @@ function FeaturedPost({ post }) {
               sx={{
                 width: 160,
                 height: 100,
-                borderRadius: "4px", // Rounded corners for image
-                margin: "auto 16px", // Spacing for the image
+                borderRadius: "4px",
+                margin: "auto 16px",
               }}
               image={post.image}
             />
@@ -92,10 +101,10 @@ function FeaturedPost({ post }) {
             <Box
               sx={{
                 display: "flex",
-                justifyContent: "space-between", // Space between date and read time
-                alignItems: "center", // Center align items vertically
-                color: "#666", // Text color
-                fontSize: "0.875rem", // Font size
+                justifyContent: "space-between",
+                alignItems: "center",
+                color: "#666",
+                fontSize: "0.875rem",
               }}
             >
               <Typography variant="caption">{formattedDate}</Typography>
@@ -104,7 +113,6 @@ function FeaturedPost({ post }) {
           </CardContent>
         </CardActionArea>
 
-        {/* Divider line for separation between posts */}
         <Divider sx={{ bgcolor: "#02353C" }} />
       </Grid>
     </>
