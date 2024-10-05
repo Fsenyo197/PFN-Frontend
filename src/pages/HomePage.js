@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Container, Grid, CircularProgress } from "@mui/material"; // Import CircularProgress for the spinner
+import { Container, Grid, CircularProgress } from "@mui/material";
 import MostRecentPost from "../components/MostRecentPost";
 import FeaturedPost from "../components/FeaturedPost";
 import { useHomePage } from "../contexts/HomePageContext";

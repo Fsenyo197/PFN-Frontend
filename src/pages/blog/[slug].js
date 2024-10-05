@@ -16,7 +16,7 @@ import ShareIcon from "@mui/icons-material/Share";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
-import parse, { domToReact } from "html-react-parser"; // Import html-react-parser
+import parse, { domToReact } from "html-react-parser";
 
 const BlogPost = () => {
   const router = useRouter();
@@ -102,7 +102,7 @@ const BlogPost = () => {
               justifyContent: "center",
             }}
           >
-            <img
+            <image
               src={src}
               alt={alt}
               style={{
@@ -155,7 +155,7 @@ const BlogPost = () => {
               <Box
                 component="img"
                 src={article.image}
-                alt={article.title} // Use a more descriptive alt text
+                alt={article.title}
                 sx={{
                   width: "100%",
                   height: "auto",

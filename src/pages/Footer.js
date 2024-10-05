@@ -31,18 +31,18 @@ function Copyright() {
 }
 
 function Footer() {
-  const categories = ["News", "Prices", "Payouts", "Rules", "Platforms"]; // Add your dynamic categories if needed
+  const categories = ["News", "Prices", "Payouts", "Rules", "Platforms"];
 
   return (
     <Box
       component="footer"
       sx={{
-        bgcolor: "#02353C", // Set background color to #02353C
-        color: "white", // Text color for better contrast
+        bgcolor: "#02353C",
+        color: "white",
         py: 3,
-        width: "100%", // Full width of the viewport
+        width: "100%",
         position: "relative",
-        left: 0, // Ensure it starts from the left edge
+        left: 0,
       }}
     >
       <Box sx={{ px: 2 }}>
@@ -51,9 +51,9 @@ function Footer() {
           sx={{
             display: "flex",
             flexDirection: "column",
-            alignItems: "center", // Center items horizontally
-            justifyContent: "center", // Center items vertically
-            mt: 4, // Add top margin for spacing
+            alignItems: "center",
+            justifyContent: "center",
+            mt: 4,
           }}
         >
           <Typography variant="h6" sx={{ mb: 1 }}>
@@ -64,15 +64,15 @@ function Footer() {
           <Box
             sx={{
               display: "flex",
-              justifyContent: "center", // Center icons
-              width: "100%", // Full width
+              justifyContent: "center",
+              width: "100%",
             }}
           >
             <Box
               sx={{
                 display: "flex",
                 justifyContent: "space-between",
-                width: "150px", // Width for icons container
+                width: "150px",
               }}
             >
               <Link
@@ -107,7 +107,7 @@ function Footer() {
         <Box
           sx={{
             display: "flex",
-            flexDirection: "column", // Set flex direction to column
+            flexDirection: "column",
             mb: 2,
           }}
         >
@@ -115,7 +115,7 @@ function Footer() {
             color="inherit"
             href="/"
             sx={{
-              my: 1, // Add vertical margin for spacing
+              my: 1,
               fontWeight: "bold",
               "&:hover": { textDecoration: "none" },
             }}
@@ -127,7 +127,7 @@ function Footer() {
               key={category}
               color="inherit"
               href={`/categories/${category.toLowerCase()}`}
-              sx={{ my: 1, "&:hover": { textDecoration: "none" } }} // Add vertical margin for spacing
+              sx={{ my: 1, "&:hover": { textDecoration: "none" } }}
             >
               {category}
             </Link>

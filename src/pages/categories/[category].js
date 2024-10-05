@@ -6,7 +6,6 @@ import { fetchArticlesByCategory } from "../../utils/FetchArticles";
 import Footer from "../Footer";
 import Header from "../../components/Header";
 
-// Define the possible categories
 const categories = ["News", "Prices", "Payouts", "Rules", "Platforms"];
 
 // Generate static paths for each category
@@ -17,7 +16,7 @@ export async function getStaticPaths() {
 
   return {
     paths,
-    fallback: false, // Return 404 for undefined categories
+    fallback: false,
   };
 }
 
