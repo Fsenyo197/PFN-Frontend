@@ -2,9 +2,7 @@ import axios from "axios";
 
 const FetchArticles = async () => {
   try {
-    const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/articles/`
-    );
+    const response = await axios.get(`${process.env.BASE_URL}/articles/`);
     return response.data;
   } catch (error) {
     console.error("Error fetching articles:", error);
