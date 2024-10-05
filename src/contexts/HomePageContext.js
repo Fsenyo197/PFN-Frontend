@@ -1,5 +1,3 @@
-// contexts/HomePageContext.js
-
 import React, { createContext, useContext, useState, useEffect } from "react";
 import FetchArticles from "../utils/FetchArticles";
 
