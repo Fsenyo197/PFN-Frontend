@@ -53,9 +53,9 @@ function FeaturedPost({ post }) {
       <Grid
         item
         xs={12}
-        md={6}
+        md={6} // Adjust this to match the homepage
         sx={{
-          padding: { md: "0 16px" },
+          padding: { md: "0 16px" }, // Ensure consistent padding
         }}
       >
         <CardActionArea onClick={handleClick}>
@@ -67,6 +67,7 @@ function FeaturedPost({ post }) {
               alignItems: "flex-start",
               padding: "16px 0",
               bgcolor: "white",
+              height: "100%", // Ensure full height card
             }}
           >
             <CardContent
@@ -93,8 +94,8 @@ function FeaturedPost({ post }) {
             <CardMedia
               component="img"
               sx={{
-                width: 160,
-                height: 100,
+                width: 160, // Match homepage dimensions
+                height: 160, // Match homepage dimensions
                 borderRadius: "4px",
                 margin: "auto 16px",
               }}
