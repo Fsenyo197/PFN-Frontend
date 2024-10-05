@@ -47,6 +47,9 @@ const CategoryPage = ({ category, articles }) => {
   // Extract the featured articles (excluding the most recent one)
   const featuredArticles = sortedArticles.slice(1);
 
+  console.log("Most Recent Post:", mostRecentPost);
+  console.log("Featured Articles:", featuredArticles);
+
   return (
     <>
       <Header /> {/* Navigation Header */}
@@ -61,13 +64,19 @@ const CategoryPage = ({ category, articles }) => {
             {mostRecentPost && <MostRecentPost post={mostRecentPost} />}
 
             {/* Render featured posts */}
-            <Grid container spacing={3}>
-              {featuredArticles.map((article) => (
-                <Grid item key={article.slug} xs={12} md={6}>
-                  <FeaturedPost post={article} />
-                </Grid>
-              ))}
-            </Grid>
+            {featuredArticles.length > 0 ? (
+              <Grid container spacing={3}>
+                {featuredArticles.map((article) => (
+                  <Grid item key={article.slug} xs={12} md={6}>
+                    <FeaturedPost post={article} />
+                  </Grid>
+                ))}
+              </Grid>
+            ) : (
+              <p style={{ textAlign: "center" }}>
+                No featured articles available.
+              </p>
+            )}
           </>
         )}
       </div>
