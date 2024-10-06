@@ -1,30 +1,56 @@
-import fetchArticles from "./utils/FetchArticles.js";
+import axios from "axios";
 
 export default {
   siteUrl: "https://www.propfirmnews.live",
-  generateRobotsTxt: true, // Generates robots.txt
-  sitemapSize: 7000, // Maximum number of URLs per sitemap file
-  generateIndexSitemap: false, // Disable index sitemap
-  exclude: ["/search"], // Exclude search page from sitemap
+  generateRobotsTxt: true,
+  sitemapSize: 7000,
+  generateIndexSitemap: false,
+  exclude: ["/search"],
   additionalPaths: async (config) => {
     try {
-      const articles = await fetchArticles();
-      const categories = ["News", "Prices", "Payouts", "Rules", "Platforms"];
+      // Use environment variable for the base URL
+      const apiUrlArticles = `${process.env.NEXT_PUBLIC_BASE_URL}/articles`;
+      const apiUrlCategories = `${process.env.NEXT_PUBLIC_BASE_URL}/categories`;
+
+      // Fetch articles and categories directly with Axios
+      const [articlesResponse, categoriesResponse] = await Promise.all([
+        axios.get(apiUrlArticles),
+        axios.get(apiUrlCategories),
+      ]);
+
+      const articles = articlesResponse.data;
+      const categories = categoriesResponse.data.map(
+        (category) => category.name
+      ); // Assuming category objects have a `name` property
 
       const articlePaths = articles.map((article) => ({
-        loc: `/blog/${article.slug}`, // Path to blog post
-        lastmod: article.date_published, // Last modification date
+        loc: `/blog/${article.slug}`,
+        lastmod: article.date_published,
       }));
 
-      const categoryPaths = categories.map((category) => ({
-        loc: `/category/${category.toLowerCase()}`,
-        lastmod: new Date().toISOString(), // Current date as last modification date
-      }));
+      const categoryPaths = categories.map((category) => {
+        // Find the latest article in the category
+        const latestArticle = articles
+          .filter(
+            (article) =>
+              article.category.toLowerCase() === category.toLowerCase()
+          )
+          .sort(
+            (a, b) => new Date(b.date_published) - new Date(a.date_published)
+          )[0];
+
+        return {
+          loc: `/category/${category.toLowerCase()}`,
+          lastmod: latestArticle
+            ? latestArticle.date_published
+            : new Date().toISOString(),
+        };
+      });
 
       return [...articlePaths, ...categoryPaths];
     } catch (error) {
-      console.error("Error generating additional sitemap paths:", error);
-      return []; // Consider returning default paths if needed
+      console.error("Error fetching articles or categories with Axios:", error);
+      return [];
     }
   },
 };

@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://www.propfirmnews.live
+
+# Sitemaps
+Sitemap: https://www.propfirmnews.live/sitemap.xml

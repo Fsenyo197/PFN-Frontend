@@ -1,10 +1,10 @@
 import React from "react";
 import Grid from "@mui/material/Grid";
-import FeaturedPost from "../../components/FeaturedPost";
-import MostRecentPost from "../../components/MostRecentPost";
+import FeaturedPost from "../FeaturedPost";
+import MostRecentPost from "../MostRecentPost";
 import { fetchArticlesByCategory } from "../../utils/FetchArticles";
 import Footer from "../Footer";
-import Header from "../../components/Header";
+import Header from "../Header";
 
 const categories = ["News", "Prices", "Payouts", "Rules", "Platforms"];
 

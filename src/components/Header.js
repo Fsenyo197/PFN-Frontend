@@ -8,7 +8,7 @@ import Link from "@mui/material/Link";
 import InputBase from "@mui/material/InputBase";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { useHeader } from "../contexts/HeaderContext";
+import { useHeader } from "./HeaderContext";
 import { useRouter } from "next/router";
 
 function Header() {
