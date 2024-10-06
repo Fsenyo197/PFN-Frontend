@@ -1,6 +1,6 @@
 import "../app/globals.css";
-import { HeaderProvider } from "../components/HeaderContext";
-import { HomePageProvider } from "../components/HomePageContext";
+import { HeaderProvider } from "../contexts/HeaderContext";
+import { HomePageProvider } from "../contexts/HomePageContext";
 
 function MyApp({ Component, pageProps }) {
   return (

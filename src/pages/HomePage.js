@@ -1,11 +1,11 @@
 import * as React from "react";
 import { Container, Grid, CircularProgress } from "@mui/material";
-import MostRecentPost from "./MostRecentPost";
-import FeaturedPost from "./FeaturedPost";
-import { useHomePage } from "./HomePageContext";
+import MostRecentPost from "../components/MostRecentPost";
+import FeaturedPost from "../components/FeaturedPost";
+import { useHomePage } from "../contexts/HomePageContext";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import Header from "./Header";
+import Header from "../components/Header";
 import Footer from "./Footer";
 
 const theme = createTheme({
