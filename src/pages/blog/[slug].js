@@ -16,7 +16,7 @@ import ShareIcon from "@mui/icons-material/Share";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
-import parse, { domToReact } from "html-react-parser";
+import parse from "html-react-parser";
 
 const BlogPost = () => {
   const router = useRouter();
@@ -69,7 +69,7 @@ const BlogPost = () => {
       >
         <CircularProgress />
         <Typography variant="h6" sx={{ ml: 2, color: "#02353C" }}>
-          just a moment...
+          Just a moment...
         </Typography>
       </Box>
     );
@@ -88,7 +88,7 @@ const BlogPost = () => {
   // Sanitize the body and parse it using html-react-parser
   const sanitizedBody = DOMPurify.sanitize(article.body);
 
-  // Define a function to handle img tag parsing and make them responsive
+  // Define a function to handle img tag parsing and make them responsive with lazy loading
   const options = {
     replace: (domNode) => {
       if (domNode.name === "img") {
@@ -102,9 +102,14 @@ const BlogPost = () => {
               justifyContent: "center",
             }}
           >
-            <image
+            <img
               src={src}
               alt={alt}
+              loading="lazy" // Enable lazy loading
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = "/path-to-fallback-image.png"; // Replace with your fallback image path
+              }}
               style={{
                 maxWidth: "100%",
                 height: "auto",
@@ -156,6 +161,7 @@ const BlogPost = () => {
                 component="img"
                 src={article.image}
                 alt={article.title}
+                loading="lazy" 
                 sx={{
                   width: "100%",
                   height: "auto",
