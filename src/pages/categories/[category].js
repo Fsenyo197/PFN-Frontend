@@ -1,15 +1,13 @@
-import React from "react";
 import Grid from "@mui/material/Grid";
 import FeaturedPost from "../../components/FeaturedPost";
 import MostRecentPost from "../../components/MostRecentPost";
 import { fetchArticlesByCategory } from "../../utils/FetchArticles";
 import Footer from "../Footer";
-import Header from "../../components/Header";
+import Header from "../../components/Header"; // Import the Header component
 
-const categories = ["News", "Prices", "Payouts", "Rules", "Platforms"];
-
-// Generate static paths for each category
 export async function getStaticPaths() {
+  const categories = ["News", "Prices", "Payouts", "Rules", "Platforms"];
+
   const paths = categories.map((category) => ({
     params: { category: category.toLowerCase() },
   }));
@@ -20,7 +18,6 @@ export async function getStaticPaths() {
   };
 }
 
-// Fetch articles for the selected category
 export async function getStaticProps({ params }) {
   const category = params.category;
   const articles = await fetchArticlesByCategory(category);
@@ -33,23 +30,22 @@ export async function getStaticProps({ params }) {
   };
 }
 
-// Main Category Page Component
 const CategoryPage = ({ category, articles }) => {
-  // Sort articles by date (most recent first)
+  // Sort articles by date (assuming articles have a date_published field)
   const sortedArticles = articles.sort(
     (a, b) => new Date(b.date_published) - new Date(a.date_published)
   );
 
-  // Extract the most recent post
+  // Get the most recent post (the first article after sorting)
   const mostRecentPost = sortedArticles[0];
 
-  // Extract the featured articles (excluding the most recent one)
+  // Get the rest of the articles excluding the most recent one
   const featuredArticles = sortedArticles.slice(1);
 
   return (
     <>
-      <Header /> {/* Navigation Header */}
-      <div>
+      <Header /> {/* Use Header component for navigation */}
+      <div style={{ padding: "0 16px" }}>
         {articles.length === 0 ? (
           <p style={{ textAlign: "center" }}>
             No articles available under this category.
@@ -57,26 +53,42 @@ const CategoryPage = ({ category, articles }) => {
         ) : (
           <>
             {/* Render MostRecentPost for the most recent article */}
-            {mostRecentPost && <MostRecentPost post={mostRecentPost} />}
+            {mostRecentPost && (
+              <MostRecentPost
+                post={{
+                  title: mostRecentPost.title,
+                  date: mostRecentPost.date_published,
+                  description: mostRecentPost.meta_description,
+                  image: mostRecentPost.image,
+                  slug: mostRecentPost.slug,
+                }}
+              />
+            )}
 
             {/* Render featured posts */}
-            {featuredArticles.length > 0 ? (
-              <Grid container>
-                {featuredArticles.map((article) => (
-                  <Grid item key={article.slug}>
-                    <FeaturedPost post={article} />
-                  </Grid>
-                ))}
-              </Grid>
-            ) : (
-              <p style={{ textAlign: "center" }}>
-                No featured articles available.
-              </p>
-            )}
+            <Grid container spacing={3}>
+              {featuredArticles.map((article) => (
+                <Grid item key={article.slug}>
+                  <FeaturedPost
+                    post={{
+                      title: article.title,
+                      date: article.date_published,
+                      description: article.meta_description,
+                      image: article.image,
+                      imageLabel: article.title,
+                      slug: article.slug,
+                    }}
+                  />
+                </Grid>
+              ))}
+            </Grid>
           </>
         )}
       </div>
-      <Footer /> {/* Footer Component */}
+      <Footer
+        title="Footer"
+        description="Something here to give the footer a purpose!"
+      />
     </>
   );
 };
