@@ -105,11 +105,7 @@ const BlogPost = () => {
             <img
               src={src}
               alt={alt}
-              loading="lazy" // Enable lazy loading
-              onError={(e) => {
-                e.target.onerror = null;
-                e.target.src = "/path-to-fallback-image.png"; // Replace with your fallback image path
-              }}
+              loading="lazy"
               style={{
                 maxWidth: "100%",
                 height: "auto",
@@ -188,7 +184,7 @@ const BlogPost = () => {
           )}
 
           {/* Parse the body using html-react-parser */}
-          <Box sx={{ mt: 2 }}>{parse(sanitizedBody, options)}</Box>
+          <Box sx={{mt: 2, fontSize: '1.25rem', lineHeight: '1.8' }}>{parse(sanitizedBody, options)}</Box>
 
           {/* Social Share Buttons */}
           <Box sx={{ mt: 4, display: "flex", justifyContent: "space-around" }}>
