@@ -3,10 +3,10 @@ import FeaturedPost from "../../components/FeaturedPost";
 import MostRecentPost from "../../components/MostRecentPost";
 import { fetchArticlesByCategory } from "../../utils/FetchArticles";
 import Footer from "../Footer";
-import Header from "../../components/Header"; // Import the Header component
+import Header from "../../components/Header";
 
 export async function getStaticPaths() {
-  const categories = ["News", "Prices", "Payouts", "Rules", "Platforms"];
+  const categories = ["News", "Prices", "Payouts", "Rules", "Trading Platforms"];
 
   const paths = categories.map((category) => ({
     params: { category: category.toLowerCase() },
@@ -53,28 +53,13 @@ const CategoryPage = ({ category, articles }) => {
         ) : (
           <>
             {/* Render MostRecentPost for the most recent article */}
-            {mostRecentPost && (
-              <MostRecentPost
-                post={{
-                  slug: mostRecentPost.slug,
-                }}
-              />
-            )}
+            {mostRecentPost && <MostRecentPost post={mostRecentPost} />}
 
             {/* Render featured posts */}
             <Grid container spacing={3}>
               {featuredArticles.map((article) => (
                 <Grid item key={article.slug}>
-                  <FeaturedPost
-                    post={{
-                      title: article.title,
-                      date: article.date_published,
-                      description: article.meta_description,
-                      image: article.image,
-                      imageLabel: article.title,
-                      slug: article.slug,
-                    }}
-                  />
+                  <FeaturedPost post={article} />
                 </Grid>
               ))}
             </Grid>
@@ -82,8 +67,6 @@ const CategoryPage = ({ category, articles }) => {
         )}
       </div>
       <Footer
-        title="Footer"
-        description="Something here to give the footer a purpose!"
       />
     </>
   );
