@@ -5,7 +5,6 @@ const FetchArticles = async () => {
     const response = await axios.get(
       `${process.env.NEXT_PUBLIC_BASE_URL}/articles/`
     );
-    console.log("Fetched articles:", response.data); // Log the fetched data
     return response.data;
   } catch (error) {
     console.error("Error fetching articles:", error);
