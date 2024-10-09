@@ -56,10 +56,6 @@ const CategoryPage = ({ category, articles }) => {
             {mostRecentPost && (
               <MostRecentPost
                 post={{
-                  title: mostRecentPost.title,
-                  date: mostRecentPost.date_published,
-                  description: mostRecentPost.meta_description,
-                  image: mostRecentPost.image,
                   slug: mostRecentPost.slug,
                 }}
               />
