@@ -8,10 +8,9 @@ export const HeaderProvider = ({ children }) => {
   const categories = [
     "Home",
     "News",
-    "Prices",
     "Payouts",
     "Rules",
-    "Trading Platforms",
+    "Prop Firms",
   ];
 
   return (
