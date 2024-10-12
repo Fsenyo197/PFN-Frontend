@@ -7,9 +7,9 @@ const HeaderContext = createContext();
 export const HeaderProvider = ({ children }) => {
   const categories = [
     "Home",
-    "News",
+    "Prop News",
     "Payouts",
-    "Rules",
+    "Trading Rules",
     "Prop Firms",
   ];
 

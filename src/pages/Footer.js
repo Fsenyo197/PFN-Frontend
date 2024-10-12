@@ -31,7 +31,7 @@ function Copyright() {
 }
 
 function Footer() {
-  const categories = ["News", "Payouts", "Rules", "Prop Firms"];
+  const categories = ["Prop News", "Payouts", "Trading Rules", "Prop Firms"];
 
   return (
     <Box

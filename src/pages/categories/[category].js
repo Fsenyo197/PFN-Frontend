@@ -6,7 +6,7 @@ import Footer from "../Footer";
 import Header from "../../components/Header";
 
 export async function getStaticPaths() {
-  const categories = ["News", "Payouts", "Rules", "Prop Firms"];
+  const categories = ["Prop News", "Payouts", "Trading Rules", "Prop Firms"];
 
   const paths = categories.map((category) => ({
     // Replace spaces with hyphens in category URLs
