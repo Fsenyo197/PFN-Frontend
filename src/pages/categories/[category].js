@@ -9,7 +9,8 @@ export async function getStaticPaths() {
   const categories = ["News", "Payouts", "Rules", "Prop Firms"];
 
   const paths = categories.map((category) => ({
-    params: { category: category.toLowerCase().replace(/\s+/g, "-") }, 
+    // Replace spaces with hyphens in category URLs
+    params: { category: category.toLowerCase().replace(/\s+/g, "-") },
   }));
 
   return {
@@ -19,7 +20,8 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  const category = params.category.replace(/-/g, " "); 
+  // Reverse hyphens back to spaces for fetching articles
+  const category = params.category.replace(/-/g, " ");
   const articles = await fetchArticlesByCategory(category);
 
   return {

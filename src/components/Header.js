@@ -52,7 +52,7 @@ function Header() {
           justifyContent: "space-between",
           alignItems: "center",
           flexWrap: "nowrap",
-          width: "100%", // Updated width to full width
+          width: "100%",
           position: "sticky",
           top: 0,
           zIndex: 1000,
@@ -110,15 +110,12 @@ function Header() {
         }}
       >
         {categories.map((category) => {
-          let categoryPath;
-          if (category === "Home") {
-            categoryPath = "/";
-          } else {
-            categoryPath = `/categories/${category.toLowerCase().replace(/\s+/g, "-")}`;
-          }
+          // Normalize category path by replacing spaces with hyphens and making it lowercase
+          const categoryPath = category === "Home" 
+            ? "/" 
+            : `/categories/${category.toLowerCase().replace(/\s+/g, "-")}`;
 
-          // Check if the current path starts with the category path
-          const isActive = currentPath.startsWith(categoryPath);
+          const isActive = currentPath === categoryPath;
 
           return (
             <Link
