@@ -76,7 +76,7 @@ function Footer() {
               }}
             >
               <Link
-                href="https://facebook.com"
+                href="https://www.facebook.com/profile.php?id=61566377468031&mibextid=ZbWKwL"
                 target="_blank"
                 color="inherit"
                 sx={{ "&:hover": { color: "#1877F2" } }}
@@ -84,7 +84,7 @@ function Footer() {
                 <FacebookIcon />
               </Link>
               <Link
-                href="https://twitter.com"
+                href="https://twitter.com/propfirmnews"
                 target="_blank"
                 color="inherit"
                 sx={{ "&:hover": { color: "#1DA1F2" } }}
@@ -92,7 +92,7 @@ function Footer() {
                 <TwitterIcon />
               </Link>
               <Link
-                href="https://telegram.com"
+                href="https://t.me/propfirmnewslive"
                 target="_blank"
                 color="inherit"
                 sx={{ "&:hover": { color: "#E1306C" } }}
