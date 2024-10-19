@@ -7,7 +7,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Header from "../components/Header";
 import Footer from "./Footer";
-import Spinner from "../components/Spinner";
+import Loader from "../components/Spinner";
 
 const theme = createTheme({
   palette: {
@@ -22,7 +22,7 @@ const HomePage = () => {
   const { mostRecentPost, featuredPosts, loading } = useHomePage();
 
   if (loading) {
-    return <Spinner />;
+    return <Loader />;
   }
 
   return (

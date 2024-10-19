@@ -6,7 +6,7 @@ import Footer from "../Footer";
 import Header from "../../components/Header";
 import Head from "next/head";
 import { useState, useEffect } from "react";
-import Spinner from "../../components/Spinner";
+import Loader from "../../components/Spinner";
 
 export async function getStaticPaths() {
   const categories = ["Prop News", "Payouts", "Trading Rules", "Prop Firms"];
@@ -66,7 +66,7 @@ const CategoryPage = ({ category, articles, description }) => {
   }, []);
 
   if (loading) {
-    return <Spinner />; 
+    return <Loader />; 
   }
 
   // Sort articles by date (assuming articles have a date_published field)
