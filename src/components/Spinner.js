@@ -1,32 +1,33 @@
-import React, { useEffect } from "react";
-import { newtonsCradle } from "ldrs";
+import { useEffect, useState } from 'react';
+import { Typography } from '@mui/material';
+import dynamic from 'next/dynamic';
+
+// Dynamically import the Loader component from 'ldrs'
+const LoaderComponent = dynamic(() => import('ldrs'), {
+  ssr: false,
+});
 
 const Spinner = () => {
+  const [isClient, setIsClient] = useState(false);
+
   useEffect(() => {
-    newtonsCradle.register();
+    if (typeof window !== 'undefined') {
+      setIsClient(true);
+    }
   }, []);
 
+  if (!isClient) return null;
+
   return (
-    <div style={styles.container}>
-      <l-newtons-cradle size="78" speed="1.4" color="#02353C"></l-newtons-cradle>
-      <p style={styles.message}>Just a moment...</p>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <div>
+        <LoaderComponent type="newtonsCradle" />
+      </div>
+      <Typography variant="h6" sx={{ ml: 2, color: "#02353C" }}>
+        Just a moment...
+      </Typography>
     </div>
   );
-};
-
-const styles = {
-  container: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    height: "100vh",
-  },
-  message: {
-    marginTop: "20px",
-    fontSize: "18px",
-    color: "#02353C",
-  },
 };
 
 export default Spinner;
