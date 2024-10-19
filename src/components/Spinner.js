@@ -1,33 +1,24 @@
-import { useEffect, useState } from 'react';
-import { Typography } from '@mui/material';
-import dynamic from 'next/dynamic';
+import React, { useEffect } from 'react';
 
-// Dynamically import the Loader component from 'ldrs'
-const LoaderComponent = dynamic(() => import('ldrs'), {
-  ssr: false,
-});
+export const LoaderEnum = {
+  CARDIO: 'cardio',
+};
 
-const Spinner = () => {
-  const [isClient, setIsClient] = useState(false);
-
+const Loader = ({ loader, size = 30, stroke = '3', speed = '2', color = '#02353C' }) => {
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setIsClient(true);
-    }
-  }, []);
-
-  if (!isClient) return null;
+    const load = async () => {
+      const ldrsModule = await import('ldrs');
+      ldrsModule[loader].register('ldrs-icon');
+    };
+    load();
+  }, [loader]);
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-      <div>
-        <LoaderComponent type="newtonsCradle" />
-      </div>
-      <Typography variant="h6" sx={{ ml: 2, color: "#02353C" }}>
-        Just a moment...
-      </Typography>
+    <div>
+      {/* Most probably you will get an error that ldrs-icon is not found */}
+      <ldrs-icon size={size.toString()} stroke={stroke} speed={speed} color={color}></ldrs-icon>
     </div>
   );
 };
 
-export default Spinner;
+export default Loader;
