@@ -23,18 +23,33 @@ export async function getStaticProps({ params }) {
   const category = params.category.replace(/-/g, " ");
   const articles = await fetchArticlesByCategory(category);
 
-  const categoryDescriptions = {
-    "Prop News": "Stay informed with the latest prop firm news, updates, and industry insights. Discover important trends and developments shaping the prop trading world.",
-    "Payouts": "Learn about prop firm payouts, policies, and conditions. Get the most up-to-date information on how different firms structure their trader payouts.",
-    "Trading Rules": "Understand the rules governing prop firms. Explore detailed overviews of trading regulations, risk management, and conditions you must follow.",
-    "Prop Firms": "Explore reviews and comparisons of leading prop firms. Find out which firms offer the best opportunities for aspiring traders.",
-  };
+  const categoriesData = [
+    {
+      name: "Prop News",
+      description: "Stay informed with the latest prop firm news, updates, and industry insights. Discover important trends and developments shaping the prop trading world.",
+    },
+    {
+      name: "Payouts",
+      description: "Learn about prop firm payouts, policies, and conditions. Get the most up-to-date information on how different firms structure their trader payouts.",
+    },
+    {
+      name: "Trading Rules",
+      description: "Understand the rules governing prop firms. Explore detailed overviews of trading regulations, risk management, and conditions you must follow.",
+    },
+    {
+      name: "Prop Firms",
+      description: "Explore reviews and comparisons of leading prop firms. Find out which firms offer the best opportunities for aspiring traders.",
+    },
+  ];
+
+  const categoryData = categoriesData.find(cat => cat.name.toLowerCase() === category.toLowerCase());
+  const description = categoryData.description;
 
   return {
     props: {
       category,
       articles,
-      description: categoryDescriptions[category],
+      description,
     },
     revalidate: 60,
   };
