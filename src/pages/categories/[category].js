@@ -85,7 +85,7 @@ const CategoryPage = ({ category, articles, description }) => {
             {mostRecentPost && <MostRecentPost post={mostRecentPost} />}
 
             {/* Render featured posts */}
-            <Grid container spacing={3}>
+            <Grid container>
               {featuredArticles.map((article) => (
                 <Grid item key={article.slug}>
                   <FeaturedPost post={article} />
