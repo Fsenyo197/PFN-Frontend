@@ -16,7 +16,7 @@ import TelegramIcon from "@mui/icons-material/Telegram";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import parse from "html-react-parser";
-import Loader from "@/components/Spinner";
+import Spinner from "@/components/Spinner";
 
 const BlogPost = () => {
   const router = useRouter();
@@ -58,7 +58,7 @@ const BlogPost = () => {
   }, []);
 
   if (loading) {
-    return <Loader />;
+    return <Spinner />;
   }
 
   if (error) {
