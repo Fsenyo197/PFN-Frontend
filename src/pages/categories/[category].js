@@ -4,12 +4,12 @@ import MostRecentPost from "../../components/MostRecentPost";
 import { fetchArticlesByCategory } from "../../utils/FetchArticles";
 import Footer from "../Footer";
 import Header from "../../components/Header";
+import Head from "next/head";
 
 export async function getStaticPaths() {
   const categories = ["Prop News", "Payouts", "Trading Rules", "Prop Firms"];
 
   const paths = categories.map((category) => ({
-    // Replace spaces with hyphens in category URLs
     params: { category: category.toLowerCase().replace(/\s+/g, "-") },
   }));
 
@@ -20,19 +20,27 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  // Reverse hyphens back to spaces for fetching articles
   const category = params.category.replace(/-/g, " ");
   const articles = await fetchArticlesByCategory(category);
+
+  const categoryDescriptions = {
+    "Prop News": "Stay informed with the latest prop firm news, updates, and industry insights. Discover important trends and developments shaping the prop trading world.",
+    "Payouts": "Learn about prop firm payouts, policies, and conditions. Get the most up-to-date information on how different firms structure their trader payouts.",
+    "Trading Rules": "Understand the rules governing prop firms. Explore detailed overviews of trading regulations, risk management, and conditions you must follow.",
+    "Prop Firms": "Explore reviews and comparisons of leading prop firms. Find out which firms offer the best opportunities for aspiring traders.",
+  };
 
   return {
     props: {
       category,
       articles,
+      description: categoryDescriptions[category],
     },
+    revalidate: 60,
   };
 }
 
-const CategoryPage = ({ category, articles }) => {
+const CategoryPage = ({ category, articles, description }) => {
   // Sort articles by date (assuming articles have a date_published field)
   const sortedArticles = articles.sort(
     (a, b) => new Date(b.date_published) - new Date(a.date_published)
@@ -46,7 +54,11 @@ const CategoryPage = ({ category, articles }) => {
 
   return (
     <>
-      <Header /> {/* Use Header component for navigation */}
+      <Head>
+        <title>{category}</title>
+        <meta name="description" content={description} />
+      </Head>
+      <Header />
       <div style={{ padding: "0 16px" }}>
         {articles.length === 0 ? (
           <p style={{ textAlign: "center" }}>

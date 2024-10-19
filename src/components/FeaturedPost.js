@@ -25,20 +25,19 @@ function FeaturedPost({ post }) {
     router.push(`/blog/${post.slug}`);
   };
 
-  // Determine time difference in hours, minutes, seconds, and days
   let formattedDate = "Invalid date";
   const postDate = new Date(post.date_published);
   if (isValid(postDate)) {
     const now = new Date();
     const hoursDifference = differenceInHours(now, postDate);
     const daysDifference = differenceInDays(now, postDate);
-    const minutesDifference = differenceInMinutes(now, postDate); // Calculate minutes difference
-    const secondsDifference = differenceInSeconds(now, postDate); // Calculate seconds difference
+    const minutesDifference = differenceInMinutes(now, postDate);
+    const secondsDifference = differenceInSeconds(now, postDate);
 
     if (secondsDifference < 60) {
-      formattedDate = `${secondsDifference} seconds ago`; // Less than 1 minute
+      formattedDate = `${secondsDifference} seconds ago`; 
     } else if (minutesDifference < 60) {
-      formattedDate = `${minutesDifference} minutes ago`; // Less than 1 hour
+      formattedDate = `${minutesDifference} minutes ago`; 
     } else if (hoursDifference < 24) {
       formattedDate = `${hoursDifference} hours ago`;
     } else if (daysDifference < 30) {
