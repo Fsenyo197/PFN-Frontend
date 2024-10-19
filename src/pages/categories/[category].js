@@ -35,7 +35,7 @@ export async function getStaticProps({ params }) {
     {
       name: "Trading Rules",
       description: "Understand the rules governing prop firms. Explore detailed overviews of trading regulations, risk management, and conditions you must follow.",
-    },
+    }, 
     {
       name: "Prop Firms",
       description: "Explore reviews and comparisons of leading prop firms. Find out which firms offer the best opportunities for aspiring traders.",
@@ -49,9 +49,9 @@ export async function getStaticProps({ params }) {
     props: {
       category,
       articles,
-      description,
+      description, 
     },
-    revalidate: 60,
+    revalidate: 60, 
   };
 }
 
