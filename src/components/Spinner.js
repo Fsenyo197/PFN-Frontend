@@ -1,24 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
-export const LoaderEnum = {
-  CARDIO: 'cardio',
-};
-
-const Loader = ({ loader, size = 30, stroke = '3', speed = '2', color = '#02353C' }) => {
-  useEffect(() => {
-    const load = async () => {
-      const ldrsModule = await import('ldrs');
-      ldrsModule[loader].register('ldrs-icon');
-    };
-    load();
-  }, [loader]);
-
+const Spinner = () => {
   return (
-    <div>
-      {/* Most probably you will get an error that ldrs-icon is not found */}
-      <ldrs-icon size={size.toString()} stroke={stroke} speed={speed} color={color}></ldrs-icon>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
+      <l-newtonsCradle style={{ fontSize: '80px' }}></l-newtonsCradle>
+      <p style={{ marginTop: '16px', fontSize: '18px' }}>Just a moment...</p>
     </div>
   );
 };
 
-export default Loader;
+export default Spinner;

@@ -17,6 +17,11 @@ export default function RootLayout({ children }) {
         <meta name="description" content={metadata.description} />
       </head>
       <body className={inter.className}>
+        <script
+          type="module"
+          defer
+          src="https://cdn.jsdelivr.net/npm/ldrs/dist/auto/newtonsCradle.js"
+        ></script>
         {children}
       </body>
       <GoogleAnalytics gaId="G-VY860BFJKF" />
