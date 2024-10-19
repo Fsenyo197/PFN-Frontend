@@ -5,6 +5,8 @@ import { fetchArticlesByCategory } from "../../utils/FetchArticles";
 import Footer from "../Footer";
 import Header from "../../components/Header";
 import Head from "next/head";
+import { useState, useEffect } from "react";
+import Spinner from "../../components/Spinner";
 
 export async function getStaticPaths() {
   const categories = ["Prop News", "Payouts", "Trading Rules", "Prop Firms"];
@@ -56,6 +58,17 @@ export async function getStaticProps({ params }) {
 }
 
 const CategoryPage = ({ category, articles, description }) => {
+
+  const [loading, setLoading] = useState(true);
+
+   useEffect(() => {
+    setLoading(false);
+  }, []);
+
+  if (loading) {
+    return <Spinner />; 
+  }
+
   // Sort articles by date (assuming articles have a date_published field)
   const sortedArticles = articles.sort(
     (a, b) => new Date(b.date_published) - new Date(a.date_published)
@@ -87,7 +100,7 @@ const CategoryPage = ({ category, articles, description }) => {
             {/* Render featured posts */}
             <Grid container>
               {featuredArticles.map((article) => (
-                <Grid item key={article.slug}>
+                <Grid item xs={12} sm={6} md={6} lg={6} key={article.slug}>
                   <FeaturedPost post={article} />
                 </Grid>
               ))}

@@ -39,7 +39,7 @@ function FeaturedPost({ post }) {
     } else if (minutesDifference < 60) {
       formattedDate = `${minutesDifference} minutes ago`; 
     } else if (hoursDifference < 24) {
-      formattedDate = `${hoursDifference} hours ago`;
+      formattedDate = `${hoursDifference} hours ago`; 
     } else if (daysDifference < 30) {
       formattedDate = `${daysDifference} days ago`;
     } else {

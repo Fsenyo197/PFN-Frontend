@@ -6,7 +6,6 @@ import Header from "@/components/Header";
 import DOMPurify from "dompurify";
 import Head from "next/head";
 import {
-  CircularProgress,
   Typography,
   Box,
   Paper,
@@ -17,6 +16,7 @@ import TelegramIcon from "@mui/icons-material/Telegram";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import parse from "html-react-parser";
+import Spinner from "@/components/Spinner";
 
 const BlogPost = () => {
   const router = useRouter();
@@ -58,21 +58,7 @@ const BlogPost = () => {
   }, []);
 
   if (loading) {
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-        }}
-      >
-        <CircularProgress />
-        <Typography variant="h6" sx={{ ml: 2, color: "#02353C" }}>
-          Just a moment...
-        </Typography>
-      </Box>
-    );
+    return <Spinner />;
   }
 
   if (error) {
