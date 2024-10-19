@@ -1,11 +1,22 @@
 import React from 'react';
+import { CircularProgress, Box, Typography } from '@mui/material';
 
 const Spinner = () => {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
-      <l-newtons-cradle style={{ fontSize: '80px', color: 'red' }}></l-newtons-cradle>
-      <p style={{ marginTop: '16px', fontSize: '18px', color: 'red' }}>Just a moment...</p>
-    </div>
+    <Box
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      justifyContent="center"
+      height="100vh"
+    >
+      <CircularProgress size={80} sx={{ color: '#02353C' }} />
+      <Typography
+        sx={{ marginTop: '16px', fontSize: '18px', color: '#02353C' }}
+      >
+        Just a moment...
+      </Typography>
+    </Box>
   );
 };
 
