@@ -95,19 +95,14 @@ const CategoryPage = ({ category, articles, description }) => {
             No articles available under this category.
           </p>
         ) : (
-          <>
-            {/* Render MostRecentPost for the most recent article */}
+          <Container maxWidth="64">
             {mostRecentPost && <MostRecentPost post={mostRecentPost} />}
-
-            {/* Render featured posts */}
             <Grid container>
               {featuredArticles.map((article) => (
-                <Grid item xs={12} sm={6} md={6} lg={6} key={article.slug}>
-                  <FeaturedPost post={article} />
-                </Grid>
+                <FeaturedPost post={article} />
               ))}
             </Grid>
-          </>
+          </Container>
         )}
       </div>
       <Footer />
