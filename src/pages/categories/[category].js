@@ -1,4 +1,4 @@
-import Grid from "@mui/material/Grid";
+import { Container, Grid } from "@mui/material";
 import FeaturedPost from "../../components/FeaturedPost";
 import MostRecentPost from "../../components/MostRecentPost";
 import { fetchArticlesByCategory } from "../../utils/FetchArticles";
@@ -8,6 +8,7 @@ import Head from "next/head";
 import { useState, useEffect } from "react";
 import Spinner from "../../components/Spinner";
 import CssBaseline from "@mui/material/CssBaseline";
+
 
 export async function getStaticPaths() {
   const categories = ["Prop News", "Payouts", "Trading Rules", "Prop Firms"];
@@ -99,7 +100,7 @@ const CategoryPage = ({ category, articles, description }) => {
             {mostRecentPost && <MostRecentPost post={mostRecentPost} />}
             <Grid container>
               {featuredArticles.map((article) => (
-                <FeaturedPost post={article} />
+                <FeaturedPost key={article.title} post={article} />
               ))}
             </Grid>
           </Container>
