@@ -7,6 +7,7 @@ import Header from "../../components/Header";
 import Head from "next/head";
 import { useState, useEffect } from "react";
 import Spinner from "../../components/Spinner";
+import CssBaseline from "@mui/material/CssBaseline";
 
 export async function getStaticPaths() {
   const categories = ["Prop News", "Payouts", "Trading Rules", "Prop Firms"];
@@ -82,6 +83,7 @@ const CategoryPage = ({ category, articles, description }) => {
 
   return (
     <>
+      <CssBaseline />
       <Head>
         <title>{category}</title>
         <meta name="description" content={description} />
