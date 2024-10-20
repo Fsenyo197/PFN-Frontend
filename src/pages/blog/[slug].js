@@ -17,6 +17,7 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import parse from "html-react-parser";
 import Spinner from "@/components/Spinner";
+import CssBaseline from "@mui/material/CssBaseline";
 
 const BlogPost = () => {
   const router = useRouter();
@@ -106,6 +107,7 @@ const BlogPost = () => {
 
   return (
     <>
+      <CssBaseline />
       <Head>
         <title>{article.title}</title>
         <meta name="description" content={article.meta_description} />
