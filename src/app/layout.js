@@ -13,9 +13,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
+        <GoogleAnalytics />
         <meta name="description" content={metadata.description} />
       </head>
-      <GoogleAnalytics />
       <body className={inter.className}>
         {children}
       </body>
