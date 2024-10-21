@@ -1,6 +1,6 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
-import { GoogleAnalytics } from '@next/third-parties/google';
+import GoogleAnalytics from "../components/GoogleAnalytics";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,10 +15,9 @@ export default function RootLayout({ children }) {
       <head>
         <meta name="description" content={metadata.description} />
       </head>
+      <GoogleAnalytics />
       <body className={inter.className}>
         {children}
-        {/* Google Analytics should be loaded after the main content */}
-        <GoogleAnalytics gaId="G-VY860BFJKF" />
       </body>
     </html>
   );
