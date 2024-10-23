@@ -5,12 +5,7 @@ import Footer from "../Footer";
 import Header from "@/components/Header";
 import DOMPurify from "dompurify";
 import Head from "next/head";
-import {
-  Typography,
-  Box,
-  Paper,
-  IconButton,
-} from "@mui/material";
+import { Typography, Box, Paper, IconButton } from "@mui/material";
 import ShareIcon from "@mui/icons-material/Share";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import FacebookIcon from "@mui/icons-material/Facebook";
@@ -18,6 +13,7 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import parse from "html-react-parser";
 import Spinner from "@/components/Spinner";
 import CssBaseline from "@mui/material/CssBaseline";
+import DiscountPage from "@/components/DiscountPage"; // Import your DiscountPage component
 
 const BlogPost = () => {
   const router = useRouter();
@@ -105,14 +101,18 @@ const BlogPost = () => {
     },
   };
 
+  // Conditional rendering for discount codes
+  if (article.category === "Discount Codes") {
+    return <DiscountPage discount={article} />;
+  }
+
   return (
     <>
       <CssBaseline />
       <Head>
         <title>{article.title}</title>
         <meta name="description" content={article.meta_description} />
-        <meta name="keywords" content={article.meta_keywords} />{" "}
-        {/* Set meta keywords */}
+        <meta name="keywords" content={article.meta_keywords} />
       </Head>
       <Header />
       <Box sx={{ display: "flex", justifyContent: "center", p: 2 }}>
@@ -145,7 +145,7 @@ const BlogPost = () => {
                 component="img"
                 src={article.image}
                 alt={article.title}
-                loading="lazy" 
+                loading="lazy"
                 sx={{
                   width: "100%",
                   height: "auto",
@@ -172,7 +172,9 @@ const BlogPost = () => {
           )}
 
           {/* Parse the body using html-react-parser */}
-          <Box sx={{mt: 2, fontSize: '1.25rem', lineHeight: '1.8' }}>{parse(sanitizedBody, options)}</Box>
+          <Box sx={{ mt: 2, fontSize: "1.25rem", lineHeight: "1.8" }}>
+            {parse(sanitizedBody, options)}
+          </Box>
 
           {/* Social Share Buttons */}
           <Box sx={{ mt: 4, display: "flex", justifyContent: "space-around" }}>

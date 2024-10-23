@@ -5,6 +5,7 @@ const FetchArticles = async () => {
     const response = await axios.get(
       `${process.env.NEXT_PUBLIC_BASE_URL}/articles/`
     );
+    console.log("Fetched articles:", response.data); // Log fetched data
     return response.data;
   } catch (error) {
     console.error("Error fetching articles:", error);
@@ -15,9 +16,11 @@ const FetchArticles = async () => {
 export const fetchArticlesByCategory = async (category) => {
   try {
     const articles = await FetchArticles();
-    return articles.filter(
+    const filteredArticles = articles.filter(
       (article) => article.category.toLowerCase() === category.toLowerCase()
     );
+    console.log(`Articles for category "${category}":`, filteredArticles); // Log filtered data
+    return filteredArticles;
   } catch (error) {
     console.error("Error fetching articles by category:", error);
     return [];

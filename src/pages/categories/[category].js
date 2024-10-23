@@ -9,9 +9,14 @@ import { useState, useEffect } from "react";
 import Spinner from "../../components/Spinner";
 import CssBaseline from "@mui/material/CssBaseline";
 
-
 export async function getStaticPaths() {
-  const categories = ["Prop News", "Payouts", "Trading Rules", "Prop Firms"];
+  const categories = [
+    "Prop News",
+    "Payouts",
+    "Trading Rules",
+    "Prop Firms",
+    "Discount Codes",
+  ];
 
   const paths = categories.map((category) => ({
     params: { category: category.toLowerCase().replace(/\s+/g, "-") },
@@ -30,45 +35,54 @@ export async function getStaticProps({ params }) {
   const categoriesData = [
     {
       name: "Prop News",
-      description: "Stay informed with the latest prop firm news, updates, and industry insights. Discover important trends and developments shaping the prop trading world.",
+      description:
+        "Stay informed with the latest prop firm news, updates, and industry insights. Discover important trends and developments shaping the prop trading world.",
     },
     {
       name: "Payouts",
-      description: "Learn about prop firm payouts, policies, and conditions. Get the most up-to-date information on how different firms structure their trader payouts.",
+      description:
+        "Learn about prop firm payouts, policies, and conditions. Get the most up-to-date information on how different firms structure their trader payouts.",
     },
     {
       name: "Trading Rules",
-      description: "Understand the rules governing prop firms. Explore detailed overviews of trading regulations, risk management, and conditions you must follow.",
-    }, 
+      description:
+        "Understand the rules governing prop firms. Explore detailed overviews of trading regulations, risk management, and conditions you must follow.",
+    },
     {
       name: "Prop Firms",
-      description: "Explore reviews and comparisons of leading prop firms. Find out which firms offer the best opportunities for aspiring traders.",
+      description:
+        "Reviews and comparisons of leading prop firms. Find out which firms offer the best opportunities for aspiring traders.",
+    },
+    {
+      name: "Discount Codes",
+      description: "Get and claim discount codes of leading Prop Firms",
     },
   ];
 
-  const categoryData = categoriesData.find(cat => cat.name.toLowerCase() === category.toLowerCase());
+  const categoryData = categoriesData.find(
+    (cat) => cat.name.toLowerCase() === category.toLowerCase()
+  );
   const description = categoryData.description;
 
   return {
     props: {
       category,
       articles,
-      description, 
+      description,
     },
-    revalidate: 60, 
+    revalidate: 60,
   };
 }
 
 const CategoryPage = ({ category, articles, description }) => {
-
   const [loading, setLoading] = useState(true);
 
-   useEffect(() => {
+  useEffect(() => {
     setLoading(false);
   }, []);
 
   if (loading) {
-    return <Spinner />; 
+    return <Spinner />;
   }
 
   // Sort articles by date (assuming articles have a date_published field)

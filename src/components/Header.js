@@ -104,16 +104,17 @@ function Header() {
           bgcolor: "#02353C",
           width: "100%",
           position: "sticky",
-          top: 56,
+          top: isSmallScreen ? 48 : 56, // Adjust for different screen sizes
           zIndex: 999,
           padding: "4px 16px",
         }}
       >
         {categories.map((category) => {
           // Normalize category path by replacing spaces with hyphens and making it lowercase
-          const categoryPath = category === "Home" 
-            ? "/" 
-            : `/categories/${category.toLowerCase().replace(/\s+/g, "-")}`;
+          const categoryPath =
+            category === "Home"
+              ? "/"
+              : `/categories/${category.toLowerCase().replace(/\s+/g, "-")}`;
 
           const isActive = currentPath === categoryPath;
 
