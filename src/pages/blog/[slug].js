@@ -13,7 +13,7 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import parse from "html-react-parser";
 import Spinner from "@/components/Spinner";
 import CssBaseline from "@mui/material/CssBaseline";
-import DiscountPage from "@/components/DiscountPage"; // Import your DiscountPage component
+import DiscountPage from "@/components/DiscountPage";
 
 const BlogPost = () => {
   const router = useRouter();

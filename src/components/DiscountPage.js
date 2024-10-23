@@ -58,7 +58,23 @@ export default function DiscountPage({ discount }) {
           alt={discount.title}
           sx={{ height: 300, objectFit: "cover", my: 2 }}
         />
-        <Box sx={{ my: 2 }}>
+
+        {/* Display Date Published */}
+        <Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>
+          Published on:{" "}
+          {new Date(discount.date_published).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })}
+        </Typography>
+
+        {/* Image Credit */}
+        <Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>
+          Image credit: {discount.image_credit}
+        </Typography>
+
+        <Box sx={{ mt: 2, fontSize: "1.25rem", lineHeight: "1.8" }}>
           <Typography
             variant="body1"
             dangerouslySetInnerHTML={{ __html: discount.body }}
