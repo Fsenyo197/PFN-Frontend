@@ -185,22 +185,12 @@ export default function DiscountPage({ discount }) {
                 </Button>
               </Grid>
               <Grid item xs={12}>
-                <Button
-                  color="#02353C"
-                  variant="outlined"
-                  fullWidth
-                  onClick={copyCode}
-                >
+                <Button variant="outlined" fullWidth onClick={copyCode}>
                   {isCopied ? "Code Copied!" : "Copy Code"}
                 </Button>
               </Grid>
               <Grid item xs={12}>
-                <Button
-                  color="#02353C"
-                  variant="outlined"
-                  fullWidth
-                  onClick={closeModal}
-                >
+                <Button variant="outlined" fullWidth onClick={closeModal}>
                   Close
                 </Button>
               </Grid>

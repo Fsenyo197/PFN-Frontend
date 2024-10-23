@@ -11,7 +11,7 @@ export const HeaderProvider = ({ children }) => {
     "Payouts",
     "Trading Rules",
     "Prop Firms",
-    "Discount Codes", // Added Discounts category
+    "Discount Codes",
   ];
 
   return (
