@@ -52,13 +52,6 @@ export default function DiscountPage({ discount }) {
         <Typography variant="h4" component="h1" gutterBottom>
           {discount.title}
         </Typography>
-        <CardMedia
-          component="img"
-          image={discount.image}
-          alt={discount.title}
-          sx={{ height: 300, objectFit: "cover", my: 2 }}
-        />
-
         {/* Display Date Published */}
         <Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>
           Published on:{" "}
@@ -68,9 +61,23 @@ export default function DiscountPage({ discount }) {
             day: "numeric",
           })}
         </Typography>
+        {/* Display Category */}
+        <Typography variant="body2" color="textSecondary" sx={{ mb: 2 }}>
+          Category: {article.category}
+        </Typography>
+        <CardMedia
+          component="img"
+          image={discount.image}
+          alt={discount.title}
+          sx={{ height: 300, objectFit: "cover", my: 2 }}
+        />
 
         {/* Image Credit */}
-        <Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>
+        <Typography
+          variant="body2"
+          color="textSecondary"
+          sx={{ mt: 1, textAlign: "center" }}
+        >
           Image credit: {discount.image_credit}
         </Typography>
 
@@ -170,7 +177,7 @@ export default function DiscountPage({ discount }) {
               <Grid item xs={12}>
                 <Button
                   variant="contained"
-                  color="primary"
+                  color="#02353C"
                   fullWidth
                   onClick={claimDiscount}
                 >
@@ -178,12 +185,22 @@ export default function DiscountPage({ discount }) {
                 </Button>
               </Grid>
               <Grid item xs={12}>
-                <Button variant="outlined" fullWidth onClick={copyCode}>
+                <Button
+                  color="#02353C"
+                  variant="outlined"
+                  fullWidth
+                  onClick={copyCode}
+                >
                   {isCopied ? "Code Copied!" : "Copy Code"}
                 </Button>
               </Grid>
               <Grid item xs={12}>
-                <Button variant="outlined" fullWidth onClick={closeModal}>
+                <Button
+                  color="#02353C"
+                  variant="outlined"
+                  fullWidth
+                  onClick={closeModal}
+                >
                   Close
                 </Button>
               </Grid>
