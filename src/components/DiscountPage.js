@@ -12,7 +12,7 @@ import {
 import CssBaseline from "@mui/material/CssBaseline";
 import Head from "next/head";
 import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import Footer from "@/pages/Footer";
 
 export default function DiscountPage({ discount }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
