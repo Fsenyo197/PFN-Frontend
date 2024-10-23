@@ -63,7 +63,7 @@ export default function DiscountPage({ discount }) {
         </Typography>
         {/* Display Category */}
         <Typography variant="body2" color="textSecondary" sx={{ mb: 2 }}>
-          Category: {article.category}
+          Category: {discount.category}
         </Typography>
         <CardMedia
           component="img"

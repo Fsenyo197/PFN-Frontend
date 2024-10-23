@@ -55,7 +55,8 @@ export async function getStaticProps({ params }) {
     },
     {
       name: "Discount Codes",
-      description: "Get and claim discount codes of leading Prop Firms",
+      description:
+        "Get and claim amaizing discount codes from top Prop Firms. Stay updated with the latest offers and save money on your challenges",
     },
   ];
 
