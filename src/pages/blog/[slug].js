@@ -5,15 +5,12 @@ import Footer from "../Footer";
 import Header from "@/components/Header";
 import DOMPurify from "dompurify";
 import Head from "next/head";
-import { Typography, Box, Paper, IconButton } from "@mui/material";
-import ShareIcon from "@mui/icons-material/Share";
-import TelegramIcon from "@mui/icons-material/Telegram";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import TwitterIcon from "@mui/icons-material/Twitter";
+import { Typography, Box, Paper } from "@mui/material";
 import parse from "html-react-parser";
 import Spinner from "@/components/Spinner";
 import CssBaseline from "@mui/material/CssBaseline";
-import DiscountPage from "@/components/DiscountPage";
+import DiscountModal from "@/components/DiscountModal";
+import SocialShareButtons from "@/components/SocialShareButtons"; // Import here
 
 const BlogPost = () => {
   const router = useRouter();
@@ -101,11 +98,6 @@ const BlogPost = () => {
     },
   };
 
-  // Conditional rendering for discount codes
-  if (article.category === "Discount Codes") {
-    return <DiscountPage discount={article} />;
-  }
-
   return (
     <>
       <CssBaseline />
@@ -124,7 +116,6 @@ const BlogPost = () => {
             {article.title}
           </Typography>
 
-          {/* Display Date Published */}
           <Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>
             Published on:{" "}
             {new Date(article.date_published).toLocaleDateString("en-US", {
@@ -134,7 +125,6 @@ const BlogPost = () => {
             })}
           </Typography>
 
-          {/* Display Category */}
           <Typography variant="body2" color="textSecondary" sx={{ mb: 2 }}>
             Category: {article.category}
           </Typography>
@@ -171,72 +161,20 @@ const BlogPost = () => {
             </Box>
           )}
 
-          {/* Parse the body using html-react-parser */}
           <Box sx={{ mt: 2, fontSize: "1.25rem", lineHeight: "1.8" }}>
             {parse(sanitizedBody, options)}
           </Box>
 
-          {/* Social Share Buttons */}
-          <Box sx={{ mt: 4, display: "flex", justifyContent: "space-around" }}>
-            <Box sx={{ textAlign: "center" }}>
-              <IconButton
-                color="primary"
-                href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(
-                  shareURL
-                )}&text=${encodeURIComponent(article.title)}`}
-                target="_blank"
-                aria-label="Share on X"
-              >
-                <TwitterIcon />
-              </IconButton>
-              <Typography variant="caption">X</Typography>
-            </Box>
+          {/* Conditionally render the DiscountModal if the category is "Discount Codes" */}
+          {article.category === "Discount Codes" && (
+            <DiscountModal discount={article} />
+          )}
 
-            <Box sx={{ textAlign: "center" }}>
-              <IconButton
-                color="primary"
-                href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                  shareURL
-                )}`}
-                target="_blank"
-                aria-label="Share on Facebook"
-              >
-                <FacebookIcon />
-              </IconButton>
-              <Typography variant="caption">Facebook</Typography>
-            </Box>
-
-            <Box sx={{ textAlign: "center" }}>
-              <IconButton
-                color="primary"
-                href={`https://t.me/share/url?url=${encodeURIComponent(
-                  shareURL
-                )}&text=${encodeURIComponent(article.title)}`}
-                target="_blank"
-                aria-label="Share on Telegram"
-              >
-                <TelegramIcon />
-              </IconButton>
-              <Typography variant="caption">Telegram</Typography>
-            </Box>
-
-            <Box sx={{ textAlign: "center" }}>
-              <IconButton
-                color="primary"
-                onClick={() =>
-                  navigator.share({ title: article.title, url: shareURL })
-                }
-                aria-label="Share"
-              >
-                <ShareIcon />
-              </IconButton>
-              <Typography variant="caption">Share</Typography>
-            </Box>
-          </Box>
+          {/* Use the SocialShareButtons component */}
+          <SocialShareButtons shareURL={shareURL} title={article.title} />
         </Paper>
       </Box>
 
-      {/* Footer */}
       <Footer />
     </>
   );
