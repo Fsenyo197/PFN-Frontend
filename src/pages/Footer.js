@@ -132,7 +132,9 @@ function Footer() {
             <Link
               key={category}
               color="inherit"
-              href={`/categories/${category.toLowerCase()}`}
+              href={`/categories/${category
+                .toLowerCase()
+                .replace(/\s+/g, "-")}`}
               sx={{ my: 1, "&:hover": { textDecoration: "none" } }}
             >
               {category}
