@@ -1,30 +1,23 @@
 import { useState } from "react";
-import { useRouter } from "next/router";
 import { Typography, Button, Modal, Box, Grid } from "@mui/material";
 
 export default function DiscountModal({ discount }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
-  const router = useRouter();
-
-  // Fallback in case the page is not pre-rendered
-  if (router.isFallback) {
-    return <Typography variant="h6">Loading...</Typography>;
-  }
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => {
-    setIsCopied(false); // Reset copied state when modal closes
+    setIsCopied(false);
     setIsModalOpen(false);
   };
 
   const claimDiscount = () => {
-    window.open(discount.discount_details.website_domain, "_blank"); // Opens the firm's website in a new tab
+    window.open(discount.discount_details.website_domain, "_blank");
   };
 
   const copyCode = () => {
     navigator.clipboard.writeText(discount.discount_details.discount_code);
-    setIsCopied(true); // Set copied state to true
+    setIsCopied(true);
   };
 
   return (
@@ -97,7 +90,8 @@ export default function DiscountModal({ discount }) {
           }}
         >
           <Typography id="modal-title" variant="h6" component="h2" gutterBottom>
-            Discount Code
+            {discount.discount_details.discount_percentage} discount from{" "}
+            {discount.discount_details.firm_name}
           </Typography>
           <Typography
             id="modal-description"
@@ -112,20 +106,50 @@ export default function DiscountModal({ discount }) {
             <Grid item xs={12}>
               <Button
                 variant="contained"
-                color="primary"
                 fullWidth
                 onClick={claimDiscount}
+                sx={{
+                  backgroundColor: "#02353C",
+                  color: "#fff",
+                  ":hover": {
+                    backgroundColor: "#022d35",
+                  },
+                }}
               >
                 Claim Your Discount
               </Button>
             </Grid>
             <Grid item xs={12}>
-              <Button variant="outlined" fullWidth onClick={copyCode}>
+              <Button
+                variant="outlined"
+                fullWidth
+                onClick={copyCode}
+                sx={{
+                  borderColor: "#02353C",
+                  color: "#02353C",
+                  ":hover": {
+                    borderColor: "#022d35",
+                    color: "#022d35",
+                  },
+                }}
+              >
                 {isCopied ? "Code Copied!" : "Copy Code"}
               </Button>
             </Grid>
             <Grid item xs={12}>
-              <Button variant="outlined" fullWidth onClick={closeModal}>
+              <Button
+                variant="outlined"
+                fullWidth
+                onClick={closeModal}
+                sx={{
+                  borderColor: "#02353C",
+                  color: "#02353C",
+                  ":hover": {
+                    borderColor: "#022d35",
+                    color: "#022d35",
+                  },
+                }}
+              >
                 Close
               </Button>
             </Grid>
