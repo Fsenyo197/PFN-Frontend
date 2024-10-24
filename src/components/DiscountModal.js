@@ -90,7 +90,7 @@ export default function DiscountModal({ discount }) {
           }}
         >
           <Typography id="modal-title" variant="h6" component="h2" gutterBottom>
-            {discount.discount_details.discount_percentage} discount from{" "}
+            {discount.discount_details.discount_percentage}% discount from{" "}
             {discount.discount_details.firm_name}
           </Typography>
           <Typography
