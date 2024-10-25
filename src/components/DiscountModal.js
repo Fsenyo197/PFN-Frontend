@@ -87,13 +87,29 @@ export default function DiscountModal({ discount }) {
           variant="contained"
           onClick={openModal}
           sx={{
+            position: "relative",
             padding: "15px 40px",
             fontSize: "1rem",
             fontWeight: "bold",
             textTransform: "uppercase",
             color: "#fff",
             backgroundColor: "#02353C",
-            ":hover": { backgroundColor: "#584bcb" },
+            borderRadius: 0,
+            overflow: "hidden",
+            width: { xs: "100%", sm: "auto" },
+            maxWidth: "300px",
+            "::before": {
+              content: '""',
+              position: "absolute",
+              top: 0,
+              right: 0,
+              borderWidth: "0 35px 35px 0",
+              borderStyle: "solid",
+              borderColor: "transparent #fff transparent transparent",
+            },
+            ":hover": {
+              backgroundColor: "#584bcb",
+            },
           }}
           disabled={timeLeft === "Expired"}
         >
@@ -120,13 +136,14 @@ export default function DiscountModal({ discount }) {
             p: 4,
           }}
         >
-          <Typography id="modal-title" variant="h6" gutterBottom>
+          <Typography id="modal-title" variant="h6" component="h2" gutterBottom>
             {discount.discount_details.discount_percentage}% discount from{" "}
             {discount.discount_details.firm_name}
           </Typography>
           <Typography
             id="modal-description"
             variant="h4"
+            component="p"
             sx={{ mb: 2, fontWeight: "bold", textAlign: "center" }}
           >
             {discount.discount_details.discount_code}
@@ -141,7 +158,9 @@ export default function DiscountModal({ discount }) {
                 sx={{
                   backgroundColor: "#02353C",
                   color: "#fff",
-                  ":hover": { backgroundColor: "#022d35" },
+                  ":hover": {
+                    backgroundColor: "#022d35",
+                  },
                 }}
                 disabled={timeLeft === "Expired"}
               >
@@ -156,7 +175,10 @@ export default function DiscountModal({ discount }) {
                 sx={{
                   borderColor: "#02353C",
                   color: "#02353C",
-                  ":hover": { borderColor: "#022d35", color: "#022d35" },
+                  ":hover": {
+                    borderColor: "#022d35",
+                    color: "#022d35",
+                  },
                 }}
               >
                 {isCopied ? "Code Copied!" : "Copy Code"}
@@ -170,7 +192,10 @@ export default function DiscountModal({ discount }) {
                 sx={{
                   borderColor: "#02353C",
                   color: "#02353C",
-                  ":hover": { borderColor: "#022d35", color: "#022d35" },
+                  ":hover": {
+                    borderColor: "#022d35",
+                    color: "#022d35",
+                  },
                 }}
               >
                 Close
