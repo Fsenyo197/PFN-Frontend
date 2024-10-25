@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Typography, Button, Modal, Box, Grid } from "@mui/material";
-import dayjs from "dayjs";
+import { isValid } from "date-fns";
 
 export default function DiscountModal({ discount }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -9,27 +9,36 @@ export default function DiscountModal({ discount }) {
 
   useEffect(() => {
     const calculateTimeLeft = () => {
-      const postDate = dayjs(discount.date);
-      const expiryDate = postDate.add(
-        discount.discount_details.duration,
-        "days"
-      );
-      const now = dayjs();
+      const postDate = new Date(discount.date_published);
+      if (!isValid(postDate)) {
+        setTimeLeft("Invalid date");
+        return;
+      }
 
-      if (now.isAfter(expiryDate)) {
+      const expiryDate = new Date(postDate);
+      expiryDate.setDate(
+        expiryDate.getDate() + discount.discount_details.duration
+      );
+      const now = new Date();
+
+      if (now > expiryDate) {
         setTimeLeft("Expired");
       } else {
-        const diffInSeconds = expiryDate.diff(now, "second");
+        const totalSeconds = Math.floor((expiryDate - now) / 1000);
+        const days = Math.floor(totalSeconds / 86400);
+        const hours = Math.floor((totalSeconds % 86400) / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
 
-        if (diffInSeconds < 60) {
-          setTimeLeft(`${diffInSeconds} seconds`);
-        } else if (diffInSeconds < 3600) {
-          setTimeLeft(`${Math.floor(diffInSeconds / 60)} minutes`);
-        } else if (diffInSeconds < 86400) {
-          setTimeLeft(`${Math.floor(diffInSeconds / 3600)} hours`);
-        } else {
-          setTimeLeft(`${Math.floor(diffInSeconds / 86400)} days`);
-        }
+        setTimeLeft(
+          `${String(days).padStart(2, "0")}:${String(hours).padStart(
+            2,
+            "0"
+          )}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(
+            2,
+            "0"
+          )}`
+        );
       }
     };
 
@@ -69,6 +78,8 @@ export default function DiscountModal({ discount }) {
           sx={{
             mb: 2,
             color: timeLeft === "Expired" ? "red" : "textSecondary",
+            fontWeight: "bold",
+            fontSize: "1.2rem",
           }}
         >
           {timeLeft === "Expired" ? "Code Expired" : `Valid for ${timeLeft}`}
