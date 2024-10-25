@@ -9,7 +9,7 @@ export default function DiscountModal({ discount }) {
 
   useEffect(() => {
     const calculateTimeLeft = () => {
-      const postDate = new Date(discount.date);
+      const postDate = new Date(discount.date_published);
       if (!isValid(postDate)) {
         setTimeLeft("Invalid date");
         return;
