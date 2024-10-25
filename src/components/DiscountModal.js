@@ -1,9 +1,42 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Typography, Button, Modal, Box, Grid } from "@mui/material";
+import dayjs from "dayjs";
 
 export default function DiscountModal({ discount }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
+  const [timeLeft, setTimeLeft] = useState("");
+
+  useEffect(() => {
+    const calculateTimeLeft = () => {
+      const postDate = dayjs(discount.date);
+      const expiryDate = postDate.add(
+        discount.discount_details.duration,
+        "days"
+      );
+      const now = dayjs();
+
+      if (now.isAfter(expiryDate)) {
+        setTimeLeft("Expired");
+      } else {
+        const diffInSeconds = expiryDate.diff(now, "second");
+
+        if (diffInSeconds < 60) {
+          setTimeLeft(`${diffInSeconds} seconds`);
+        } else if (diffInSeconds < 3600) {
+          setTimeLeft(`${Math.floor(diffInSeconds / 60)} minutes`);
+        } else if (diffInSeconds < 86400) {
+          setTimeLeft(`${Math.floor(diffInSeconds / 3600)} hours`);
+        } else {
+          setTimeLeft(`${Math.floor(diffInSeconds / 86400)} days`);
+        }
+      }
+    };
+
+    calculateTimeLeft();
+    const intervalId = setInterval(calculateTimeLeft, 1000);
+    return () => clearInterval(intervalId);
+  }, [discount]);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => {
@@ -31,11 +64,16 @@ export default function DiscountModal({ discount }) {
           my: 2,
         }}
       >
-        <Typography variant="subtitle1" color="textSecondary" sx={{ mb: 2 }}>
-          Valid for {discount.discount_details.duration} days
+        <Typography
+          variant="subtitle1"
+          sx={{
+            mb: 2,
+            color: timeLeft === "Expired" ? "red" : "textSecondary",
+          }}
+        >
+          {timeLeft === "Expired" ? "Code Expired" : `Valid for ${timeLeft}`}
         </Typography>
 
-        {/* Styled "Show Code" Button */}
         <Button
           variant="contained"
           onClick={openModal}
@@ -64,12 +102,12 @@ export default function DiscountModal({ discount }) {
               backgroundColor: "#584bcb",
             },
           }}
+          disabled={timeLeft === "Expired"}
         >
           Show Code
         </Button>
       </Box>
 
-      {/* Modal for showing the discount code */}
       <Modal
         open={isModalOpen}
         onClose={closeModal}
@@ -115,6 +153,7 @@ export default function DiscountModal({ discount }) {
                     backgroundColor: "#022d35",
                   },
                 }}
+                disabled={timeLeft === "Expired"}
               >
                 Claim Your Discount
               </Button>
