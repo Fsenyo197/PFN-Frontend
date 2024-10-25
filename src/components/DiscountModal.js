@@ -1,13 +1,6 @@
 import { useState, useEffect } from "react";
 import { Typography, Button, Modal, Box, Grid } from "@mui/material";
-import {
-  differenceInHours,
-  differenceInDays,
-  differenceInMinutes,
-  differenceInSeconds,
-  isValid,
-  format,
-} from "date-fns";
+import { isValid } from "date-fns";
 
 export default function DiscountModal({ discount }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -31,17 +24,21 @@ export default function DiscountModal({ discount }) {
       if (now > expiryDate) {
         setTimeLeft("Expired");
       } else {
-        const diffInSeconds = differenceInSeconds(expiryDate, now);
+        const totalSeconds = Math.floor((expiryDate - now) / 1000);
+        const days = Math.floor(totalSeconds / 86400);
+        const hours = Math.floor((totalSeconds % 86400) / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
 
-        if (diffInSeconds < 60) {
-          setTimeLeft(`${diffInSeconds} seconds`);
-        } else if (diffInSeconds < 3600) {
-          setTimeLeft(`${differenceInMinutes(expiryDate, now)} minutes`);
-        } else if (diffInSeconds < 86400) {
-          setTimeLeft(`${differenceInHours(expiryDate, now)} hours`);
-        } else {
-          setTimeLeft(`${differenceInDays(expiryDate, now)} days`);
-        }
+        setTimeLeft(
+          `${String(days).padStart(2, "0")}:${String(hours).padStart(
+            2,
+            "0"
+          )}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(
+            2,
+            "0"
+          )}`
+        );
       }
     };
 
