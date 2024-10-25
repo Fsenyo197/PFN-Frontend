@@ -77,7 +77,9 @@ export default function DiscountModal({ discount }) {
           variant="subtitle1"
           sx={{
             mb: 2,
-            color: timeLeft === "red",
+            color: timeLeft === "Expired" ? "red" : "textSecondary",
+            fontWeight: "bold",
+            fontSize: "1.2rem",
           }}
         >
           {timeLeft === "Expired" ? "Code Expired" : `Valid for ${timeLeft}`}
