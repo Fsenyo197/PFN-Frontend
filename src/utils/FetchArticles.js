@@ -3,7 +3,10 @@ import axios from "axios";
 const FetchArticles = async () => {
   try {
     const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/articles/`
+      `${process.env.NEXT_PUBLIC_BASE_URL}/articles/`,
+      {
+        headers: { Authorization: `Bearer ${process.env.ADMIN_TOKEN}` },
+      }
     );
     return response.data;
   } catch (error) {
