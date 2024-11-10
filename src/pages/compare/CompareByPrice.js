@@ -1,4 +1,5 @@
 import React from "react";
+import { useFirms } from "@/pages/PropFirms";
 import {
   Table,
   TableBody,
@@ -9,8 +10,8 @@ import {
   Paper,
 } from "@mui/material";
 
-export default function CompareByPrice({ firms }) {
-  const filteredFirms = firms.filter((firm) => firm.price); // Assuming `price` is available in the data
+export default function CompareByPrice() {
+  const { priceFirms } = useFirms();
 
   return (
     <TableContainer component={Paper}>
@@ -23,7 +24,7 @@ export default function CompareByPrice({ firms }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {filteredFirms.map((firm) => (
+          {priceFirms.map((firm) => (
             <TableRow key={firm.id}>
               <TableCell>{firm.name}</TableCell>
               <TableCell>{firm.price}</TableCell>

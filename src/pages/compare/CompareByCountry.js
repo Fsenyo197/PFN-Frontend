@@ -1,4 +1,5 @@
 import React from "react";
+import { useFirms } from "@/pages/PropFirms";
 import {
   Table,
   TableBody,
@@ -9,7 +10,9 @@ import {
   Paper,
 } from "@mui/material";
 
-export default function CompareByCountry({ firms }) {
+export default function CompareByCountry() {
+  const { countryFirms } = useFirms();
+
   return (
     <TableContainer component={Paper}>
       <h2>Compare by Country</h2>
@@ -21,7 +24,7 @@ export default function CompareByCountry({ firms }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {firms.map((firm) => (
+          {countryFirms.map((firm) => (
             <TableRow key={firm.id}>
               <TableCell>{firm.name}</TableCell>
               <TableCell>{firm.location}</TableCell>

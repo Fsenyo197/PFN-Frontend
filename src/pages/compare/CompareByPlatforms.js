@@ -1,4 +1,5 @@
 import React from "react";
+import { useFirms } from "@/pages/PropFirms";
 import {
   Table,
   TableBody,
@@ -9,10 +10,8 @@ import {
   Paper,
 } from "@mui/material";
 
-export default function CompareByPlatforms({ firms }) {
-  const filteredFirms = firms.filter(
-    (firm) => firm.trading_platforms.length > 0
-  );
+export default function CompareByPlatforms() {
+  const { platformsFirms } = useFirms();
 
   return (
     <TableContainer component={Paper}>
@@ -25,7 +24,7 @@ export default function CompareByPlatforms({ firms }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {filteredFirms.map((firm) => (
+          {platformsFirms.map((firm) => (
             <TableRow key={firm.id}>
               <TableCell>{firm.name}</TableCell>
               <TableCell>{firm.trading_platforms.join(", ")}</TableCell>

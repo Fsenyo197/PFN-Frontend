@@ -1,4 +1,5 @@
 import React from "react";
+import { useFirms } from "@/pages/PropFirms";
 import {
   Table,
   TableBody,
@@ -9,7 +10,9 @@ import {
   Paper,
 } from "@mui/material";
 
-export default function CompareByPayoutOptions({ firms }) {
+export default function CompareByPayoutOptions() {
+  const { payoutOptionsFirms } = useFirms();
+
   return (
     <TableContainer component={Paper}>
       <h2>Compare by Payout Options</h2>
@@ -21,7 +24,7 @@ export default function CompareByPayoutOptions({ firms }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {firms.map((firm) => (
+          {payoutOptionsFirms.map((firm) => (
             <TableRow key={firm.id}>
               <TableCell>{firm.name}</TableCell>
               <TableCell>{firm.payout_options}</TableCell>
