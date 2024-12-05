@@ -1,37 +1,44 @@
 import React from "react";
-import { useFirms } from "@/pages/PropFirms";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-} from "@mui/material";
+import { useFirmsContext } from "@/contexts/FirmsProvider";
+import GenericTable from "@/components/GenericTable";
 
-export default function CompareByYearEstablished() {
-  const { establishedYearFirms } = useFirms();
+const CompareByYearEstablished = () => {
+  const { establishedYear, loading } = useFirmsContext();
+
+  if (loading) return <p>Loading...</p>;
+
+  if (establishedYear.length === 0) {
+    return <p>No year established data available to display.</p>;
+  }
+
+  const headers = ["Firm Name", "Year Established"];
+  const rows = establishedYear.map((firm) => ({
+    name: firm.name,
+    year_established: firm.year_established,
+  }));
+
+  const renderDetails = (row) => (
+    <div>
+      <p>
+        <strong>Details for {row.name}:</strong>
+      </p>
+      <p>Additional information about this firm can go here.</p>
+    </div>
+  );
 
   return (
-    <TableContainer component={Paper}>
+    <div>
       <h2>Compare by Year Established</h2>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Firm Name</TableCell>
-            <TableCell>Year Established</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {establishedYearFirms.map((firm) => (
-            <TableRow key={firm.id}>
-              <TableCell>{firm.name}</TableCell>
-              <TableCell>{firm.year_established}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+      <GenericTable
+        headers={headers}
+        rows={rows}
+        rowKey={(row) => row.name}
+        renderDetails={renderDetails}
+      />
+    </div>
   );
-}
+};
+
+CompareByYearEstablished.useFirmsProvider = true;
+
+export default CompareByYearEstablished;

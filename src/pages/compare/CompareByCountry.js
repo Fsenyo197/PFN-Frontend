@@ -1,37 +1,47 @@
 import React from "react";
-import { useFirms } from "@/pages/PropFirms";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-} from "@mui/material";
+import { useFirmsContext } from "@/contexts/FirmsProvider";
+import GenericTable from "@/components/GenericTable";
 
-export default function CompareByCountry() {
-  const { countryFirms } = useFirms();
+const CompareByCountry = () => {
+  const { country, loading } = useFirmsContext();
+
+  if (loading) return <p>Loading...</p>;
+
+  if (country.length === 0) {
+    return <p>No firms data available to display.</p>;
+  }
+
+  const headers = ["Firm Name", "Country"];
+  const rows = country.map((firm) => ({
+    name: firm.name,
+    location: firm.location,
+  }));
+
+  const renderDetails = (row) => (
+    <div>
+      <p>
+        <strong>Details for {row.name}:</strong>
+      </p>
+      <p>
+        Additional information about the firm’s country of operation can go
+        here.
+      </p>
+    </div>
+  );
 
   return (
-    <TableContainer component={Paper}>
+    <div>
       <h2>Compare by Country</h2>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Firm Name</TableCell>
-            <TableCell>Country</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {countryFirms.map((firm) => (
-            <TableRow key={firm.id}>
-              <TableCell>{firm.name}</TableCell>
-              <TableCell>{firm.location}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+      <GenericTable
+        headers={headers}
+        rows={rows}
+        rowKey={(row) => row.name}
+        renderDetails={renderDetails}
+      />
+    </div>
   );
-}
+};
+
+CompareByCountry.useFirmsProvider = true;
+
+export default CompareByCountry;

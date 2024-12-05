@@ -1,37 +1,46 @@
 import React from "react";
-import { useFirms } from "@/pages/PropFirms";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-} from "@mui/material";
+import { useFirmsContext } from "@/contexts/FirmsProvider";
+import GenericTable from "@/components/GenericTable";
 
-export default function CompareByPrice() {
-  const { priceFirms } = useFirms();
+const CompareByPrice = () => {
+  const { price, loading } = useFirmsContext();
+
+  if (loading) return <p>Loading...</p>;
+
+  if (price.length === 0) {
+    return <p>No price data available to display.</p>;
+  }
+
+  const headers = ["Firm Name", "Price"];
+  const rows = price.map((firm) => ({
+    name: firm.name,
+    price: firm.price,
+  }));
+
+  const renderDetails = (row) => (
+    <div>
+      <p>
+        <strong>Details for {row.name}:</strong>
+      </p>
+      <p>Minimum Balance: {row.min_balance}</p>
+      <p>Profit Split: {row.profit_split}</p>
+      <p>Other Details: {row.other_details}</p>
+    </div>
+  );
 
   return (
-    <TableContainer component={Paper}>
+    <div>
       <h2>Compare by Price</h2>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Firm Name</TableCell>
-            <TableCell>Price</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {priceFirms.map((firm) => (
-            <TableRow key={firm.id}>
-              <TableCell>{firm.name}</TableCell>
-              <TableCell>{firm.price}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+      <GenericTable
+        headers={headers}
+        rows={rows}
+        rowKey={(row) => row.name}
+        renderDetails={renderDetails}
+      />
+    </div>
   );
-}
+};
+
+CompareByPrice.useFirmsProvider = true;
+
+export default CompareByPrice;

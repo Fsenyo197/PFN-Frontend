@@ -1,82 +1,47 @@
-import React, { useState } from "react";
-import { useFirms } from "@/pages/PropFirms";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  IconButton,
-  Collapse,
-  Box,
-} from "@mui/material";
-import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
+import React from "react";
+import { useFirmsContext } from "@/contexts/FirmsProvider";
+import GenericTable from "@/components/GenericTable";
 
-export default function CompareByRules() {
-  const { rulesFirms } = useFirms();
-  const [openRows, setOpenRows] = useState({});
+const CompareByRules = () => {
+  const { rules, loading } = useFirmsContext();
 
-  const toggleRow = (firmId) => {
-    setOpenRows((prevOpenRows) => ({
-      ...prevOpenRows,
-      [firmId]: !prevOpenRows[firmId],
-    }));
-  };
+  if (loading) return <p>Loading...</p>;
+
+  if (rules.length === 0) {
+    return <p>No rules data available to display.</p>;
+  }
+
+  const headers = ["Firm Name", "Consistency Rule", "Two Percent Rule"];
+  const rows = rules.map((firm) => ({
+    name: firm.name,
+    consistency_rule: firm.consistency_rule ? "Yes" : "No",
+    two_percent_rule: firm.two_percent_rule ? "Yes" : "No",
+  }));
+
+  const renderDetails = (row) => (
+    <div>
+      <p>
+        <strong>Details for {row.name}:</strong>
+      </p>
+      <p>Minimum Balance: {row.min_balance}</p>
+      <p>Profit Split: {row.profit_split}</p>
+      <p>Other Rule: {row.other_rule}</p>
+    </div>
+  );
 
   return (
-    <TableContainer component={Paper}>
+    <div>
       <h2>Compare by Rules</h2>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell />
-            <TableCell>Firm Name</TableCell>
-            <TableCell>Consistency Rule</TableCell>
-            <TableCell>Two Percent Rule</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rulesFirms.map((firm) => (
-            <React.Fragment key={firm.id}>
-              <TableRow>
-                <TableCell>
-                  <IconButton
-                    aria-label="expand row"
-                    size="small"
-                    onClick={() => toggleRow(firm.id)}
-                  >
-                    {openRows[firm.id] ? (
-                      <KeyboardArrowUp />
-                    ) : (
-                      <KeyboardArrowDown />
-                    )}
-                  </IconButton>
-                </TableCell>
-                <TableCell>{firm.name}</TableCell>
-                <TableCell>{firm.consistency_rule ? "Yes" : "No"}</TableCell>
-                <TableCell>{firm.two_percent_rule ? "Yes" : "No"}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell
-                  style={{ paddingBottom: 0, paddingTop: 0 }}
-                  colSpan={4}
-                >
-                  <Collapse in={openRows[firm.id]} timeout="auto" unmountOnExit>
-                    <Box margin={1}>
-                      <h4>Additional Firm Details</h4>
-                      <p>Minimum Balance: {firm.min_balance}</p>
-                      <p>Profit Split: {firm.profit_split}</p>
-                      <p>Other Rule: {firm.other_rule}</p>
-                    </Box>
-                  </Collapse>
-                </TableCell>
-              </TableRow>
-            </React.Fragment>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+      <GenericTable
+        headers={headers}
+        rows={rows}
+        rowKey={(row) => row.name}
+        renderDetails={renderDetails}
+      />
+    </div>
   );
-}
+};
+
+CompareByRules.useFirmsProvider = true;
+
+export default CompareByRules;

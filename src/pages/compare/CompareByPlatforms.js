@@ -1,37 +1,46 @@
 import React from "react";
-import { useFirms } from "@/pages/PropFirms";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-} from "@mui/material";
+import { useFirmsContext } from "@/contexts/FirmsProvider";
+import GenericTable from "@/components/GenericTable";
 
-export default function CompareByPlatforms() {
-  const { platformsFirms } = useFirms();
+const CompareByPlatforms = () => {
+  const { platforms, loading } = useFirmsContext();
+
+  if (loading) return <p>Loading...</p>;
+
+  if (platforms.length === 0) {
+    return <p>No platforms data available to display.</p>;
+  }
+
+  const headers = ["Firm Name", "Trading Platforms"];
+  const rows = platforms.map((firm) => ({
+    name: firm.name,
+    trading_platforms: firm.trading_platforms.join(", "),
+  }));
+
+  const renderDetails = (row) => (
+    <div>
+      <p>
+        <strong>Details for {row.name}:</strong>
+      </p>
+      <p>Minimum Balance: {row.min_balance}</p>
+      <p>Profit Split: {row.profit_split}</p>
+      <p>Other Rule: {row.other_rule}</p>
+    </div>
+  );
 
   return (
-    <TableContainer component={Paper}>
+    <div>
       <h2>Compare by Platforms</h2>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Firm Name</TableCell>
-            <TableCell>Trading Platforms</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {platformsFirms.map((firm) => (
-            <TableRow key={firm.id}>
-              <TableCell>{firm.name}</TableCell>
-              <TableCell>{firm.trading_platforms.join(", ")}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+      <GenericTable
+        headers={headers}
+        rows={rows}
+        rowKey={(row) => row.name}
+        renderDetails={renderDetails}
+      />
+    </div>
   );
-}
+};
+
+CompareByPlatforms.useFirmsProvider = true;
+
+export default CompareByPlatforms;
