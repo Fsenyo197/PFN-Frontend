@@ -1,3 +1,5 @@
+"use client";
+
 import { useRouter } from "next/router";
 import Header from "@/components/Header";
 import Footer from "../Footer";
