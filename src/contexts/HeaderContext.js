@@ -12,6 +12,17 @@ export const HeaderProvider = ({ children }) => {
     "Trading Rules",
     "Prop Firms",
     "Discount Codes",
+    {
+      name: "Compare Firms",
+      subcategories: [
+        { name: "By Country" },
+        { name: "By Payout Options" },
+        { name: "By Platforms" },
+        { name: "By Established Year" },
+        { name: "By Rules" },
+        { name: "By Price" },
+      ],
+    },
   ];
 
   return (

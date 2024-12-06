@@ -1,5 +1,4 @@
-import * as React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
@@ -19,6 +18,9 @@ function Header() {
   const [searchQuery, setSearchQuery] = useState("");
   const router = useRouter();
 
+  const formatPath = (name) =>
+    `/pages/compare/${name.replace(/\s+/g, "").replace(/[^a-zA-Z]/g, "")}`;
+
   // Handle search submit
   const handleSearchSubmit = (event) => {
     event.preventDefault();
@@ -30,10 +32,8 @@ function Header() {
   // Handle search icon click
   const handleSearchIconClick = () => {
     if (searchOpen && searchQuery.trim()) {
-      // If search is open and query is not empty, submit the search
       router.push(`/search?query=${encodeURIComponent(searchQuery)}`);
     } else {
-      // Otherwise, just toggle the search input visibility
       setSearchOpen((prev) => !prev);
     }
   };
@@ -110,39 +110,93 @@ function Header() {
         }}
       >
         {categories.map((category) => {
-          // Normalize category path by replacing spaces with hyphens and making it lowercase
-          const categoryPath =
-            category === "Home"
-              ? "/"
-              : `/categories/${category.toLowerCase().replace(/\s+/g, "-")}`;
+          if (typeof category === "string") {
+            const categoryPath =
+              category === "Home"
+                ? "/"
+                : `/${category.toLowerCase().replace(/\s+/g, "-")}`;
+            const isActive = currentPath === categoryPath;
 
-          const isActive = currentPath === categoryPath;
-
-          return (
-            <Link
-              key={category}
-              href={categoryPath}
-              noWrap
-              variant="body2"
-              sx={{
-                p: isSmallScreen ? 0.5 : 1,
-                fontSize: isSmallScreen ? "0.75rem" : "0.875rem",
-                transition: "background-color 0.3s, color 0.3s",
-                color: isActive ? "#02353C" : "#ffffff",
-                backgroundColor: isActive ? "#ffffff" : "transparent",
-                borderRadius: "4px",
-                textDecoration: "none",
-                "&:hover": {
-                  backgroundColor: "#ffffff",
-                  color: "#02353C",
+            return (
+              <Link
+                key={category}
+                href={categoryPath}
+                noWrap
+                variant="body2"
+                sx={{
+                  p: isSmallScreen ? 0.5 : 1,
+                  fontSize: isSmallScreen ? "0.75rem" : "0.875rem",
+                  transition: "background-color 0.3s, color 0.3s",
+                  color: isActive ? "#02353C" : "#ffffff",
+                  backgroundColor: isActive ? "#ffffff" : "transparent",
                   borderRadius: "4px",
                   textDecoration: "none",
-                },
-              }}
-            >
-              {category}
-            </Link>
-          );
+                  "&:hover": {
+                    backgroundColor: "#ffffff",
+                    color: "#02353C",
+                    borderRadius: "4px",
+                    textDecoration: "none",
+                  },
+                }}
+              >
+                {category}
+              </Link>
+            );
+          }
+
+          if (category.subcategories) {
+            return (
+              <div key={category.name} style={{ position: "relative" }}>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    p: isSmallScreen ? 0.5 : 1,
+                    fontSize: isSmallScreen ? "0.75rem" : "0.875rem",
+                    color: "#ffffff",
+                    cursor: "pointer",
+                    "&:hover > div": {
+                      display: "block",
+                    },
+                  }}
+                >
+                  {category.name}
+                </Typography>
+                <div
+                  style={{
+                    display: "none",
+                    position: "absolute",
+                    top: "100%",
+                    left: 0,
+                    backgroundColor: "#ffffff",
+                    color: "#02353C",
+                    borderRadius: "4px",
+                    boxShadow: "0px 4px 8px rgba(0,0,0,0.2)",
+                    zIndex: 1000,
+                  }}
+                >
+                  {category.subcategories.map((sub) => (
+                    <Link
+                      key={sub.name}
+                      href={formatPath(sub.name)}
+                      sx={{
+                        display: "block",
+                        p: "8px 16px",
+                        fontSize: "0.875rem",
+                        textDecoration: "none",
+                        color: "#02353C",
+                        "&:hover": {
+                          backgroundColor: "#02353C",
+                          color: "#ffffff",
+                        },
+                      }}
+                    >
+                      {sub.name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            );
+          }
         })}
       </Toolbar>
     </React.Fragment>
