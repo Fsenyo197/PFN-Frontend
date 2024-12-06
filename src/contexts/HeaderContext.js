@@ -15,12 +15,12 @@ export const HeaderProvider = ({ children }) => {
     {
       name: "Compare Firms",
       subcategories: [
-        { name: "By Country" },
-        { name: "By Payout Options" },
-        { name: "By Platforms" },
-        { name: "By Established Year" },
-        { name: "By Rules" },
-        { name: "By Price" },
+        { name: "By Country", path: "/compare/Country" },
+        { name: "By Payout Options", path: "/compare/PayoutOptions" },
+        { name: "By Platforms", path: "/compare/Platforms" },
+        { name: "By Established Year", path: "/compare/EstablishedYear" },
+        { name: "By Rules", path: "/compare/Rules" },
+        { name: "By Price", path: "/compare/Price" },
       ],
     },
   ];

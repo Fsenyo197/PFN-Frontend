@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useRouter } from "next/router";
+import { useHeader } from "../contexts/HeaderContext";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
@@ -7,21 +9,18 @@ import Link from "@mui/material/Link";
 import InputBase from "@mui/material/InputBase";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { useHeader } from "../contexts/HeaderContext";
-import { useRouter } from "next/router";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 
-function Header() {
+const Header = () => {
   const { categories } = useHeader();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [anchorEls, setAnchorEls] = useState({}); // Store anchor elements by category name
   const router = useRouter();
 
-  const formatPath = (name) =>
-    `/pages/compare/${name.replace(/\s+/g, "").replace(/[^a-zA-Z]/g, "")}`;
-
-  // Handle search submit
   const handleSearchSubmit = (event) => {
     event.preventDefault();
     if (searchQuery.trim()) {
@@ -29,7 +28,6 @@ function Header() {
     }
   };
 
-  // Handle search icon click
   const handleSearchIconClick = () => {
     if (searchOpen && searchQuery.trim()) {
       router.push(`/search?query=${encodeURIComponent(searchQuery)}`);
@@ -38,7 +36,14 @@ function Header() {
     }
   };
 
-  // Extract current category from the URL
+  const handleMenuOpen = (event, categoryName) => {
+    setAnchorEls((prev) => ({ ...prev, [categoryName]: event.currentTarget }));
+  };
+
+  const handleMenuClose = (categoryName) => {
+    setAnchorEls((prev) => ({ ...prev, [categoryName]: null }));
+  };
+
   const currentPath = router.asPath.toLowerCase();
 
   return (
@@ -51,7 +56,6 @@ function Header() {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          flexWrap: "nowrap",
           width: "100%",
           position: "sticky",
           top: 0,
@@ -72,7 +76,7 @@ function Header() {
           Prop Firm News
         </Typography>
 
-        {searchOpen ? (
+        {searchOpen && (
           <form onSubmit={handleSearchSubmit} style={{ flexGrow: 1 }}>
             <InputBase
               value={searchQuery}
@@ -88,7 +92,7 @@ function Header() {
               }}
             />
           </form>
-        ) : null}
+        )}
 
         <IconButton onClick={handleSearchIconClick} sx={{ marginLeft: "auto" }}>
           <SearchIcon sx={{ color: "#ffffff" }} />
@@ -104,7 +108,7 @@ function Header() {
           bgcolor: "#02353C",
           width: "100%",
           position: "sticky",
-          top: isSmallScreen ? 48 : 56, // Adjust for different screen sizes
+          top: isSmallScreen ? 48 : 56,
           zIndex: 999,
           padding: "4px 16px",
         }}
@@ -114,8 +118,7 @@ function Header() {
             const categoryPath =
               category === "Home"
                 ? "/"
-                : `/${category.toLowerCase().replace(/\s+/g, "-")}`;
-            const isActive = currentPath === categoryPath;
+                : `/categories/${category.toLowerCase().replace(/\s+/g, "-")}`;
 
             return (
               <Link
@@ -126,74 +129,58 @@ function Header() {
                 sx={{
                   p: isSmallScreen ? 0.5 : 1,
                   fontSize: isSmallScreen ? "0.75rem" : "0.875rem",
-                  transition: "background-color 0.3s, color 0.3s",
-                  color: isActive ? "#02353C" : "#ffffff",
-                  backgroundColor: isActive ? "#ffffff" : "transparent",
+                  color: currentPath.includes(category.toLowerCase())
+                    ? "#02353C"
+                    : "#ffffff",
+                  backgroundColor: currentPath.includes(category.toLowerCase())
+                    ? "#ffffff"
+                    : "transparent",
                   borderRadius: "4px",
                   textDecoration: "none",
                   "&:hover": {
                     backgroundColor: "#ffffff",
                     color: "#02353C",
-                    borderRadius: "4px",
-                    textDecoration: "none",
                   },
                 }}
               >
                 {category}
               </Link>
             );
-          }
+          } else {
+            const anchorEl = anchorEls[category.name] || null;
 
-          if (category.subcategories) {
             return (
-              <div key={category.name} style={{ position: "relative" }}>
+              <div key={category.name}>
                 <Typography
+                  onClick={(event) => handleMenuOpen(event, category.name)}
+                  noWrap
                   variant="body2"
                   sx={{
                     p: isSmallScreen ? 0.5 : 1,
                     fontSize: isSmallScreen ? "0.75rem" : "0.875rem",
                     color: "#ffffff",
                     cursor: "pointer",
-                    "&:hover > div": {
-                      display: "block",
-                    },
                   }}
                 >
                   {category.name}
                 </Typography>
-                <div
-                  style={{
-                    display: "none",
-                    position: "absolute",
-                    top: "100%",
-                    left: 0,
-                    backgroundColor: "#ffffff",
-                    color: "#02353C",
-                    borderRadius: "4px",
-                    boxShadow: "0px 4px 8px rgba(0,0,0,0.2)",
-                    zIndex: 1000,
-                  }}
+                <Menu
+                  anchorEl={anchorEl}
+                  open={Boolean(anchorEl)}
+                  onClose={() => handleMenuClose(category.name)}
                 >
                   {category.subcategories.map((sub) => (
-                    <Link
+                    <MenuItem
                       key={sub.name}
-                      href={formatPath(sub.name)}
-                      sx={{
-                        display: "block",
-                        p: "8px 16px",
-                        fontSize: "0.875rem",
-                        textDecoration: "none",
-                        color: "#02353C",
-                        "&:hover": {
-                          backgroundColor: "#02353C",
-                          color: "#ffffff",
-                        },
+                      onClick={() => {
+                        router.push(sub.path);
+                        handleMenuClose(category.name);
                       }}
                     >
                       {sub.name}
-                    </Link>
+                    </MenuItem>
                   ))}
-                </div>
+                </Menu>
               </div>
             );
           }
@@ -201,6 +188,6 @@ function Header() {
       </Toolbar>
     </React.Fragment>
   );
-}
+};
 
 export default Header;
