@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
-import Header from "../components/Header"; // Adjust the path if needed
-import Footer from "../components/Footer"; // Adjust the path if needed
+import Header from "@/components/Header";
+import Footer from "../Footer";
 
 const CompareFirms = () => {
   const router = useRouter();
