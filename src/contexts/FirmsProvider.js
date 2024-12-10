@@ -20,11 +20,11 @@ export const FirmsProvider = ({ children }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/propfirms/`,
+          `${process.env.SENSITIVE_API_BASE_URL}/propfirms/`,
           {
             headers: {
-              "X-API-Key": process.env.NEXT_PUBLIC_API_KEY,
-              "X-API-Secret": process.env.NEXT_PUBLIC_API_SECRET,
+              "X-API-Key": process.env.SENSITIVE_API_KEY,
+              "X-API-Secret": process.env.SENSITIVE_API_SECRET,
             },
           }
         );
