@@ -10,7 +10,7 @@ import parse from "html-react-parser";
 import Spinner from "@/components/Spinner";
 import CssBaseline from "@mui/material/CssBaseline";
 import DiscountModal from "@/components/DiscountModal";
-import SocialShareButtons from "@/components/SocialShareButtons"; // Import here
+import SocialShareButtons from "@/components/SocialShareButtons";
 
 const BlogPost = () => {
   const router = useRouter();

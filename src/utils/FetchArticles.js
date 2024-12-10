@@ -5,7 +5,10 @@ const FetchArticles = async () => {
     const response = await axios.get(
       `${process.env.NEXT_PUBLIC_BASE_URL}/articles/`,
       {
-        headers: { Authorization: `Bearer ${process.env.ADMIN_TOKEN}` },
+        headers: {
+          "X-API-Key": process.env.NEXT_PUBLIC_API_KEY,
+          "X-API-Secret": process.env.NEXT_PUBLIC_API_SECRET,
+        },
       }
     );
     return response.data;
