@@ -10,7 +10,7 @@ export const FirmsProvider = ({ children }) => {
     country: [],
     payoutOptions: [],
     platforms: [],
-    establishedYear: [],
+    yearEstablished: [],
     rules: [],
     price: [],
   });
@@ -50,7 +50,7 @@ export const FirmsProvider = ({ children }) => {
           country: transformedData,
           payoutOptions: transformedData,
           platforms: transformedData,
-          establishedYear: transformedData,
+          yearEstablished: transformedData,
           rules: transformedData,
           price: transformedData,
         });

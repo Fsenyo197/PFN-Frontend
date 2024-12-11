@@ -18,7 +18,7 @@ export const HeaderProvider = ({ children }) => {
         { name: "By Country", path: "/compare/Country" },
         { name: "By Payout Options", path: "/compare/PayoutOptions" },
         { name: "By Platforms", path: "/compare/Platforms" },
-        { name: "By Established Year", path: "/compare/EstablishedYear" },
+        { name: "By Established Year", path: "/compare/YearEstablished" },
         { name: "By Rules", path: "/compare/Rules" },
         { name: "By Price", path: "/compare/Price" },
       ],
