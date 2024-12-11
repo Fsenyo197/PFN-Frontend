@@ -43,28 +43,97 @@ export default function PayoutOptions() {
   const columns = [
     { key: "name", label: "Firm Name" },
     {
-      key: "payment_options",
-      label: "Payment Options",
-      render: (value) => value.join(", "),
+      key: "news_rule",
+      label: "News Trading Rule",
+      render: (value) => {
+        return value === true
+          ? "Yes"
+          : value === false
+          ? "No"
+          : "Not Indicated";
+      },
     },
+    {
+      key: "consistency_rule",
+      label: "Consistency Rule",
+      render: (value) => {
+        return value === true
+          ? "Yes"
+          : value === false
+          ? "No"
+          : "Not Indicated";
+      },
+    },
+    {
+      key: "copy_trading",
+      label: "Copy Trading",
+      render: (value) => {
+        return value === true
+          ? "Yes"
+          : value === false
+          ? "No"
+          : "Not Indicated";
+      },
+    },
+    {
+      key: "two_percent_rule",
+      label: "Two Percent Rule",
+      render: (value) => {
+        return value === true
+          ? "Yes"
+          : value === false
+          ? "No"
+          : "Not Indicated";
+      },
+    },
+    { key: "location", label: "Location" },
+    { key: "year_established", label: "Year Established" },
   ];
 
   const data = filteredData.map((firm) => ({
     id: firm.id,
     name: firm.name,
-    payment_options: firm.payment_options,
+    news_rule: firm.news_rule,
+    consistency_rule: firm.consistency_rule,
+    copy_trading: firm.copy_trading,
+    two_percent_rule: firm.two_percent_rule,
+    location: firm.location,
+    year_established: firm.year_established,
+    firm_type: firm.firm_type,
+    payment_options: firm.payment_options.join(", "),
+    payout_options: firm.payout_options.join(", "),
+    trading_platforms: firm.trading_platforms.join(", "),
+    countries_prohibited: firm.countries_prohibited.join(", "),
   }));
 
-  const expandableRenderer = (rowData) => (
-    <div>
-      <p>
-        <strong>Firm Details:</strong>
-      </p>
-      <p>
-        <strong>Payment Options:</strong> {rowData.payment_options.join(", ")}
-      </p>
-    </div>
-  );
+  const expandableRenderer = (rowData) => {
+    return (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          textAlign: "center",
+        }}
+      >
+        <p>
+          <strong>Firm Type:</strong> {rowData.firm_type}
+        </p>
+        <p>
+          <strong>Payment Options:</strong> {rowData.payment_options}
+        </p>
+        <p>
+          <strong>Payout Options:</strong> {rowData.payout_options}
+        </p>
+        <p>
+          <strong>Trading Platforms:</strong> {rowData.trading_platforms}
+        </p>
+        <p>
+          <strong>Prohibited Countries:</strong> {rowData.countries_prohibited}
+        </p>
+      </div>
+    );
+  };
 
   return (
     <div

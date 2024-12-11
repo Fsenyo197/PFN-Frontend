@@ -44,6 +44,8 @@ export const FirmsProvider = ({ children }) => {
             : [],
         }));
 
+        console.log("transformedData:", transformedData);
+
         setFirmsData({
           country: transformedData,
           payoutOptions: transformedData,
