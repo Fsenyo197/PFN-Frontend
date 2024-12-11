@@ -2,7 +2,7 @@ import React from "react";
 import { useFirmsContext } from "@/contexts/FirmsProvider";
 import GenericTable from "@/components/GenericTable";
 
-const CompareByYearEstablished = () => {
+const YearEstablished = () => {
   const { establishedYear, loading } = useFirmsContext();
 
   if (loading) return <p>Loading...</p>;
@@ -39,6 +39,6 @@ const CompareByYearEstablished = () => {
   );
 };
 
-CompareByYearEstablished.useFirmsProvider = true;
+YearEstablished.useFirmsProvider = true;
 
-export default CompareByYearEstablished;
+export default YearEstablished;

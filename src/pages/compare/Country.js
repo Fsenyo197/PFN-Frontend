@@ -2,7 +2,7 @@ import React from "react";
 import { useFirmsContext } from "@/contexts/FirmsProvider";
 import GenericTable from "@/components/GenericTable";
 
-const CompareByCountry = () => {
+const Country = () => {
   const { country, loading } = useFirmsContext();
 
   if (loading) return <p>Loading...</p>;
@@ -42,6 +42,6 @@ const CompareByCountry = () => {
   );
 };
 
-CompareByCountry.useFirmsProvider = true;
+Country.useFirmsProvider = true;
 
-export default CompareByCountry;
+export default Country;

@@ -28,8 +28,30 @@ export const FirmsProvider = ({ children }) => {
             },
           }
         );
-        setFirmsData(response.data);
-        console.log(response.data);
+
+        const transformedData = response.data.map((firm) => ({
+          ...firm,
+          payout_options: firm.payout_options
+            ? firm.payout_options.split(", ").map((option) => option.trim())
+            : [],
+          payment_options: firm.payment_options
+            ? firm.payment_options.split(", ").map((option) => option.trim())
+            : [],
+          countries_prohibited: firm.countries_prohibited
+            ? firm.countries_prohibited
+                .split(", ")
+                .map((option) => option.trim())
+            : [],
+        }));
+
+        setFirmsData({
+          country: transformedData,
+          payoutOptions: transformedData,
+          platforms: transformedData,
+          establishedYear: transformedData,
+          rules: transformedData,
+          price: transformedData,
+        });
       } catch (error) {
         console.error("Failed to fetch firms data", error);
       } finally {

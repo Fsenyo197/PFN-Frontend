@@ -18,7 +18,7 @@ const Header = () => {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [anchorEls, setAnchorEls] = useState({}); // Store anchor elements by category name
+  const [anchorEls, setAnchorEls] = useState({});
   const router = useRouter();
 
   const handleSearchSubmit = (event) => {

@@ -2,7 +2,7 @@ import React from "react";
 import { useFirmsContext } from "@/contexts/FirmsProvider";
 import GenericTable from "@/components/GenericTable";
 
-const CompareByPrice = () => {
+const Price = () => {
   const { price, loading } = useFirmsContext();
 
   if (loading) return <p>Loading...</p>;
@@ -41,6 +41,6 @@ const CompareByPrice = () => {
   );
 };
 
-CompareByPrice.useFirmsProvider = true;
+Price.useFirmsProvider = true;
 
-export default CompareByPrice;
+export default Price;

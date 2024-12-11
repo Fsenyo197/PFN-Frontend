@@ -1,104 +1,89 @@
 import React, { useState } from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  TablePagination,
-  Collapse,
-  Box,
-} from "@mui/material";
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
 
-export default function GenericTable({ headers, rows, rowKey, renderDetails }) {
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [openRows, setOpenRows] = useState({});
+const GenericTable = ({ columns = [], data = [], expandableRenderer }) => {
+  const [expandedRows, setExpandedRows] = useState({});
 
-  // Handle toggling of collapse when clicking on a cell
-  const handleToggle = (rowId) => {
-    setOpenRows((prevState) => ({
-      ...prevState,
-      [rowId]: !prevState[rowId],
+  const toggleRowExpansion = (rowId) => {
+    setExpandedRows((prev) => ({
+      ...prev,
+      [rowId]: !prev[rowId],
     }));
   };
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
-  const paginatedRows = rows.slice(
-    page * rowsPerPage,
-    page * rowsPerPage + rowsPerPage
-  );
+  if (data.length === 0) {
+    return (
+      <Paper sx={{ p: 2, textAlign: "center" }}>
+        <Typography variant="body1">No data available</Typography>
+      </Paper>
+    );
+  }
 
   return (
-    <TableContainer component={Paper}>
-      <Table>
-        <TableHead>
-          <TableRow>
-            {renderDetails && <TableCell />}
-            {headers.map((header) => (
-              <TableCell key={header}>{header}</TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {paginatedRows.map((row) => {
-            const rowId = rowKey(row);
-            return (
-              <React.Fragment key={rowId}>
-                <TableRow>
-                  {renderDetails && (
+    <Box>
+      <TableContainer component={Paper} sx={{ overflowX: "auto" }}>
+        <Table sx={{ minWidth: 650 }}>
+          {/* Table Head */}
+          <TableHead>
+            <TableRow>
+              {columns.map((column) => (
+                <TableCell
+                  key={column.key}
+                  align={column.align || "left"}
+                  sx={{ fontWeight: 700, fontSize: 16 }}
+                >
+                  {column.label}
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+
+          {/* Table Body */}
+          <TableBody>
+            {data.map((item, rowIndex) => (
+              <React.Fragment key={item.id || rowIndex}>
+                {/* Main Row */}
+                <TableRow
+                  hover
+                  onClick={() => toggleRowExpansion(item.id || rowIndex)}
+                  sx={{ cursor: "pointer" }}
+                >
+                  {columns.map((column) => (
                     <TableCell
-                      onClick={() => handleToggle(rowId)} // Clicking the cell toggles the collapse
-                      style={{ cursor: "pointer" }}
+                      key={column.key}
+                      align={column.align || "left"}
+                      sx={column.cellStyle}
                     >
-                      {openRows[rowId] ? "Collapse" : "Expand"}
-                    </TableCell>
-                  )}
-                  {Object.values(row).map((value, index) => (
-                    <TableCell key={index} onClick={() => handleToggle(rowId)}>
-                      {value}
+                      {column.render
+                        ? column.render(item[column.key], item)
+                        : item[column.key]}
                     </TableCell>
                   ))}
                 </TableRow>
-                {renderDetails && (
+
+                {/* Expandable Row */}
+                {expandedRows[item.id || rowIndex] && expandableRenderer && (
                   <TableRow>
-                    <TableCell
-                      colSpan={headers.length + 1}
-                      style={{ padding: 0 }}
-                    >
-                      <Collapse
-                        in={openRows[rowId]}
-                        timeout="auto"
-                        unmountOnExit
-                      >
-                        <Box margin={1}>{renderDetails(row)}</Box>
-                      </Collapse>
+                    <TableCell colSpan={columns.length}>
+                      <Box padding={2}>{expandableRenderer(item)}</Box>
                     </TableCell>
                   </TableRow>
                 )}
               </React.Fragment>
-            );
-          })}
-        </TableBody>
-      </Table>
-      <TablePagination
-        component="div"
-        count={rows.length}
-        page={page}
-        onPageChange={handleChangePage}
-        rowsPerPage={rowsPerPage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
-    </TableContainer>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Box>
   );
-}
+};
+
+export default GenericTable;
