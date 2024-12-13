@@ -1,17 +1,15 @@
 import React, { useState } from "react";
 import { useFirmsContext } from "@/contexts/FirmsProvider";
-import GenericTable from "@/components/GenericTable";
 import RoundButton from "@/components/RoundButton";
 import Footer from "../Footer";
 import Header from "@/components/Header";
+import FirmComparisonTable from "@/components/FirmComparisonTable";
 
 export default function Platforms() {
-  const { platforms, loading } = useFirmsContext();
+  const { platforms } = useFirmsContext();
   const [selectedPlatforms, setSelectedPlatforms] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
-
-  if (loading) return <p>Loading...</p>;
 
   if (!platforms || platforms.length === 0) {
     return <p>No firms data available to display.</p>;
@@ -39,72 +37,6 @@ export default function Platforms() {
     );
     setFilteredData(result);
   };
-
-  const columns = [
-    { key: "name", label: "Firm Name" },
-    {
-      key: "news_rule",
-      label: "News Trading Rule",
-      render: (value) => {
-        return value === true
-          ? "Yes"
-          : value === false
-          ? "No"
-          : "Not Indicated";
-      },
-    },
-    {
-      key: "consistency_rule",
-      label: "Consistency Rule",
-      render: (value) => {
-        return value === true
-          ? "Yes"
-          : value === false
-          ? "No"
-          : "Not Indicated";
-      },
-    },
-    {
-      key: "copy_trading",
-      label: "Copy Trading",
-      render: (value) => {
-        return value === true
-          ? "Yes"
-          : value === false
-          ? "No"
-          : "Not Indicated";
-      },
-    },
-    {
-      key: "two_percent_rule",
-      label: "Two Percent Rule",
-      render: (value) => {
-        return value === true
-          ? "Yes"
-          : value === false
-          ? "No"
-          : "Not Indicated";
-      },
-    },
-    { key: "location", label: "Location" },
-    { key: "year_established", label: "Year Established" },
-  ];
-
-  const data = filteredData.map((firm) => ({
-    id: firm.id,
-    name: firm.name,
-    news_rule: firm.news_rule,
-    consistency_rule: firm.consistency_rule,
-    copy_trading: firm.copy_trading,
-    two_percent_rule: firm.two_percent_rule,
-    location: firm.location,
-    year_established: firm.year_established,
-    firm_type: firm.firm_type,
-    payment_options: firm.payment_options.join(", "),
-    payout_options: firm.payout_options.join(", "),
-    trading_platforms: firm.trading_platforms.join(", "),
-    countries_prohibited: firm.countries_prohibited.join(", "),
-  }));
 
   const expandableRenderer = (rowData) => {
     return (
@@ -185,9 +117,8 @@ export default function Platforms() {
       </div>
       <div style={{ width: "100%", margin: "1rem 0" }}>
         {filteredData.length > 0 ? (
-          <GenericTable
-            columns={columns}
-            data={data}
+          <FirmComparisonTable
+            filteredData={filteredData}
             expandableRenderer={expandableRenderer}
           />
         ) : (

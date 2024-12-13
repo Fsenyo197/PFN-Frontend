@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useFirmsContext } from "@/contexts/FirmsProvider";
-import GenericTable from "@/components/GenericTable";
 import RoundButton from "@/components/RoundButton";
 import Footer from "../Footer";
 import Header from "@/components/Header";
+import FirmComparisonTable from "@/components/FirmComparisonTable";
 
 export default function Rules() {
   const { rules } = useFirmsContext();
@@ -54,48 +54,6 @@ export default function Rules() {
 
     setFilteredData(result);
   };
-
-  const columns = [
-    { key: "name", label: "Firm Name" },
-    {
-      key: "news_rule",
-      label: "News Trading Rule",
-      render: (value) => (value === true ? "Yes" : "No"),
-    },
-    {
-      key: "consistency_rule",
-      label: "Consistency Rule",
-      render: (value) => (value === true ? "Yes" : "No"),
-    },
-    {
-      key: "copy_trading",
-      label: "Copy Trading",
-      render: (value) => (value === true ? "Yes" : "No"),
-    },
-    {
-      key: "two_percent_rule",
-      label: "Two Percent Rule",
-      render: (value) => (value === true ? "Yes" : "No"),
-    },
-    { key: "location", label: "Location" },
-    { key: "year_established", label: "Year Established" },
-  ];
-
-  const data = filteredData.map((firm) => ({
-    id: firm.id,
-    name: firm.name,
-    news_rule: firm.news_rule,
-    consistency_rule: firm.consistency_rule,
-    copy_trading: firm.copy_trading,
-    two_percent_rule: firm.two_percent_rule,
-    location: firm.location,
-    year_established: firm.year_established,
-    firm_type: firm.firm_type,
-    payment_options: firm.payment_options.join(", "),
-    payout_options: firm.payout_options.join(", "),
-    trading_platforms: firm.trading_platforms.join(", "),
-    countries_prohibited: firm.countries_prohibited.join(", "),
-  }));
 
   const expandableRenderer = (rowData) => (
     <div
@@ -174,9 +132,8 @@ export default function Rules() {
       </div>
       <div style={{ width: "100%", margin: "1rem 0" }}>
         {filteredData.length > 0 ? (
-          <GenericTable
-            columns={columns}
-            data={data}
+          <FirmComparisonTable
+            filteredData={filteredData}
             expandableRenderer={expandableRenderer}
           />
         ) : (

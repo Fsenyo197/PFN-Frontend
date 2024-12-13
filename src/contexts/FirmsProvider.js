@@ -12,7 +12,7 @@ export const FirmsProvider = ({ children }) => {
     platforms: [],
     yearEstablished: [],
     rules: [],
-    price: [],
+    ss: [],
   });
   const [loading, setLoading] = useState(true);
 
@@ -31,12 +31,6 @@ export const FirmsProvider = ({ children }) => {
 
         const transformedData = response.data.map((firm) => ({
           ...firm,
-          payout_options: firm.payout_options
-            ? firm.payout_options.split(", ").map((option) => option.trim())
-            : [],
-          payment_options: firm.payment_options
-            ? firm.payment_options.split(", ").map((option) => option.trim())
-            : [],
           countries_prohibited: firm.countries_prohibited
             ? firm.countries_prohibited
                 .split(", ")
@@ -52,7 +46,7 @@ export const FirmsProvider = ({ children }) => {
           platforms: transformedData,
           yearEstablished: transformedData,
           rules: transformedData,
-          price: transformedData,
+          prices: transformedData,
         });
       } catch (error) {
         console.error("Failed to fetch firms data", error);
