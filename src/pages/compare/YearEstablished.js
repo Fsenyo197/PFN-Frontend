@@ -14,6 +14,7 @@ export default function YearEstablished() {
   const [filteredData, setFilteredData] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [isClicked, setIsClicked] = useState(false);
 
   const toggleYearEstablished = (option) => {
     setSelectedYearEstablished((prev) => (prev === option ? null : option));
@@ -97,7 +98,11 @@ export default function YearEstablished() {
           ))}
         </div>
         <button
-          onClick={searchFirms}
+          onClick={() => {
+            setIsClicked(true);
+            searchFirms();
+            setTimeout(() => setIsClicked(false), 200);
+          }}
           style={{
             marginTop: "4rem",
             padding: "0.5rem 1rem",
@@ -106,9 +111,11 @@ export default function YearEstablished() {
             border: "none",
             borderRadius: "5px",
             cursor: "pointer",
+            transform: isClicked ? "scale(0.95)" : "scale(1)",
+            transition: "transform 0.1s ease-out",
           }}
         >
-          Search for Firms
+          Search for firms
         </button>
       </div>
       {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import RoundButton from "@/components/RoundButton";
 
 export default function PricesFilters({
@@ -25,6 +25,8 @@ export default function PricesFilters({
   selectedTotalDrawdowns,
   selectedPrices,
 }) {
+  const [isClicked, setIsClicked] = useState(false);
+
   return (
     <div style={{ width: "100%", margin: "1rem 0" }}>
       <div>
@@ -168,7 +170,11 @@ export default function PricesFilters({
         </div>
       </div>
       <button
-        onClick={searchFirms}
+        onClick={() => {
+          setIsClicked(true);
+          searchFirms();
+          setTimeout(() => setIsClicked(false), 200);
+        }}
         style={{
           marginTop: "4rem",
           padding: "0.5rem 1rem",
@@ -177,9 +183,11 @@ export default function PricesFilters({
           border: "none",
           borderRadius: "5px",
           cursor: "pointer",
+          transform: isClicked ? "scale(0.95)" : "scale(1)",
+          transition: "transform 0.1s ease-out",
         }}
       >
-        Search for Firms
+        Search for firms
       </button>
     </div>
   );

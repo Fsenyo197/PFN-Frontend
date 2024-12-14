@@ -11,10 +11,7 @@ export default function Country() {
   const [hasSearched, setHasSearched] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-
-  if (!country || country.length === 0) {
-    return <p>No firms data available to display.</p>;
-  }
+  const [isClicked, setIsClicked] = useState(false);
 
   const expandableRenderer = (rowData) => {
     return <ExpandableRowDetails rowData={rowData} />;
@@ -65,7 +62,7 @@ export default function Country() {
     >
       <Header />
       <h2 style={{ marginTop: "2rem", marginBottom: "2rem" }}>
-        Compare Firms by Trading Country
+        Search for Prop Firms allowed in your country
       </h2>
       <div style={{ width: "100%", margin: "1rem 0" }}>
         <h4>Search by Country (Separate multiple countries with commas):</h4>
@@ -76,6 +73,7 @@ export default function Country() {
             alignItems: "center",
             gap: "0.5rem",
             marginBottom: "1rem",
+            marginTop: "1rem",
           }}
         >
           <input
@@ -91,17 +89,24 @@ export default function Country() {
             }}
           />
           <button
-            onClick={searchFirms}
+            onClick={() => {
+              setIsClicked(true);
+              searchFirms();
+              setTimeout(() => setIsClicked(false), 200);
+            }}
             style={{
+              marginTop: "4rem",
               padding: "0.5rem 1rem",
               backgroundColor: "#02353C",
               color: "#fff",
               border: "none",
               borderRadius: "5px",
               cursor: "pointer",
+              transform: isClicked ? "scale(0.95)" : "scale(1)",
+              transition: "transform 0.1s ease-out",
             }}
           >
-            Search
+            Search for firms
           </button>
         </div>
       </div>

@@ -12,10 +12,7 @@ export default function Rules() {
   const [filteredData, setFilteredData] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-
-  if (!rules || rules.length === 0) {
-    return <p>No firms data available to display.</p>;
-  }
+  const [isClicked, setIsClicked] = useState(false);
 
   // Define the human-readable rule names
   const uniqueRules = [
@@ -23,6 +20,7 @@ export default function Rules() {
     "Consistency Rule",
     "Copy Trading",
     "Two Percent Rule",
+    "Stop Loss Rule",
   ];
 
   const toggleRule = (option) => {
@@ -56,6 +54,8 @@ export default function Rules() {
             return firm.copy_trading === true;
           case "Two Percent Rule":
             return firm.two_percent_rule === true;
+          case "Stop Loss Rule":
+            return firm.stop_loss_rule === true;
           default:
             return false;
         }
@@ -103,7 +103,11 @@ export default function Rules() {
           ))}
         </div>
         <button
-          onClick={searchFirms}
+          onClick={() => {
+            setIsClicked(true);
+            searchFirms();
+            setTimeout(() => setIsClicked(false), 200);
+          }}
           style={{
             marginTop: "4rem",
             padding: "0.5rem 1rem",
@@ -112,9 +116,11 @@ export default function Rules() {
             border: "none",
             borderRadius: "5px",
             cursor: "pointer",
+            transform: isClicked ? "scale(0.95)" : "scale(1)",
+            transition: "transform 0.1s ease-out",
           }}
         >
-          Search for Firms
+          Search for firms
         </button>
       </div>
       {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}

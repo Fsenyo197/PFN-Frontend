@@ -19,10 +19,6 @@ export default function Prices() {
   const [hasSearched, setHasSearched] = useState(false);
   const [noMatchReasons, setNoMatchReasons] = useState([]);
 
-  if (!prices || prices.length === 0) {
-    return <p>No firms data available to display.</p>;
-  }
-
   // Define unique options
   const uniqueFirmTypes = [
     ...new Set(prices.flatMap((firm) => firm.firm_type)),

@@ -12,10 +12,7 @@ export default function Platforms() {
   const [filteredData, setFilteredData] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-
-  if (!platforms || platforms.length === 0) {
-    return <p>No firms data available to display.</p>;
-  }
+  const [isClicked, setIsClicked] = useState(false);
 
   // Dynamically create unique trading platforms from the context data
   const uniqueTradingPlatforms = [
@@ -84,7 +81,11 @@ export default function Platforms() {
           ))}
         </div>
         <button
-          onClick={searchFirms}
+          onClick={() => {
+            setIsClicked(true);
+            searchFirms();
+            setTimeout(() => setIsClicked(false), 200);
+          }}
           style={{
             marginTop: "4rem",
             padding: "0.5rem 1rem",
@@ -93,9 +94,11 @@ export default function Platforms() {
             border: "none",
             borderRadius: "5px",
             cursor: "pointer",
+            transform: isClicked ? "scale(0.95)" : "scale(1)",
+            transition: "transform 0.1s ease-out",
           }}
         >
-          Search for Firms
+          Search for firms
         </button>
       </div>
       {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}

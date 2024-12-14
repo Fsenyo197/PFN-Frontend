@@ -12,6 +12,7 @@ export default function PayoutOptions() {
   const [filteredData, setFilteredData] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [isClicked, setIsClicked] = useState(false);
 
   // Dynamically create unique payout options from the context data
   const uniquePayoutOptions = [
@@ -80,7 +81,11 @@ export default function PayoutOptions() {
           ))}
         </div>
         <button
-          onClick={searchFirms}
+          onClick={() => {
+            setIsClicked(true);
+            searchFirms();
+            setTimeout(() => setIsClicked(false), 200);
+          }}
           style={{
             marginTop: "4rem",
             padding: "0.5rem 1rem",
@@ -89,6 +94,8 @@ export default function PayoutOptions() {
             border: "none",
             borderRadius: "5px",
             cursor: "pointer",
+            transform: isClicked ? "scale(0.95)" : "scale(1)",
+            transition: "transform 0.1s ease-out",
           }}
         >
           Search for firms

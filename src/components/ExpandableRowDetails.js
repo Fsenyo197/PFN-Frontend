@@ -142,24 +142,14 @@ const ExpandableRowDetails = ({ rowData }) => {
                 paddingBottom: "1rem",
               }}
             >
-              <div style={rowStyle}>
-                <div style={labelContainerStyle}>
-                  <strong>Account Size:</strong>
-                </div>
-                <div style={valueContainerStyle}>{plan.account_size}</div>
+              {/* Plan Title */}
+              <div style={{ fontWeight: "bold" }}>
+                {plan.phase.charAt(0).toUpperCase() +
+                  plan.phase.slice(1).replace(/_/g, " ")}
+                : {plan.account_size} Account Size
               </div>
-              <div style={rowStyle}>
-                <div style={labelContainerStyle}>
-                  <strong>Daily Drawdown:</strong>
-                </div>
-                <div style={valueContainerStyle}>{plan.daily_drawdown}</div>
-              </div>
-              <div style={rowStyle}>
-                <div style={labelContainerStyle}>
-                  <strong>Phase:</strong>
-                </div>
-                <div style={valueContainerStyle}>{plan.phase}</div>
-              </div>
+
+              {/* Plan Details */}
               <div style={rowStyle}>
                 <div style={labelContainerStyle}>
                   <strong>Price:</strong>
@@ -171,6 +161,12 @@ const ExpandableRowDetails = ({ rowData }) => {
                   <strong>Profit Split Ratio:</strong>
                 </div>
                 <div style={valueContainerStyle}>{plan.profit_split_ratio}</div>
+              </div>
+              <div style={rowStyle}>
+                <div style={labelContainerStyle}>
+                  <strong>Daily Drawdown:</strong>
+                </div>
+                <div style={valueContainerStyle}>{plan.daily_drawdown}</div>
               </div>
               <div style={rowStyle}>
                 <div style={labelContainerStyle}>
@@ -205,6 +201,8 @@ const labelContainerStyle = {
   paddingBottom: "0.5rem",
   minWidth: "150px",
   paddingRight: 8,
+  alignItems: "center",
+  textAlign: "center",
 };
 
 // Value container style with vertical connecting line
@@ -215,6 +213,8 @@ const valueContainerStyle = {
   borderLeft: "2px solid #ccc",
   paddingLeft: "1rem",
   paddingBottom: "0.5rem",
-  minWidth: "150px", // Minimum width for the values
+  minWidth: "150px",
+  alignItems: "center",
+  textAlign: "center",
 };
 export default ExpandableRowDetails;
