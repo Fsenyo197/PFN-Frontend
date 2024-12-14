@@ -6,12 +6,14 @@ import RoundButton from "@/components/RoundButton";
 import Footer from "../Footer";
 import Header from "@/components/Header";
 import FirmComparisonTable from "@/components/FirmComparisonTable";
+import ExpandableRowDetails from "@/components/ExpandableRowDetails";
 
 export default function YearEstablished() {
   const { yearEstablished } = useFirmsContext();
   const [selectedYearEstablished, setSelectedYearEstablished] = useState(null);
   const [filteredData, setFilteredData] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const toggleYearEstablished = (option) => {
     setSelectedYearEstablished((prev) => (prev === option ? null : option));
@@ -21,9 +23,12 @@ export default function YearEstablished() {
     setHasSearched(true);
 
     if (!selectedYearEstablished) {
-      setFilteredData(yearEstablished);
+      setErrorMessage("No options are selected");
+      setFilteredData([]);
       return;
     }
+
+    setErrorMessage(""); // Clear any previous error messages
 
     const result = yearEstablished.filter((firm) => {
       const yearsDiff = new Date().getFullYear() - firm.year_established;
@@ -55,32 +60,7 @@ export default function YearEstablished() {
   ];
 
   const expandableRenderer = (rowData) => {
-    return (
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          textAlign: "center",
-        }}
-      >
-        <p>
-          <strong>Firm Type:</strong> {rowData.firm_type}
-        </p>
-        <p>
-          <strong>Payment Options:</strong> {rowData.payment_options}
-        </p>
-        <p>
-          <strong>Payout Options:</strong> {rowData.payout_options}
-        </p>
-        <p>
-          <strong>Trading Platforms:</strong> {rowData.trading_platforms}
-        </p>
-        <p>
-          <strong>Prohibited Countries:</strong> {rowData.countries_prohibited}
-        </p>
-      </div>
-    );
+    return <ExpandableRowDetails rowData={rowData} />;
   };
 
   return (
@@ -131,6 +111,7 @@ export default function YearEstablished() {
           Search for Firms
         </button>
       </div>
+      {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
       <div style={{ width: "100%", margin: "1rem 0" }}>
         {filteredData.length > 0 ? (
           <FirmComparisonTable
@@ -138,7 +119,8 @@ export default function YearEstablished() {
             expandableRenderer={expandableRenderer}
           />
         ) : (
-          hasSearched && (
+          hasSearched &&
+          !errorMessage && (
             <p>No firms match the selected for year established.</p>
           )
         )}

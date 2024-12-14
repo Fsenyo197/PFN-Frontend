@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import Footer from "../Footer";
 import PricesFilters from "@/components/PricesFilters";
 import FirmComparisonTable from "@/components/FirmComparisonTable";
+import ExpandableRowDetails from "@/components/ExpandableRowDetails";
 
 export default function Prices() {
   const { prices } = useFirmsContext();
@@ -16,6 +17,7 @@ export default function Prices() {
   const [selectedTotalDrawdowns, setSelectedTotalDrawdowns] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
+  const [noMatchReasons, setNoMatchReasons] = useState([]);
 
   if (!prices || prices.length === 0) {
     return <p>No firms data available to display.</p>;
@@ -76,56 +78,74 @@ export default function Prices() {
   // Filtering logic
   const searchFirms = () => {
     setHasSearched(true);
+    let reasons = [];
+    const hasFiltersApplied = [
+      selectedFirmTypes,
+      selectedAccountSizes,
+      selectedPhases,
+      selectedSplitRatios,
+      selectedDailyDrawdowns,
+      selectedTotalDrawdowns,
+      selectedPrices,
+    ].some((filter) => filter.length > 0);
+
     const filtered = prices.filter((firm) => {
-      return (
+      const firmMatches =
         (selectedFirmTypes.length === 0 ||
           selectedFirmTypes.includes(firm.firm_type)) &&
         firm.account_plans.some((plan) => {
+          const accountMatches =
+            selectedAccountSizes.length === 0 ||
+            selectedAccountSizes.includes(plan.account_size);
+          const phaseMatches =
+            selectedPhases.length === 0 || selectedPhases.includes(plan.phase);
+          const splitRatioMatches =
+            selectedSplitRatios.length === 0 ||
+            selectedSplitRatios.includes(plan.profit_split_ratio);
+          const dailyDrawdownMatches =
+            selectedDailyDrawdowns.length === 0 ||
+            selectedDailyDrawdowns.includes(plan.daily_drawdown);
+          const totalDrawdownMatches =
+            selectedTotalDrawdowns.length === 0 ||
+            selectedTotalDrawdowns.includes(plan.total_drawdown);
+          const priceMatches =
+            selectedPrices.length === 0 || selectedPrices.includes(plan.price);
+
+          // Identify reasons for no match
+          if (!accountMatches) reasons.push("account size");
+          if (!phaseMatches) reasons.push("phases");
+          if (!splitRatioMatches) reasons.push("split ratio");
+          if (!dailyDrawdownMatches) reasons.push("daily drawdown");
+          if (!totalDrawdownMatches) reasons.push("total drawdown");
+          if (!priceMatches) reasons.push("prices");
+
           return (
-            (selectedAccountSizes.length === 0 ||
-              selectedAccountSizes.includes(plan.account_size)) &&
-            (selectedPhases.length === 0 ||
-              selectedPhases.includes(plan.phase)) &&
-            (selectedSplitRatios.length === 0 ||
-              selectedSplitRatios.includes(plan.profit_split_ratio)) &&
-            (selectedDailyDrawdowns.length === 0 ||
-              selectedDailyDrawdowns.includes(plan.daily_drawdown)) &&
-            (selectedTotalDrawdowns.length === 0 ||
-              selectedTotalDrawdowns.includes(plan.total_drawdown)) &&
-            (selectedPrices.length === 0 || selectedPrices.includes(plan.price))
+            accountMatches &&
+            phaseMatches &&
+            splitRatioMatches &&
+            dailyDrawdownMatches &&
+            totalDrawdownMatches &&
+            priceMatches
           );
-        })
-      );
+        });
+
+      if (!firmMatches && selectedFirmTypes.length > 0)
+        reasons.push("firm type");
+      return firmMatches;
     });
+
+    if (!hasFiltersApplied) {
+      setNoMatchReasons(["No option selected"]);
+    } else {
+      setNoMatchReasons([...new Set(reasons)]);
+    }
+
     setFilteredData(filtered);
   };
 
-  const expandableRenderer = (rowData) => (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        textAlign: "center",
-      }}
-    >
-      <p>
-        <strong>Firm Type:</strong> {rowData.firm_type}
-      </p>
-      <p>
-        <strong>Payment Options:</strong> {rowData.payment_options}
-      </p>
-      <p>
-        <strong>Payout Options:</strong> {rowData.payout_options}
-      </p>
-      <p>
-        <strong>Trading Platforms:</strong> {rowData.trading_platforms}
-      </p>
-      <p>
-        <strong>Prohibited Countries:</strong> {rowData.countries_prohibited}
-      </p>
-    </div>
-  );
+  const expandableRenderer = (rowData) => {
+    return <ExpandableRowDetails rowData={rowData} />;
+  };
 
   return (
     <div
@@ -172,7 +192,18 @@ export default function Prices() {
             expandableRenderer={expandableRenderer}
           />
         ) : (
-          hasSearched && <p>No firms match the selected payout options.</p>
+          hasSearched && (
+            <div>
+              <p>No firms match the selected payout options.</p>
+              {noMatchReasons.length > 0 && (
+                <p style={{ color: "red" }}>
+                  {noMatchReasons.includes("No option selected")
+                    ? "No option selected."
+                    : `Check ${noMatchReasons.join(", ")}.`}
+                </p>
+              )}
+            </div>
+          )
         )}
       </div>
       <Footer />

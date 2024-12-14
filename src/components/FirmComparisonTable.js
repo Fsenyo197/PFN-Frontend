@@ -24,6 +24,11 @@ const FirmComparisonTable = ({ filteredData, expandableRenderer }) => {
       label: "Two Percent Rule",
       render: (value) => (value === true ? "Yes" : "No"),
     },
+    {
+      key: "stop_loss_rule",
+      label: "Stop Loss Rule",
+      render: (value) => (value === true ? "Yes" : "No"),
+    },
     { key: "location", label: "Location" },
     { key: "year_established", label: "Year Established" },
   ];
@@ -42,6 +47,10 @@ const FirmComparisonTable = ({ filteredData, expandableRenderer }) => {
     payout_options: firm.payout_options.join(", "),
     trading_platforms: firm.trading_platforms.join(", "),
     countries_prohibited: firm.countries_prohibited.join(", "),
+    drawdown_type: firm.drawdown_type,
+    stop_loss_rule: firm.stop_loss_rule,
+    payout_frequency: firm.payout_frequency,
+    account_plans: firm.account_plans,
   }));
 
   return (

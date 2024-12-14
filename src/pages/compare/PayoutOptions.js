@@ -4,6 +4,7 @@ import RoundButton from "@/components/RoundButton";
 import Footer from "../Footer";
 import Header from "@/components/Header";
 import FirmComparisonTable from "@/components/FirmComparisonTable";
+import ExpandableRowDetails from "@/components/ExpandableRowDetails";
 
 export default function PayoutOptions() {
   const { payoutOptions } = useFirmsContext();
@@ -29,6 +30,7 @@ export default function PayoutOptions() {
     setHasSearched(true);
     if (selectedPayoutOptions.length === 0) {
       setErrorMessage("No options are selected");
+      setFilteredData([]);
       return;
     }
     setErrorMessage("");
@@ -41,32 +43,7 @@ export default function PayoutOptions() {
   };
 
   const expandableRenderer = (rowData) => {
-    return (
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          textAlign: "center",
-        }}
-      >
-        <p>
-          <strong>Firm Type:</strong> {rowData.firm_type}
-        </p>
-        <p>
-          <strong>Payment Options:</strong> {rowData.payment_options}
-        </p>
-        <p>
-          <strong>Payout Options:</strong> {rowData.payout_options}
-        </p>
-        <p>
-          <strong>Trading Platforms:</strong> {rowData.trading_platforms}
-        </p>
-        <p>
-          <strong>Prohibited Countries:</strong> {rowData.countries_prohibited}
-        </p>
-      </div>
-    );
+    return <ExpandableRowDetails rowData={rowData} />;
   };
 
   return (
@@ -125,7 +102,8 @@ export default function PayoutOptions() {
             expandableRenderer={expandableRenderer}
           />
         ) : (
-          hasSearched && <p>No firms match the selected payout options.</p>
+          hasSearched &&
+          !errorMessage && <p>No firms match the selected payout options.</p>
         )}
       </div>
       <Footer />
