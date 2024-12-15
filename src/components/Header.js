@@ -10,10 +10,13 @@ import Link from "@mui/material/Link";
 import InputBase from "@mui/material/InputBase";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
+import Collapse from "@mui/material/Collapse";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
+import DrawerMenu from "@/components/DrawerMenu";
 
 const Header = () => {
   const { categories } = useHeader();
@@ -21,6 +24,7 @@ const Header = () => {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [compareFirmsExpanded, setCompareFirmsExpanded] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const router = useRouter();
 
@@ -43,16 +47,14 @@ const Header = () => {
     setDrawerOpen(open);
   };
 
-  const handleCategoryClick = (path) => {
-    router.push(path);
-    setDrawerOpen(false);
+  const handleCompareFirmsToggle = () => {
+    setCompareFirmsExpanded((prev) => !prev);
   };
 
   const currentPath = router.asPath.toLowerCase();
 
   return (
     <React.Fragment>
-      {/* Top Toolbar */}
       <Toolbar
         sx={{
           borderBottom: 1,
@@ -73,10 +75,7 @@ const Header = () => {
           variant={isSmallScreen ? "h6" : "h5"}
           color="#ffffff"
           noWrap
-          sx={{
-            fontSize: isSmallScreen ? "1rem" : "1.25rem",
-            fontWeight: "bold",
-          }}
+          sx={{ fontWeight: "bold" }}
         >
           Prop Firm News
         </Typography>
@@ -116,7 +115,6 @@ const Header = () => {
         )}
       </Toolbar>
 
-      {/* Bottom Toolbar for larger screens */}
       {!isSmallScreen && (
         <Toolbar
           component="nav"
@@ -127,85 +125,106 @@ const Header = () => {
             bgcolor: "#02353C",
             width: "100%",
             position: "sticky",
-            top: isSmallScreen ? 48 : 56,
+            top: 56,
             zIndex: 999,
             padding: "4px 16px",
           }}
         >
           {categories.map((category) => {
-            const categoryPath =
-              typeof category === "string"
-                ? category === "Home"
+            if (typeof category === "string") {
+              const categoryPath =
+                category === "Home"
                   ? "/"
-                  : `/categories/${category.toLowerCase().replace(/\s+/g, "-")}`
-                : null;
+                  : `/categories/${category
+                      .toLowerCase()
+                      .replace(/\s+/g, "-")}`;
 
-            return typeof category === "string" ? (
-              <Link
-                key={category}
-                href={categoryPath}
-                noWrap
-                variant="body2"
-                sx={{
-                  p: 1,
-                  fontSize: "0.875rem",
-                  color: currentPath.includes(category.toLowerCase())
-                    ? "#02353C"
-                    : "#ffffff",
-                  backgroundColor: currentPath.includes(category.toLowerCase())
-                    ? "#ffffff"
-                    : "transparent",
-                  borderRadius: "4px",
-                  textDecoration: "none",
-                  "&:hover": {
-                    backgroundColor: "#ffffff",
-                    color: "#02353C",
-                  },
-                }}
-              >
-                {category}
-              </Link>
-            ) : null;
+              return (
+                <Link
+                  key={category}
+                  href={categoryPath}
+                  noWrap
+                  variant="body2"
+                  sx={{
+                    p: 1,
+                    fontSize: "0.875rem",
+                    color: currentPath.includes(category.toLowerCase())
+                      ? "#02353C"
+                      : "#ffffff",
+                    backgroundColor: currentPath.includes(
+                      category.toLowerCase()
+                    )
+                      ? "#ffffff"
+                      : "transparent",
+                    borderRadius: "4px",
+                    textDecoration: "none",
+                    "&:hover": {
+                      backgroundColor: "#ffffff",
+                      color: "#02353C",
+                    },
+                  }}
+                >
+                  {category}
+                </Link>
+              );
+            } else if (category.name === "Compare Firms") {
+              return (
+                <div key={category.name} style={{ position: "relative" }}>
+                  <Typography
+                    variant="body2"
+                    onClick={handleCompareFirmsToggle}
+                    sx={{
+                      cursor: "pointer",
+                      p: 1,
+                      fontSize: "0.875rem",
+                      color: "#ffffff",
+                      display: "flex",
+                      alignItems: "center",
+                      "&:hover": {
+                        color: "#02353C",
+                        backgroundColor: "#ffffff",
+                      },
+                    }}
+                  >
+                    {category.name}
+                    {compareFirmsExpanded ? <ExpandLess /> : <ExpandMore />}
+                  </Typography>
+                  <Collapse
+                    in={compareFirmsExpanded}
+                    timeout="auto"
+                    unmountOnExit
+                  >
+                    <List sx={{ pl: 2 }}>
+                      {category.subcategories.map((subcategory) => (
+                        <ListItem
+                          button
+                          key={subcategory.name}
+                          onClick={() => router.push(subcategory.path)}
+                          sx={{ p: 0 }}
+                        >
+                          <ListItemText primary={subcategory.name} />
+                        </ListItem>
+                      ))}
+                    </List>
+                  </Collapse>
+                </div>
+              );
+            }
           })}
         </Toolbar>
       )}
 
-      {/* Drawer for smaller screens */}
-      <Drawer
-        anchor="left"
-        open={drawerOpen}
-        onClose={() => toggleDrawer(false)}
-        sx={{ marginTop: 24 }}
-      >
-        <List sx={{ width: 250 }}>
-          {categories.map((category) => {
-            const categoryPath =
-              typeof category === "string"
-                ? category === "Home"
-                  ? "/"
-                  : `/categories/${category.toLowerCase().replace(/\s+/g, "-")}`
-                : null;
-
-            return typeof category === "string" ? (
-              <ListItem
-                button
-                key={category}
-                onClick={() => handleCategoryClick(categoryPath)}
-              >
-                <ListItemText primary={category} />
-              </ListItem>
-            ) : (
-              <ListItem
-                button
-                key={category.name}
-                onClick={() => toggleDrawer(false)}
-              >
-                <ListItemText primary={category.name} />
-              </ListItem>
-            );
-          })}
-        </List>
-      </Drawer>
+      {isSmallScreen && (
+        <DrawerMenu
+          open={drawerOpen}
+          onClose={() => toggleDrawer(false)}
+          categories={categories}
+          onCategoryClick={(path) => {
+            router.push(path);
+            setDrawerOpen(false);
+          }}
+        />
+      )}
     </React.Fragment>
   );
 };

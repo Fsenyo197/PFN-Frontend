@@ -1,5 +1,9 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
+import {
+  saveFirmsToIndexedDB,
+  getFirmsFromIndexedDB,
+} from "../utils/indexedDB";
 
 const FirmsContext = createContext();
 
@@ -12,44 +16,60 @@ export const FirmsProvider = ({ children }) => {
     platforms: [],
     yearEstablished: [],
     rules: [],
-    ss: [],
+    prices: [],
   });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/propfirms/`,
-          {
-            headers: {
-              "X-API-Key": process.env.NEXT_PUBLIC_API_KEY,
-              "X-API-Secret": process.env.NEXT_PUBLIC_API_SECRET,
-            },
-          }
-        );
+        // Try to get firms data from IndexedDB first
+        const cachedData = await getFirmsFromIndexedDB();
+        if (cachedData.length > 0) {
+          console.log("Using cached firms data from IndexedDB");
+          setFirmsData({
+            country: cachedData,
+            payoutOptions: cachedData,
+            platforms: cachedData,
+            yearEstablished: cachedData,
+            rules: cachedData,
+            prices: cachedData,
+          });
+        } else {
+          // Fetch data from the API if not in IndexedDB
+          const response = await axios.get(
+            `${process.env.NEXT_PUBLIC_BASE_URL}/propfirms/`,
+            {
+              headers: {
+                "X-API-Key": process.env.NEXT_PUBLIC_API_KEY,
+                "X-API-Secret": process.env.NEXT_PUBLIC_API_SECRET,
+              },
+            }
+          );
 
-        const transformedData = response.data.map((firm) => ({
-          ...firm,
-          countries_prohibited: firm.countries_prohibited
-            ? firm.countries_prohibited
-                .split(", ")
-                .map((option) => option.trim())
-            : [],
-        }));
+          const transformedData = response.data.map((firm) => ({
+            ...firm,
+            countries_prohibited: firm.countries_prohibited
+              ? firm.countries_prohibited
+                  .split(", ")
+                  .map((option) => option.trim())
+              : [],
+          }));
 
-        console.log("transformedData:", transformedData);
+          // Save the fetched data to IndexedDB
+          await saveFirmsToIndexedDB(transformedData);
 
-        setFirmsData({
-          country: transformedData,
-          payoutOptions: transformedData,
-          platforms: transformedData,
-          yearEstablished: transformedData,
-          rules: transformedData,
-          prices: transformedData,
-        });
+          setFirmsData({
+            country: transformedData,
+            payoutOptions: transformedData,
+            platforms: transformedData,
+            yearEstablished: transformedData,
+            rules: transformedData,
+            prices: transformedData,
+          });
+        }
       } catch (error) {
-        console.error("Failed to fetch firms data", error);
+        console.error("Failed to fetch or cache firms data", error);
       } finally {
         setLoading(false);
       }

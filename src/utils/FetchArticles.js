@@ -1,7 +1,16 @@
 import axios from "axios";
+import { saveArticlesToIndexedDB, getArticlesFromIndexedDB } from "../utils/indexedDB";
 
 const FetchArticles = async () => {
   try {
+    // Try to get articles from IndexedDB first
+    const cachedArticles = await getArticlesFromIndexedDB();
+    if (cachedArticles.length > 0) {
+      console.log("Using cached articles from IndexedDB");
+      return cachedArticles;
+    }
+
+    // Fetch articles from the API if not in IndexedDB
     const response = await axios.get(
       `${process.env.NEXT_PUBLIC_BASE_URL}/articles/`,
       {
@@ -11,7 +20,13 @@ const FetchArticles = async () => {
         },
       }
     );
-    return response.data;
+
+    const articles = response.data;
+
+    // Save the fetched articles to IndexedDB
+    await saveArticlesToIndexedDB(articles);
+
+    return articles;
   } catch (error) {
     console.error("Error fetching articles:", error);
     return [];
