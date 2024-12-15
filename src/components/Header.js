@@ -4,13 +4,16 @@ import { useHeader } from "../contexts/HeaderContext";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
+import MenuIcon from "@mui/icons-material/Menu";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 import InputBase from "@mui/material/InputBase";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
+import Drawer from "@mui/material/Drawer";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
 
 const Header = () => {
   const { categories } = useHeader();
@@ -18,7 +21,7 @@ const Header = () => {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [anchorEls, setAnchorEls] = useState({});
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const router = useRouter();
 
   const handleSearchSubmit = (event) => {
@@ -36,18 +39,20 @@ const Header = () => {
     }
   };
 
-  const handleMenuOpen = (event, categoryName) => {
-    setAnchorEls((prev) => ({ ...prev, [categoryName]: event.currentTarget }));
+  const toggleDrawer = (open) => {
+    setDrawerOpen(open);
   };
 
-  const handleMenuClose = (categoryName) => {
-    setAnchorEls((prev) => ({ ...prev, [categoryName]: null }));
+  const handleCategoryClick = (path) => {
+    router.push(path);
+    setDrawerOpen(false);
   };
 
   const currentPath = router.asPath.toLowerCase();
 
   return (
     <React.Fragment>
+      {/* Top Toolbar */}
       <Toolbar
         sx={{
           borderBottom: 1,
@@ -69,15 +74,18 @@ const Header = () => {
           color="#ffffff"
           noWrap
           sx={{
-            flexGrow: 1,
             fontSize: isSmallScreen ? "1rem" : "1.25rem",
+            fontWeight: "bold",
           }}
         >
           Prop Firm News
         </Typography>
 
         {searchOpen && (
-          <form onSubmit={handleSearchSubmit} style={{ flexGrow: 1 }}>
+          <form
+            onSubmit={handleSearchSubmit}
+            style={{ flexGrow: 1, marginLeft: "16px" }}
+          >
             <InputBase
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -94,41 +102,53 @@ const Header = () => {
           </form>
         )}
 
-        <IconButton onClick={handleSearchIconClick} sx={{ marginLeft: "auto" }}>
+        <IconButton
+          onClick={handleSearchIconClick}
+          sx={{ marginLeft: searchOpen ? "8px" : "auto" }}
+        >
           <SearchIcon sx={{ color: "#ffffff" }} />
         </IconButton>
+
+        {isSmallScreen && (
+          <IconButton onClick={() => toggleDrawer(true)}>
+            <MenuIcon sx={{ color: "#ffffff" }} />
+          </IconButton>
+        )}
       </Toolbar>
 
-      <Toolbar
-        component="nav"
-        variant="dense"
-        sx={{
-          justifyContent: "space-between",
-          overflowX: "auto",
-          bgcolor: "#02353C",
-          width: "100%",
-          position: "sticky",
-          top: isSmallScreen ? 48 : 56,
-          zIndex: 999,
-          padding: "4px 16px",
-        }}
-      >
-        {categories.map((category) => {
-          if (typeof category === "string") {
+      {/* Bottom Toolbar for larger screens */}
+      {!isSmallScreen && (
+        <Toolbar
+          component="nav"
+          variant="dense"
+          sx={{
+            justifyContent: "space-between",
+            overflowX: "auto",
+            bgcolor: "#02353C",
+            width: "100%",
+            position: "sticky",
+            top: isSmallScreen ? 48 : 56,
+            zIndex: 999,
+            padding: "4px 16px",
+          }}
+        >
+          {categories.map((category) => {
             const categoryPath =
-              category === "Home"
-                ? "/"
-                : `/categories/${category.toLowerCase().replace(/\s+/g, "-")}`;
+              typeof category === "string"
+                ? category === "Home"
+                  ? "/"
+                  : `/categories/${category.toLowerCase().replace(/\s+/g, "-")}`
+                : null;
 
-            return (
+            return typeof category === "string" ? (
               <Link
                 key={category}
                 href={categoryPath}
                 noWrap
                 variant="body2"
                 sx={{
-                  p: isSmallScreen ? 0.5 : 1,
-                  fontSize: isSmallScreen ? "0.75rem" : "0.875rem",
+                  p: 1,
+                  fontSize: "0.875rem",
                   color: currentPath.includes(category.toLowerCase())
                     ? "#02353C"
                     : "#ffffff",
@@ -145,47 +165,47 @@ const Header = () => {
               >
                 {category}
               </Link>
-            );
-          } else {
-            const anchorEl = anchorEls[category.name] || null;
+            ) : null;
+          })}
+        </Toolbar>
+      )}
 
-            return (
-              <div key={category.name}>
-                <Typography
-                  onClick={(event) => handleMenuOpen(event, category.name)}
-                  noWrap
-                  variant="body2"
-                  sx={{
-                    p: isSmallScreen ? 0.5 : 1,
-                    fontSize: isSmallScreen ? "0.75rem" : "0.875rem",
-                    color: "#ffffff",
-                    cursor: "pointer",
-                  }}
-                >
-                  {category.name}
-                </Typography>
-                <Menu
-                  anchorEl={anchorEl}
-                  open={Boolean(anchorEl)}
-                  onClose={() => handleMenuClose(category.name)}
-                >
-                  {category.subcategories.map((sub) => (
-                    <MenuItem
-                      key={sub.name}
-                      onClick={() => {
-                        router.push(sub.path);
-                        handleMenuClose(category.name);
-                      }}
-                    >
-                      {sub.name}
-                    </MenuItem>
-                  ))}
-                </Menu>
-              </div>
+      {/* Drawer for smaller screens */}
+      <Drawer
+        anchor="left"
+        open={drawerOpen}
+        onClose={() => toggleDrawer(false)}
+        sx={{ marginTop: 24 }}
+      >
+        <List sx={{ width: 250 }}>
+          {categories.map((category) => {
+            const categoryPath =
+              typeof category === "string"
+                ? category === "Home"
+                  ? "/"
+                  : `/categories/${category.toLowerCase().replace(/\s+/g, "-")}`
+                : null;
+
+            return typeof category === "string" ? (
+              <ListItem
+                button
+                key={category}
+                onClick={() => handleCategoryClick(categoryPath)}
+              >
+                <ListItemText primary={category} />
+              </ListItem>
+            ) : (
+              <ListItem
+                button
+                key={category.name}
+                onClick={() => toggleDrawer(false)}
+              >
+                <ListItemText primary={category.name} />
+              </ListItem>
             );
-          }
-        })}
-      </Toolbar>
+          })}
+        </List>
+      </Drawer>
     </React.Fragment>
   );
 };

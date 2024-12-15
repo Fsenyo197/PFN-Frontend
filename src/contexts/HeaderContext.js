@@ -15,12 +15,12 @@ export const HeaderProvider = ({ children }) => {
     {
       name: "Compare Firms",
       subcategories: [
-        { name: "By Country", path: "/compare/Country" },
-        { name: "By Payout Options", path: "/compare/PayoutOptions" },
-        { name: "By Platforms", path: "/compare/Platforms" },
-        { name: "By Established Year", path: "/compare/YearEstablished" },
-        { name: "By Rules", path: "/compare/Rules" },
-        { name: "By Prices", path: "/compare/Prices" },
+        { name: "By Country", path: "/compare/country" },
+        { name: "By Payout Options", path: "/compare/payout-options" },
+        { name: "By Platforms", path: "/compare/platforms" },
+        { name: "By Established Year", path: "/compare/year-established" },
+        { name: "By Rules", path: "/compare/rules" },
+        { name: "By Prices", path: "/compare/prices" },
       ],
     },
   ];
