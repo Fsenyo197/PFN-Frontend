@@ -5,9 +5,10 @@ import Footer from "../Footer";
 import PricesFilters from "@/components/PricesFilters";
 import FirmComparisonTable from "@/components/FirmComparisonTable";
 import ExpandableRowDetails from "@/components/ExpandableRowDetails";
+import Spinner from "@/components/Spinner";
 
 export default function Prices() {
-  const { prices } = useFirmsContext();
+  const { prices, loading } = useFirmsContext();
   const [selectedPrices, setSelectedPrices] = useState([]);
   const [selectedFirmTypes, setSelectedFirmTypes] = useState([]);
   const [selectedAccountSizes, setSelectedAccountSizes] = useState([]);
@@ -18,6 +19,10 @@ export default function Prices() {
   const [filteredData, setFilteredData] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
   const [noMatchReasons, setNoMatchReasons] = useState([]);
+
+  if (loading) {
+    return <Spinner />;
+  }
 
   // Define unique options
   const uniqueFirmTypes = [
@@ -75,6 +80,7 @@ export default function Prices() {
   const searchFirms = () => {
     setHasSearched(true);
     let reasons = [];
+
     const hasFiltersApplied = [
       selectedFirmTypes,
       selectedAccountSizes,
@@ -84,6 +90,12 @@ export default function Prices() {
       selectedTotalDrawdowns,
       selectedPrices,
     ].some((filter) => filter.length > 0);
+
+    if (!hasFiltersApplied) {
+      setNoMatchReasons(["No option selected"]);
+      setFilteredData([]);
+      return; // Exit early if no filters are applied
+    }
 
     const filtered = prices.filter((firm) => {
       const firmMatches =
@@ -130,12 +142,8 @@ export default function Prices() {
       return firmMatches;
     });
 
-    if (!hasFiltersApplied) {
-      setNoMatchReasons(["No option selected"]);
-    } else {
-      setNoMatchReasons([...new Set(reasons)]);
-    }
-
+    // Handle reasons and filtered data
+    setNoMatchReasons([...new Set(reasons)]);
     setFilteredData(filtered);
   };
 
@@ -190,7 +198,7 @@ export default function Prices() {
         ) : (
           hasSearched && (
             <div>
-              <p>No firms match the selected payout options.</p>
+              <p>No firm match the selected option or options.</p>
               {noMatchReasons.length > 0 && (
                 <p style={{ color: "red" }}>
                   {noMatchReasons.includes("No option selected")

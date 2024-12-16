@@ -5,14 +5,19 @@ import Footer from "../Footer";
 import Header from "@/components/Header";
 import FirmComparisonTable from "@/components/FirmComparisonTable";
 import ExpandableRowDetails from "@/components/ExpandableRowDetails";
+import Spinner from "@/components/Spinner";
 
 export default function Rules() {
-  const { rules } = useFirmsContext();
+  const { rules, loading } = useFirmsContext();
   const [selectedRules, setSelectedRules] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isClicked, setIsClicked] = useState(false);
+
+  if (loading) {
+    return <Spinner />;
+  }
 
   // Define the human-readable rule names
   const uniqueRules = [
@@ -132,7 +137,9 @@ export default function Rules() {
           />
         ) : (
           hasSearched &&
-          !errorMessage && <p>No firms match the selected trading rules.</p>
+          !errorMessage && (
+            <p>No firm match the selected trading rule or rules.</p>
+          )
         )}
       </div>
       <Footer />

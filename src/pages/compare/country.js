@@ -4,14 +4,19 @@ import Footer from "../Footer";
 import Header from "@/components/Header";
 import FirmComparisonTable from "@/components/FirmComparisonTable";
 import ExpandableRowDetails from "@/components/ExpandableRowDetails";
+import Spinner from "@/components/Spinner";
 
 export default function Country() {
-  const { country } = useFirmsContext();
+  const { country, loading } = useFirmsContext();
   const [filteredData, setFilteredData] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [isClicked, setIsClicked] = useState(false);
+
+  if (loading) {
+    return <Spinner />;
+  }
 
   const expandableRenderer = (rowData) => {
     return <ExpandableRowDetails rowData={rowData} />;
@@ -119,7 +124,9 @@ export default function Country() {
           />
         ) : (
           hasSearched &&
-          !errorMessage && <p>No firms match the selected payout options.</p>
+          !errorMessage && (
+            <p>No firm match the entered country or countries.</p>
+          )
         )}
       </div>
       <Footer />

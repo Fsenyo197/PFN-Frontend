@@ -1,5 +1,8 @@
 import axios from "axios";
-import { saveArticlesToIndexedDB, getArticlesFromIndexedDB } from "../utils/indexedDB";
+import {
+  saveArticlesToIndexedDB,
+  getArticlesFromIndexedDB,
+} from "../utils/indexedDB";
 
 const FetchArticles = async () => {
   try {
@@ -22,6 +25,7 @@ const FetchArticles = async () => {
     );
 
     const articles = response.data;
+    console.log("Fetched articles from the API:", articles);
 
     // Save the fetched articles to IndexedDB
     await saveArticlesToIndexedDB(articles);

@@ -21,7 +21,7 @@ import DrawerMenu from "@/components/DrawerMenu";
 const Header = () => {
   const { categories } = useHeader();
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [compareFirmsExpanded, setCompareFirmsExpanded] = useState(false);
@@ -55,6 +55,7 @@ const Header = () => {
 
   return (
     <React.Fragment>
+      {/* Top Header Toolbar */}
       <Toolbar
         sx={{
           borderBottom: 1,
@@ -70,6 +71,7 @@ const Header = () => {
           padding: isSmallScreen ? "8px 16px" : "12px 24px",
         }}
       >
+        {/* Logo */}
         <Typography
           component="h2"
           variant={isSmallScreen ? "h6" : "h5"}
@@ -80,6 +82,7 @@ const Header = () => {
           Prop Firm News
         </Typography>
 
+        {/* Search Bar */}
         {searchOpen && (
           <form
             onSubmit={handleSearchSubmit}
@@ -101,6 +104,7 @@ const Header = () => {
           </form>
         )}
 
+        {/* Search Icon */}
         <IconButton
           onClick={handleSearchIconClick}
           sx={{ marginLeft: searchOpen ? "8px" : "auto" }}
@@ -108,6 +112,7 @@ const Header = () => {
           <SearchIcon sx={{ color: "#ffffff" }} />
         </IconButton>
 
+        {/* Mobile Menu Icon */}
         {isSmallScreen && (
           <IconButton onClick={() => toggleDrawer(true)}>
             <MenuIcon sx={{ color: "#ffffff" }} />
@@ -115,13 +120,13 @@ const Header = () => {
         )}
       </Toolbar>
 
+      {/* Navigation Toolbar */}
       {!isSmallScreen && (
         <Toolbar
           component="nav"
           variant="dense"
           sx={{
             justifyContent: "space-between",
-            overflowX: "auto",
             bgcolor: "#02353C",
             width: "100%",
             position: "sticky",
@@ -170,39 +175,63 @@ const Header = () => {
             } else if (category.name === "Compare Firms") {
               return (
                 <div key={category.name} style={{ position: "relative" }}>
+                  {/* Compare Firms Header */}
                   <Typography
                     variant="body2"
                     onClick={handleCompareFirmsToggle}
                     sx={{
-                      cursor: "pointer",
-                      p: 1,
-                      fontSize: "0.875rem",
-                      color: "#ffffff",
                       display: "flex",
                       alignItems: "center",
+                      justifyContent: "space-between",
+                      p: "8px 16px",
+                      cursor: "pointer",
+                      color: "#ffffff",
+                      borderRadius: "4px",
                       "&:hover": {
-                        color: "#02353C",
                         backgroundColor: "#ffffff",
+                        color: "#02353C",
                       },
+                      position: "relative",
                     }}
                   >
                     {category.name}
                     {compareFirmsExpanded ? <ExpandLess /> : <ExpandMore />}
                   </Typography>
+
+                  {/* Compare Firms Subcategories */}
                   <Collapse
                     in={compareFirmsExpanded}
                     timeout="auto"
                     unmountOnExit
+                    sx={{
+                      position: "absolute",
+                      top: "100%",
+                      left: 0,
+                      zIndex: 1500,
+                      minWidth: "200px",
+                      backgroundColor: "#2C2C2C",
+                      borderRadius: "4px",
+                      boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                      padding: "8px 0",
+                    }}
                   >
-                    <List sx={{ pl: 2 }}>
+                    <List component="div" disablePadding>
                       {category.subcategories.map((subcategory) => (
                         <ListItem
                           button
                           key={subcategory.name}
                           onClick={() => router.push(subcategory.path)}
-                          sx={{ p: 0 }}
+                          sx={{
+                            padding: "8px 16px",
+                            "&:hover": { backgroundColor: "#3A3A3A" },
+                          }}
                         >
-                          <ListItemText primary={subcategory.name} />
+                          <ListItemText
+                            primary={subcategory.name}
+                            primaryTypographyProps={{
+                              color: "#ffffff",
+                            }}
+                          />
                         </ListItem>
                       ))}
                     </List>
@@ -214,6 +243,7 @@ const Header = () => {
         </Toolbar>
       )}
 
+      {/* Mobile Drawer */}
       {isSmallScreen && (
         <DrawerMenu
           open={drawerOpen}

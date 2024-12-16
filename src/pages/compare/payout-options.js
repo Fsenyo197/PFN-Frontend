@@ -5,14 +5,19 @@ import Footer from "../Footer";
 import Header from "@/components/Header";
 import FirmComparisonTable from "@/components/FirmComparisonTable";
 import ExpandableRowDetails from "@/components/ExpandableRowDetails";
+import Spinner from "@/components/Spinner";
 
 export default function PayoutOptions() {
-  const { payoutOptions } = useFirmsContext();
+  const { payoutOptions, loading } = useFirmsContext();
   const [selectedPayoutOptions, setSelectedPayoutOptions] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isClicked, setIsClicked] = useState(false);
+
+  if (loading) {
+    return <Spinner />;
+  }
 
   // Dynamically create unique payout options from the context data
   const uniquePayoutOptions = [
@@ -110,7 +115,9 @@ export default function PayoutOptions() {
           />
         ) : (
           hasSearched &&
-          !errorMessage && <p>No firms match the selected payout options.</p>
+          !errorMessage && (
+            <p>No firm match the selected payout option or options.</p>
+          )
         )}
       </div>
       <Footer />

@@ -7,14 +7,19 @@ import Footer from "../Footer";
 import Header from "@/components/Header";
 import FirmComparisonTable from "@/components/FirmComparisonTable";
 import ExpandableRowDetails from "@/components/ExpandableRowDetails";
+import Spinner from "@/components/Spinner";
 
 export default function YearEstablished() {
-  const { yearEstablished } = useFirmsContext();
+  const { yearEstablished, loading } = useFirmsContext();
   const [selectedYearEstablished, setSelectedYearEstablished] = useState(null);
   const [filteredData, setFilteredData] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isClicked, setIsClicked] = useState(false);
+
+  if (loading) {
+    return <Spinner />;
+  }
 
   const toggleYearEstablished = (option) => {
     setSelectedYearEstablished((prev) => (prev === option ? null : option));
@@ -33,11 +38,11 @@ export default function YearEstablished() {
 
     const result = yearEstablished.filter((firm) => {
       const yearsDiff = new Date().getFullYear() - firm.year_established;
-      if (selectedYearEstablished.includes("above")) {
+      if (selectedYearEstablished.includes(">=")) {
         const threshold = parseInt(selectedYearEstablished.split(" ")[2], 10);
         return yearsDiff > threshold;
       }
-      if (selectedYearEstablished.includes("below")) {
+      if (selectedYearEstablished.includes("<=")) {
         const threshold = parseInt(selectedYearEstablished.split(" ")[2], 10);
         return yearsDiff < threshold;
       }
@@ -48,16 +53,14 @@ export default function YearEstablished() {
   };
 
   const compareyearEstablished = [
-    "Firms above 5 years",
-    "Firms below 5 years",
-    "Firms above 4 years",
-    "Firms below 4 years",
-    "Firms above 3 years",
-    "Firms below 3 years",
-    "Firms above 2 years",
-    "Firms below 2 years",
-    "Firms above 1 year",
-    "Firms below 1 year",
+    "Firms >= 5 years",
+    "Firms <= 5 years",
+    "Firms >= 4 years",
+    "Firms <= 4 years",
+    "Firms >= 3 years",
+    "Firms <= 3 years",
+    "Firms >= 2 years",
+    "Firms <= 2 years",
   ];
 
   const expandableRenderer = (rowData) => {
@@ -128,7 +131,7 @@ export default function YearEstablished() {
         ) : (
           hasSearched &&
           !errorMessage && (
-            <p>No firms match the selected for year established.</p>
+            <p>No firm match the selected years of establishment.</p>
           )
         )}
       </div>

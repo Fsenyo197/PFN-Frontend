@@ -55,15 +55,11 @@ const FirmComparisonTable = ({ filteredData, expandableRenderer }) => {
 
   return (
     <div style={{ width: "100%", margin: "1rem 0" }}>
-      {filteredData.length > 0 ? (
-        <GenericTable
-          columns={columns}
-          data={data}
-          expandableRenderer={expandableRenderer}
-        />
-      ) : (
-        <p>No firms match the selected prices.</p>
-      )}
+      <GenericTable
+        columns={columns}
+        data={data}
+        expandableRenderer={expandableRenderer}
+      />
     </div>
   );
 };

@@ -33,7 +33,7 @@ const DrawerMenu = ({ open, onClose, categories, onCategoryClick }) => {
 
   return (
     <Drawer anchor="left" open={open} onClose={onClose}>
-      <List sx={{ width: 250 }}>
+      <List sx={{ width: 250, marginTop: 8 }}>
         {categories.map((category) => {
           if (typeof category === "string") {
             const categoryPath =
