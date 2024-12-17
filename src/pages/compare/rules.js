@@ -45,24 +45,24 @@ export default function Rules() {
       return;
     }
 
-    setErrorMessage(""); // Clear previous error messages
+    setErrorMessage("");
 
     // Filter firms based on selected rules
     const result = rules.filter((firm) =>
       selectedRules.every((rule) => {
         switch (rule) {
           case "News Trading Rule":
-            return firm.news_rule === true;
+            return firm.news_rule === false;
           case "Consistency Rule":
-            return firm.consistency_rule === true;
+            return firm.consistency_rule === false;
           case "Copy Trading":
-            return firm.copy_trading === true;
+            return firm.copy_trading === false;
           case "Two Percent Rule":
-            return firm.two_percent_rule === true;
+            return firm.two_percent_rule === false;
           case "Stop Loss Rule":
-            return firm.stop_loss_rule === true;
+            return firm.stop_loss_rule === false;
           default:
-            return false;
+            return true;
         }
       })
     );

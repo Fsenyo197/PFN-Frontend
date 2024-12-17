@@ -5,6 +5,9 @@ export default function PricesFilters({
   uniqueFirmTypes,
   uniqueAccountSizes,
   uniquePhases,
+  uniquePlatforms,
+  uniquePayoutOptions,
+  uniqueRules,
   uniqueSplitRatios,
   uniqueDailyDrawdowns,
   uniqueTotalDrawdowns,
@@ -12,6 +15,9 @@ export default function PricesFilters({
   toggleFirmType,
   toggleAccountSize,
   togglePhase,
+  togglePlatform,
+  togglePayout,
+  toggleRule,
   toggleSplitRatio,
   toggleDailyDrawdown,
   toggleTotalDrawdown,
@@ -20,6 +26,9 @@ export default function PricesFilters({
   selectedFirmTypes,
   selectedAccountSizes,
   selectedPhases,
+  selectedPlatforms,
+  selectedPayouts,
+  selectedRules,
   selectedSplitRatios,
   selectedDailyDrawdowns,
   selectedTotalDrawdowns,
@@ -50,7 +59,7 @@ export default function PricesFilters({
         </div>
       </div>
       <div>
-        <h4>Select Account Sizes:</h4>
+        <h4>Select Platforms:</h4>
         <div
           style={{
             display: "flex",
@@ -59,12 +68,52 @@ export default function PricesFilters({
             gap: "0.5rem",
           }}
         >
-          {uniqueAccountSizes.map((option) => (
+          {uniquePlatforms.map((option) => (
             <RoundButton
               key={option}
               option={option}
-              isSelected={selectedAccountSizes.includes(option)}
-              onClick={() => toggleAccountSize(option)}
+              isSelected={selectedPlatforms.includes(option)}
+              onClick={() => togglePlatform(option)}
+            />
+          ))}
+        </div>
+      </div>
+      <div>
+        <h4>Select Payout Options:</h4>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            flexWrap: "wrap",
+            gap: "0.5rem",
+          }}
+        >
+          {uniquePayoutOptions.map((option) => (
+            <RoundButton
+              key={option}
+              option={option}
+              isSelected={selectedPayouts.includes(option)}
+              onClick={() => togglePayout(option)}
+            />
+          ))}
+        </div>
+      </div>
+      <div>
+        <h4>Select Rules:</h4>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            flexWrap: "wrap",
+            gap: "0.5rem",
+          }}
+        >
+          {uniqueRules.map((option) => (
+            <RoundButton
+              key={option}
+              option={option}
+              isSelected={selectedRules.includes(option)}
+              onClick={() => toggleRule(option)}
             />
           ))}
         </div>
@@ -85,6 +134,26 @@ export default function PricesFilters({
               option={option}
               isSelected={selectedPhases.includes(option)}
               onClick={() => togglePhase(option)}
+            />
+          ))}
+        </div>
+      </div>
+      <div>
+        <h4>Select Account Sizes:</h4>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            flexWrap: "wrap",
+            gap: "0.5rem",
+          }}
+        >
+          {uniqueAccountSizes.map((option) => (
+            <RoundButton
+              key={option}
+              option={option}
+              isSelected={selectedAccountSizes.includes(option)}
+              onClick={() => toggleAccountSize(option)}
             />
           ))}
         </div>

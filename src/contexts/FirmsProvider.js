@@ -17,6 +17,7 @@ export const FirmsProvider = ({ children }) => {
     yearEstablished: [],
     rules: [],
     prices: [],
+    bestChoices: [],
   });
   const [loading, setLoading] = useState(true);
 
@@ -26,7 +27,7 @@ export const FirmsProvider = ({ children }) => {
         // Try to get firms data from IndexedDB first
         const cachedData = await getFirmsFromIndexedDB();
         if (cachedData.length > 0) {
-          console.log("Using cached firms data from IndexedDB");
+          console.log("Using cached firms data from IndexedDB:", cachedData);
           setFirmsData({
             country: cachedData,
             payoutOptions: cachedData,
@@ -34,6 +35,7 @@ export const FirmsProvider = ({ children }) => {
             yearEstablished: cachedData,
             rules: cachedData,
             prices: cachedData,
+            bestChoices: cachedData,
           });
         } else {
           // Fetch data from the API if not in IndexedDB
@@ -66,6 +68,7 @@ export const FirmsProvider = ({ children }) => {
             yearEstablished: transformedData,
             rules: transformedData,
             prices: transformedData,
+            bestChoices: transformedData,
           });
         }
       } catch (error) {

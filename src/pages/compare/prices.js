@@ -2,32 +2,22 @@ import React, { useState } from "react";
 import { useFirmsContext } from "@/contexts/FirmsProvider";
 import Header from "@/components/Header";
 import Footer from "../Footer";
-import PricesFilters from "@/components/PricesFilters";
+import RoundButton from "@/components/RoundButton";
 import FirmComparisonTable from "@/components/FirmComparisonTable";
 import ExpandableRowDetails from "@/components/ExpandableRowDetails";
 import Spinner from "@/components/Spinner";
 
 export default function Prices() {
   const { prices, loading } = useFirmsContext();
-  const [selectedPrices, setSelectedPrices] = useState([]);
-  const [selectedFirmTypes, setSelectedFirmTypes] = useState([]);
-  const [selectedAccountSizes, setSelectedAccountSizes] = useState([]);
-  const [selectedPhases, setSelectedPhases] = useState([]);
-  const [selectedSplitRatios, setSelectedSplitRatios] = useState([]);
-  const [selectedDailyDrawdowns, setSelectedDailyDrawdowns] = useState([]);
-  const [selectedTotalDrawdowns, setSelectedTotalDrawdowns] = useState([]);
+  const [selectedPayoutFrequency, setSelectedPayoutFrequency] = useState("");
   const [filteredData, setFilteredData] = useState([]);
+  const [isClicked, setIsClicked] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
-  const [noMatchReasons, setNoMatchReasons] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  if (loading) {
-    return <Spinner />;
-  }
+  if (loading) return <Spinner />;
 
-  // Define unique options
-  const uniqueFirmTypes = [
-    ...new Set(prices.flatMap((firm) => firm.firm_type)),
-  ];
+  // Unique account sizes and payout frequencies
   const uniqueAccountSizes = [
     ...new Set(
       prices.flatMap((firm) =>
@@ -35,116 +25,54 @@ export default function Prices() {
       )
     ),
   ];
-  const uniquePhases = [
-    ...new Set(
-      prices.flatMap((firm) => firm.account_plans?.map((plan) => plan.phase))
-    ),
-  ];
-  const uniquePrices = [
-    ...new Set(
-      prices.flatMap((firm) => firm.account_plans?.map((plan) => plan.price))
-    ),
-  ];
-  const uniqueSplitRatios = [
-    ...new Set(
-      prices.flatMap((firm) =>
-        firm.account_plans?.map((plan) => plan.profit_split_ratio)
-      )
-    ),
-  ];
-  const uniqueDailyDrawdowns = [
-    ...new Set(
-      prices.flatMap((firm) =>
-        firm.account_plans?.map((plan) => plan.daily_drawdown)
-      )
-    ),
-  ];
-  const uniqueTotalDrawdowns = [
-    ...new Set(
-      prices.flatMap((firm) =>
-        firm.account_plans?.map((plan) => plan.total_drawdown)
-      )
-    ),
+
+  const uniquePayoutFrequencies = [
+    ...new Set(platforms.flatMap((firm) => firm.payout_frequency)),
   ];
 
-  // Define toggle functions
-  const toggleFilter = (setState) => (option) => {
-    setState((prev) =>
-      prev.includes(option)
-        ? prev.filter((opt) => opt !== option)
-        : [...prev, option]
-    );
+  // Toggle payout frequency selection
+  const toggleRule = (option) => {
+    setSelectedPayoutFrequency((prev) => (prev === option ? "" : option));
   };
 
-  // Filtering logic
-  const searchFirms = () => {
-    setHasSearched(true);
-    let reasons = [];
+  // Get best prices with optional payout frequency filtering
+  const getBestPrices = () => {
+    const bestPrices = uniqueAccountSizes.map((accountSize) => {
+      const bestFirm = prices.reduce((best, firm) => {
+        const relevantPlan = firm.account_plans?.find(
+          (plan) =>
+            plan.account_size === accountSize &&
+            (selectedPayoutFrequency === "" ||
+              plan.payout_frequency === selectedPayoutFrequency)
+        );
 
-    const hasFiltersApplied = [
-      selectedFirmTypes,
-      selectedAccountSizes,
-      selectedPhases,
-      selectedSplitRatios,
-      selectedDailyDrawdowns,
-      selectedTotalDrawdowns,
-      selectedPrices,
-    ].some((filter) => filter.length > 0);
+        if (!relevantPlan) return best;
 
-    if (!hasFiltersApplied) {
-      setNoMatchReasons(["No option selected"]);
-      setFilteredData([]);
-      return; // Exit early if no filters are applied
-    }
-
-    const filtered = prices.filter((firm) => {
-      const firmMatches =
-        (selectedFirmTypes.length === 0 ||
-          selectedFirmTypes.includes(firm.firm_type)) &&
-        firm.account_plans.some((plan) => {
-          const accountMatches =
-            selectedAccountSizes.length === 0 ||
-            selectedAccountSizes.includes(plan.account_size);
-          const phaseMatches =
-            selectedPhases.length === 0 || selectedPhases.includes(plan.phase);
-          const splitRatioMatches =
-            selectedSplitRatios.length === 0 ||
-            selectedSplitRatios.includes(plan.profit_split_ratio);
-          const dailyDrawdownMatches =
-            selectedDailyDrawdowns.length === 0 ||
-            selectedDailyDrawdowns.includes(plan.daily_drawdown);
-          const totalDrawdownMatches =
-            selectedTotalDrawdowns.length === 0 ||
-            selectedTotalDrawdowns.includes(plan.total_drawdown);
-          const priceMatches =
-            selectedPrices.length === 0 || selectedPrices.includes(plan.price);
-
-          // Identify reasons for no match
-          if (!accountMatches) reasons.push("account size");
-          if (!phaseMatches) reasons.push("phases");
-          if (!splitRatioMatches) reasons.push("split ratio");
-          if (!dailyDrawdownMatches) reasons.push("daily drawdown");
-          if (!totalDrawdownMatches) reasons.push("total drawdown");
-          if (!priceMatches) reasons.push("prices");
-
-          return (
-            accountMatches &&
-            phaseMatches &&
-            splitRatioMatches &&
-            dailyDrawdownMatches &&
-            totalDrawdownMatches &&
-            priceMatches
-          );
-        });
-
-      if (!firmMatches && selectedFirmTypes.length > 0)
-        reasons.push("firm type");
-      return firmMatches;
+        if (!best || relevantPlan.price < best.price) {
+          return {
+            firm_name: firm.name,
+            price: relevantPlan.price,
+            account_size: accountSize,
+            payout_frequency: relevantPlan.payout_frequency,
+          };
+        }
+        return best;
+      }, null);
+      return bestFirm;
     });
 
-    // Handle reasons and filtered data
-    setNoMatchReasons([...new Set(reasons)]);
-    setFilteredData(filtered);
+    return bestPrices.filter(Boolean); // Remove any nulls
+  };
+
+  const searchFirms = () => {
+    try {
+      const results = getBestPrices();
+      setFilteredData(results);
+      setHasSearched(true);
+      setErrorMessage(results.length ? "" : "No matching firms found.");
+    } catch (error) {
+      setErrorMessage("An error occurred while searching for firms.");
+    }
   };
 
   const expandableRenderer = (rowData) => {
@@ -162,33 +90,47 @@ export default function Prices() {
       }}
     >
       <Header />
-      <h2 style={{ marginTop: "2rem", marginBottom: "2rem" }}>
-        Compare Firms by Prices
-      </h2>
-      <PricesFilters
-        uniqueFirmTypes={uniqueFirmTypes}
-        uniqueAccountSizes={uniqueAccountSizes}
-        uniquePhases={uniquePhases}
-        uniqueSplitRatios={uniqueSplitRatios}
-        uniqueDailyDrawdowns={uniqueDailyDrawdowns}
-        uniqueTotalDrawdowns={uniqueTotalDrawdowns}
-        uniquePrices={uniquePrices}
-        toggleFirmType={toggleFilter(setSelectedFirmTypes)}
-        toggleAccountSize={toggleFilter(setSelectedAccountSizes)}
-        togglePhase={toggleFilter(setSelectedPhases)}
-        toggleSplitRatio={toggleFilter(setSelectedSplitRatios)}
-        toggleDailyDrawdown={toggleFilter(setSelectedDailyDrawdowns)}
-        toggleTotalDrawdown={toggleFilter(setSelectedTotalDrawdowns)}
-        togglePrice={toggleFilter(setSelectedPrices)}
-        searchFirms={searchFirms}
-        selectedFirmTypes={selectedFirmTypes}
-        selectedAccountSizes={selectedAccountSizes}
-        selectedPhases={selectedPhases}
-        selectedSplitRatios={selectedSplitRatios}
-        selectedDailyDrawdowns={selectedDailyDrawdowns}
-        selectedTotalDrawdowns={selectedTotalDrawdowns}
-        selectedPrices={selectedPrices}
-      />
+      <h2 style={{ marginTop: "2rem", marginBottom: "2rem" }}>Compare Firms</h2>
+      <div style={{ width: "100%", margin: "1rem 0" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            flexWrap: "wrap",
+            gap: "0.5rem",
+          }}
+        >
+          {uniquePayoutFrequencies.map((option) => (
+            <RoundButton
+              key={option}
+              option={option}
+              isSelected={selectedPayoutFrequency === option}
+              onClick={() => toggleRule(option)}
+            />
+          ))}
+        </div>
+        <button
+          onClick={() => {
+            setIsClicked(true);
+            searchFirms();
+            setTimeout(() => setIsClicked(false), 200);
+          }}
+          style={{
+            marginTop: "4rem",
+            padding: "0.5rem 1rem",
+            backgroundColor: "#02353C",
+            color: "#fff",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer",
+            transform: isClicked ? "scale(0.95)" : "scale(1)",
+            transition: "transform 0.1s ease-out",
+          }}
+        >
+          Search for firms
+        </button>
+      </div>
+      {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
       <div style={{ width: "100%", margin: "1rem 0" }}>
         {filteredData.length > 0 ? (
           <FirmComparisonTable
@@ -196,18 +138,8 @@ export default function Prices() {
             expandableRenderer={expandableRenderer}
           />
         ) : (
-          hasSearched && (
-            <div>
-              <p>No firm match the selected option or options.</p>
-              {noMatchReasons.length > 0 && (
-                <p style={{ color: "red" }}>
-                  {noMatchReasons.includes("No option selected")
-                    ? "No option selected."
-                    : `Check ${noMatchReasons.join(", ")}.`}
-                </p>
-              )}
-            </div>
-          )
+          hasSearched &&
+          !errorMessage && <p>No firm matches for the selected criteria.</p>
         )}
       </div>
       <Footer />
