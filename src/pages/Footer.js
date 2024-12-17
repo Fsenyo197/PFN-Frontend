@@ -39,6 +39,15 @@ function Footer() {
     "Discount Codes",
   ];
 
+  const compareFirms = [
+    "Country",
+    "Payout Options",
+    "Platforms",
+    "Year Established",
+    "Rules",
+    "Prices",
+  ];
+
   return (
     <Box
       component="footer"
@@ -65,8 +74,6 @@ function Footer() {
           <Typography variant="h6" sx={{ mb: 1 }}>
             Follow Us
           </Typography>
-
-          {/* Social Media Icons Wrapper */}
           <Box
             sx={{
               display: "flex",
@@ -109,37 +116,57 @@ function Footer() {
           </Box>
         </Box>
 
-        {/* Categories Section */}
         <Box
           sx={{
             display: "flex",
-            flexDirection: "column",
-            mb: 2,
+            justifyContent: "space-between",
+            m: 4,
+            mx: { md: 8, lg: 12 },
           }}
         >
-          <Link
-            color="inherit"
-            href="/"
-            sx={{
-              my: 1,
-              fontWeight: "bold",
-              "&:hover": { textDecoration: "none" },
-            }}
-          >
-            Home
-          </Link>
-          {categories.map((category) => (
-            <Link
-              key={category}
-              color="inherit"
-              href={`/categories/${category
-                .toLowerCase()
-                .replace(/\s+/g, "-")}`}
-              sx={{ my: 1, "&:hover": { textDecoration: "none" } }}
-            >
-              {category}
-            </Link>
-          ))}
+          {/* Categories Section */}
+          <Box>
+            <Typography variant="h6" sx={{ mb: 2 }}>
+              Categories
+            </Typography>
+            {categories.map((category) => (
+              <Link
+                key={category}
+                color="inherit"
+                href={`/categories/${category
+                  .toLowerCase()
+                  .replace(/\s+/g, "-")}`}
+                sx={{
+                  display: "block",
+                  my: 1,
+                  "&:hover": { textDecoration: "none" },
+                }}
+              >
+                {category}
+              </Link>
+            ))}
+          </Box>
+
+          {/* Compare Section */}
+          <Box>
+            <Typography variant="h6" sx={{ mb: 2 }}>
+              Compare Platforms
+            </Typography>
+            {compareFirms.map((compare) => (
+              <Link
+                key={compare}
+                color="inherit"
+                href={`/compare/${compare.toLowerCase().replace(/\s+/g, "-")}`}
+                sx={{
+                  display: "block",
+                  my: 1,
+                  "&:hover": { textDecoration: "none" },
+                }}
+              >
+                By {compare}
+              </Link>
+            ))}
+          </Box>
         </Box>
 
         {/* Disclaimer Section */}

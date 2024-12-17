@@ -33,7 +33,7 @@ export default function Country() {
       return;
     }
 
-    setErrorMessage(""); // Clear previous error messages
+    setErrorMessage("");
 
     // Normalize and clean up the user input
     const queryCountries = searchQuery
