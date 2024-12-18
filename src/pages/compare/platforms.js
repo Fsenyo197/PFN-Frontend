@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import FirmComparisonTable from "@/components/FirmComparisonTable";
 import ExpandableRowDetails from "@/components/ExpandableRowDetails";
 import Spinner from "@/components/Spinner";
+import Head from "next/head";
 
 export default function Platforms() {
   const { platforms, loading } = useFirmsContext();
@@ -62,6 +63,17 @@ export default function Platforms() {
         textAlign: "center",
       }}
     >
+      <Head>
+        <title>Trading Platforms - Compare Firms</title>
+        <meta
+          name="description"
+          content="Compare firms based on the trading platforms they support, including popular platforms such as MetaTrader, cTrader, and proprietary solutions."
+        />
+        <meta
+          name="keywords"
+          content="compare firms by trading platforms, MetaTrader firms comparison, firms using DXTrader, firms using Match Trader, firms using MT5, firms using MT4, firms using cTrader, multi-platform trading firms"
+        />
+      </Head>
       <Header />
       <h1 style={{ marginTop: "2rem", marginBottom: "2rem" }}>
         Compare Firms by Trading Platforms

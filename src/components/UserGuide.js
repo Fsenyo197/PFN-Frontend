@@ -36,9 +36,10 @@ const UserGuide = () => {
         </DialogTitle>
         <DialogContent dividers>
           <Typography variant="body1" component="p" gutterBottom>
-            Welcome to the User Guide! Here you'll find everything you need to
-            get started and make the most of our platform.
+            Welcome to the User Guide! Here you&apos;ll find everything you need
+            to get started and make the most of our platform.
           </Typography>
+
           <List sx={{ listStyleType: "disc", pl: 2 }}>
             <ListItem sx={{ display: "list-item", pl: 0 }}>
               <ListItemText primary="Choose your preferred options and click the 'Search for Firm' button to begin." />

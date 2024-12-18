@@ -6,6 +6,7 @@ import PricesFilters from "@/components/PricesFilters";
 import FirmComparisonTable from "@/components/FirmComparisonTable";
 import ExpandableRowDetails from "@/components/ExpandableRowDetails";
 import Spinner from "@/components/Spinner";
+import Head from "next/head";
 
 export default function BestChoices() {
   const { bestChoices, loading } = useFirmsContext();
@@ -231,6 +232,19 @@ export default function BestChoices() {
         textAlign: "center",
       }}
     >
+      <Head>
+        <title>
+          Best Prop Firms - Compare and Choose the Best Trading Firm
+        </title>
+        <meta
+          name="description"
+          content="Discover the best prop firms tailored to your needs. Compare top proprietary trading firms, pricing, and features to make the best choice for your trading journey."
+        />
+        <meta
+          name="keywords"
+          content="best prop firms, compare prop trading platforms, top proprietary trading firms, best trading firm comparison, choose the best trading firm"
+        />
+      </Head>
       <Header />
       <h1 style={{ marginTop: "2rem", marginBottom: "2rem" }}>
         Choose Your Ideal Firm

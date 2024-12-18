@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import FirmComparisonTable from "@/components/FirmComparisonTable";
 import ExpandableRowDetails from "@/components/ExpandableRowDetails";
 import Spinner from "@/components/Spinner";
+import Head from "next/head";
 
 export default function Rules() {
   const { rules, loading } = useFirmsContext();
@@ -84,6 +85,17 @@ export default function Rules() {
         textAlign: "center",
       }}
     >
+      <Head>
+        <title>Trading Rules - Compare Firms</title>
+        <meta
+          name="description"
+          content="Discover and compare firms based on adherence to trading rules, including news trading, consistency, copy trading, and risk management strategies."
+        />
+        <meta
+          name="keywords"
+          content="compare firms based on trading rules, trading rule comparison, firms with news trading rule, firms with two percent rule, firms with copy trading rule, firms with consistency rule, firms with stop loss rule, trading risk management"
+        />
+      </Head>
       <Header />
       <h1 style={{ marginTop: "2rem", marginBottom: "2rem" }}>
         Compare Firms by Trading Rules

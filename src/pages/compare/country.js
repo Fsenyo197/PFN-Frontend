@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import FirmComparisonTable from "@/components/FirmComparisonTable";
 import ExpandableRowDetails from "@/components/ExpandableRowDetails";
 import Spinner from "@/components/Spinner";
+import Head from "next/head";
 
 export default function Country() {
   const { country, loading } = useFirmsContext();
@@ -65,6 +66,17 @@ export default function Country() {
         textAlign: "center",
       }}
     >
+      <Head>
+        <title>Country Search - Compare Prop Firms</title>
+        <meta
+          name="description"
+          content="Find and compare prop firms that are allowed in your country. Search by entering one or multiple country names to discover firms operating in your region."
+        />
+        <meta
+          name="keywords"
+          content="compare prop firms by country, prop trading firms allowed in your country, country-based firm search, trading firm restrictions"
+        />
+      </Head>
       <Header />
       <h1 style={{ marginTop: "2rem", marginBottom: "2rem", padding: 16 }}>
         Search for Prop Firms allowed in your country

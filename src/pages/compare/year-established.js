@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Head from "next/head"; // Import Head
 import { useFirmsContext } from "@/contexts/FirmsProvider";
 import RoundButton from "@/components/RoundButton";
 import Footer from "../Footer";
@@ -77,6 +78,17 @@ export default function YearEstablished() {
         textAlign: "center",
       }}
     >
+      <Head>
+        <title>Year Established - Compare Firms</title>
+        <meta
+          name="description"
+          content="Compare firms based on their years of operation to find the best match for your needs."
+        />
+        <meta
+          name="keywords"
+          content="compare firms based on years of operation, compare firm by establishment year, find firms by age, firm establishment year filter,"
+        />
+      </Head>
       <Header />
       <h1 style={{ marginTop: "2rem", marginBottom: "2rem" }}>
         Compare Firms by years of operation

@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import FirmComparisonTable from "@/components/FirmComparisonTable";
 import ExpandableRowDetails from "@/components/ExpandableRowDetails";
 import Spinner from "@/components/Spinner";
+import Head from "next/head";
 
 export default function PayoutOptions() {
   const { payoutOptions, loading } = useFirmsContext();
@@ -62,6 +63,17 @@ export default function PayoutOptions() {
         textAlign: "center",
       }}
     >
+      <Head>
+        <title>Payout Options - Compare Firms</title>
+        <meta
+          name="description"
+          content="Explore and compare firms based on their payout options, including bank transfers, PayPal, cryptocurrencies, and other payment methods."
+        />
+        <meta
+          name="keywords"
+          content="compare firms by payout options, firm payout methods, best firm payment options, bank transfer firms, PayPal payouts, cryptocurrency payouts"
+        />
+      </Head>
       <Header />
       <h1 style={{ marginTop: "2rem", marginBottom: "2rem" }}>
         Compare Firms by Payout Options
