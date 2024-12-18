@@ -8,48 +8,84 @@ export default {
   exclude: ["/search"],
   additionalPaths: async (config) => {
     try {
-      // Use environment variable for the base URL
-      const apiUrlArticles = `${process.env.NEXT_PUBLIC_BASE_URL}/articles`;
-      const apiUrlCategories = `${process.env.NEXT_PUBLIC_BASE_URL}/categories`;
+      const {
+        NEXT_PUBLIC_BASE_URL,
+        NEXT_PUBLIC_API_KEY,
+        NEXT_PUBLIC_API_SECRET,
+      } = process.env;
 
-      // Fetch articles and categories directly with Axios
+      if (
+        !NEXT_PUBLIC_BASE_URL ||
+        !NEXT_PUBLIC_API_KEY ||
+        !NEXT_PUBLIC_API_SECRET
+      ) {
+        throw new Error(
+          "Environment variables (NEXT_PUBLIC_BASE_URL, NEXT_PUBLIC_API_KEY, NEXT_PUBLIC_API_SECRET) are not properly defined."
+        );
+      }
+
+      // API Endpoints
+      const apiUrlArticles = `${NEXT_PUBLIC_BASE_URL}/articles`;
+      const apiUrlCategories = `${NEXT_PUBLIC_BASE_URL}/categories`;
+
+      // Fetch articles, categories, and prop firms
       const [articlesResponse, categoriesResponse] = await Promise.all([
         axios.get(apiUrlArticles),
-        axios.get(apiUrlCategories),
+        axios.get(apiUrlCategories, {
+          headers: {
+            "X-API-Key": NEXT_PUBLIC_API_KEY,
+            "X-API-Secret": NEXT_PUBLIC_API_SECRET,
+          },
+        }),
       ]);
 
       const articles = articlesResponse.data;
-      const categories = categoriesResponse.data.map(
-        (category) => category.name
-      ); // Assuming category objects have a `name` property
+      const categories = categoriesResponse.data;
 
+      // Map articles to sitemap paths
       const articlePaths = articles.map((article) => ({
         loc: `/blog/${article.slug}`,
         lastmod: article.date_published,
       }));
 
+      // Map categories to sitemap paths
       const categoryPaths = categories.map((category) => {
-        // Find the latest article in the category
         const latestArticle = articles
           .filter(
             (article) =>
-              article.category.toLowerCase() === category.toLowerCase()
+              article.category.toLowerCase() === category.name.toLowerCase()
           )
           .sort(
             (a, b) => new Date(b.date_published) - new Date(a.date_published)
           )[0];
 
         return {
-          loc: `/category/${category.toLowerCase()}`,
+          loc: `/category/${category.name.toLowerCase()}`,
           lastmod: latestArticle
             ? latestArticle.date_published
             : new Date().toISOString(),
         };
       });
 
-      return [...articlePaths, ...categoryPaths];
+      // Map prop firm comparison paths
+      const comparisonPaths = [
+        "/compare/country",
+        "/compare/payout-options",
+        "/compare/platforms",
+        "/compare/year-established",
+        "/compare/rules",
+        "/compare/best-choices",
+      ].map((path) => ({
+        loc: path,
+        lastmod: new Date().toISOString(),
+      }));
+
+      return [...articlePaths, ...categoryPaths, ...comparisonPaths];
     } catch (error) {
-      console.error("Error fetching articles or categories with Axios:", error);
+      console.error(
+        "Error generating additional sitemap paths:",
+        error.message
+      );
       return [];
     }
   },
