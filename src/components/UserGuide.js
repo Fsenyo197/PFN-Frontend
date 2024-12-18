@@ -7,6 +7,9 @@ import {
   Button,
   Typography,
   IconButton,
+  List,
+  ListItem,
+  ListItemText,
 } from "@mui/material";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 
@@ -32,25 +35,24 @@ const UserGuide = () => {
           User Guide
         </DialogTitle>
         <DialogContent dividers>
-          <Typography variant="body1" component="p">
-            Welcome to the user guide. Here you will find all the information
-            you need to get started and make the most out of our platform.
+          <Typography variant="body1" component="p" gutterBottom>
+            Welcome to the User Guide! Here you'll find everything you need to
+            get started and make the most of our platform.
           </Typography>
-          <Typography>
-            Select your preffered options and click the "Search for Firm"
-            buttons
-          </Typography>
-          <Typography>
-            Filter your preffered firm by name using the Search bar (if
-            necessary)
-          </Typography>
-          <Typography>
-            Click on the table cells or rows to see more details about the firms
-          </Typography>
-          <Typography>
-            Click the cell or row to open, click it to close it back when
-            necessary
-          </Typography>
+          <List sx={{ listStyleType: "disc", pl: 2 }}>
+            <ListItem sx={{ display: "list-item", pl: 0 }}>
+              <ListItemText primary="Choose your preferred options and click the 'Search for Firm' button to begin." />
+            </ListItem>
+            <ListItem sx={{ display: "list-item", pl: 0 }}>
+              <ListItemText primary="You can filter firms by name using the search bar if needed." />
+            </ListItem>
+            <ListItem sx={{ display: "list-item", pl: 0 }}>
+              <ListItemText primary="Click on any row or cell in the table to view more details about a firm." />
+            </ListItem>
+            <ListItem sx={{ display: "list-item", pl: 0 }}>
+              <ListItemText primary="To open or close the details, simply click the row or cell again." />
+            </ListItem>
+          </List>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">

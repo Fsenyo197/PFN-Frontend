@@ -9,7 +9,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TablePagination from "@mui/material/TablePagination";
 import TextField from "@mui/material/TextField";
-import { Typography } from "@mui/material";
+import Typography from "@mui/material/Typography";
 import UserGuide from "./UserGuide";
 
 const GenericTable = ({ columns = [], data = [], expandableRenderer }) => {
@@ -66,14 +66,18 @@ const GenericTable = ({ columns = [], data = [], expandableRenderer }) => {
           marginTop: 4,
         }}
       >
-        {/* Search Bar with reduced width */}
+        {/* Search Bar with responsive width */}
         <TextField
           label="Search preferred firm"
           variant="outlined"
           value={searchQuery}
           onChange={handleSearchChange}
           sx={{
-            width: 300,
+            width: {
+              xs: "70%",
+              sm: "80%",
+              md: "90%",
+            },
             "& .MuiOutlinedInput-root": {
               "& fieldset": {
                 borderColor: "#02353C",
