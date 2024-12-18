@@ -45,7 +45,7 @@ function Footer() {
     "Platforms",
     "Year Established",
     "Rules",
-    "Prices",
+    "Best Choices",
   ];
 
   return (
@@ -127,7 +127,7 @@ function Footer() {
           {/* Categories Section */}
           <Box>
             <Typography variant="h6" sx={{ mb: 2 }}>
-              Categories
+              News Categories
             </Typography>
             {categories.map((category) => (
               <Link
@@ -150,7 +150,7 @@ function Footer() {
           {/* Compare Section */}
           <Box>
             <Typography variant="h6" sx={{ mb: 2 }}>
-              Compare Platforms
+              Compare Prop Firms
             </Typography>
             {compareFirms.map((compare) => (
               <Link
@@ -197,10 +197,5 @@ function Footer() {
     </Box>
   );
 }
-
-Footer.propTypes = {
-  description: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-};
 
 export default Footer;

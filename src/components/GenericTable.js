@@ -9,6 +9,8 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TablePagination from "@mui/material/TablePagination";
 import TextField from "@mui/material/TextField";
+import { Typography } from "@mui/material";
+import UserGuide from "./UserGuide";
 
 const GenericTable = ({ columns = [], data = [], expandableRenderer }) => {
   const [expandedRows, setExpandedRows] = useState({});
@@ -55,15 +57,23 @@ const GenericTable = ({ columns = [], data = [], expandableRenderer }) => {
 
   return (
     <Box>
-      {/* Search Bar */}
-      <Box sx={{ margin: 2, marginTop: 4 }}>
+      {/* Search Bar and User Guide */}
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          margin: 2,
+          marginTop: 4,
+        }}
+      >
+        {/* Search Bar with reduced width */}
         <TextField
           label="Search preferred firm"
           variant="outlined"
-          fullWidth
           value={searchQuery}
           onChange={handleSearchChange}
           sx={{
+            width: 300,
             "& .MuiOutlinedInput-root": {
               "& fieldset": {
                 borderColor: "#02353C",
@@ -86,6 +96,14 @@ const GenericTable = ({ columns = [], data = [], expandableRenderer }) => {
             },
           }}
         />
+
+        {/* User Guide with larger size and label */}
+        <Box sx={{ flex: 1, marginLeft: 2 }}>
+          <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+            User Guide
+          </Typography>
+          <UserGuide />
+        </Box>
       </Box>
 
       <TableContainer component={Paper} sx={{ overflowX: "auto", margin: 2 }}>

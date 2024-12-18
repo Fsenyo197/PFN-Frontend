@@ -63,11 +63,13 @@ export default function Platforms() {
       }}
     >
       <Header />
-      <h2 style={{ marginTop: "2rem", marginBottom: "2rem" }}>
+      <h1 style={{ marginTop: "2rem", marginBottom: "2rem" }}>
         Compare Firms by Trading Platforms
-      </h2>
+      </h1>
       <div style={{ width: "100%", margin: "1rem 0" }}>
-        <h4>Select Trading Platforms:</h4>
+        <p style={{ fontSize: "1.2rem", fontWeight: "bold" }}>
+          Select Trading Platforms:
+        </p>
         <div
           style={{
             display: "flex",
@@ -93,11 +95,12 @@ export default function Platforms() {
           }}
           style={{
             marginTop: "4rem",
-            padding: "0.5rem 1rem",
+            padding: "1rem 2rem",
+            fontSize: "1.2rem",
             backgroundColor: "#02353C",
             color: "#fff",
             border: "none",
-            borderRadius: "5px",
+            borderRadius: "10px",
             cursor: "pointer",
             transform: isClicked ? "scale(0.95)" : "scale(1)",
             transition: "transform 0.1s ease-out",
@@ -116,7 +119,7 @@ export default function Platforms() {
         ) : (
           hasSearched &&
           !errorMessage && (
-            <p>No firm match the selected trading platform or platforms.</p>
+            <p>No firm matches the selected trading platform or platforms.</p>
           )
         )}
       </div>

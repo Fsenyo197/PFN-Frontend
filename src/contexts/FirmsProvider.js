@@ -20,6 +20,7 @@ export const FirmsProvider = ({ children }) => {
     bestChoices: [],
   });
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,7 +28,6 @@ export const FirmsProvider = ({ children }) => {
         // Try to get firms data from IndexedDB first
         const cachedData = await getFirmsFromIndexedDB();
         if (cachedData.length > 0) {
-          console.log("Using cached firms data from IndexedDB:", cachedData);
           setFirmsData({
             country: cachedData,
             payoutOptions: cachedData,
@@ -72,7 +72,10 @@ export const FirmsProvider = ({ children }) => {
           });
         }
       } catch (error) {
-        console.error("Failed to fetch or cache firms data", error);
+        // Handle error gracefully without logging to the console
+        setError(
+          "An error occurred while fetching data. Please try again later."
+        );
       } finally {
         setLoading(false);
       }
@@ -82,7 +85,7 @@ export const FirmsProvider = ({ children }) => {
   }, []);
 
   return (
-    <FirmsContext.Provider value={{ ...firmsData, loading }}>
+    <FirmsContext.Provider value={{ ...firmsData, loading, error }}>
       {children}
     </FirmsContext.Provider>
   );

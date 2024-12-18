@@ -38,11 +38,11 @@ export default function YearEstablished() {
 
     const result = yearEstablished.filter((firm) => {
       const yearsDiff = new Date().getFullYear() - firm.year_established;
-      if (selectedYearEstablished.includes(">=")) {
+      if (selectedYearEstablished.includes("above")) {
         const threshold = parseInt(selectedYearEstablished.split(" ")[2], 10);
         return yearsDiff > threshold;
       }
-      if (selectedYearEstablished.includes("<=")) {
+      if (selectedYearEstablished.includes("below")) {
         const threshold = parseInt(selectedYearEstablished.split(" ")[2], 10);
         return yearsDiff < threshold;
       }
@@ -53,14 +53,14 @@ export default function YearEstablished() {
   };
 
   const compareyearEstablished = [
-    "Firms >= 5 years",
-    "Firms <= 5 years",
-    "Firms >= 4 years",
-    "Firms <= 4 years",
-    "Firms >= 3 years",
-    "Firms <= 3 years",
-    "Firms >= 2 years",
-    "Firms <= 2 years",
+    "Firms above 5 years",
+    "Firms below 5 years",
+    "Firms above 4 years",
+    "Firms below 4 years",
+    "Firms above 3 years",
+    "Firms below 3 years",
+    "Firms above 2 years",
+    "Firms below 2 years",
   ];
 
   const expandableRenderer = (rowData) => {
@@ -78,11 +78,13 @@ export default function YearEstablished() {
       }}
     >
       <Header />
-      <h2 style={{ marginTop: "2rem", marginBottom: "2rem" }}>
+      <h1 style={{ marginTop: "2rem", marginBottom: "2rem" }}>
         Compare Firms by years of operation
-      </h2>
+      </h1>
       <div style={{ width: "100%", margin: "1rem 0" }}>
-        <h4>Select years of operation:</h4>
+        <p style={{ fontSize: "1.2rem", fontWeight: "bold" }}>
+          Select years of operation:
+        </p>
         <div
           style={{
             display: "flex",
@@ -108,11 +110,12 @@ export default function YearEstablished() {
           }}
           style={{
             marginTop: "4rem",
-            padding: "0.5rem 1rem",
+            padding: "1rem 2rem",
+            fontSize: "1.2rem",
             backgroundColor: "#02353C",
             color: "#fff",
             border: "none",
-            borderRadius: "5px",
+            borderRadius: "10px",
             cursor: "pointer",
             transform: isClicked ? "scale(0.95)" : "scale(1)",
             transition: "transform 0.1s ease-out",

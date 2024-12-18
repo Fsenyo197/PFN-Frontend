@@ -85,11 +85,13 @@ export default function Rules() {
       }}
     >
       <Header />
-      <h2 style={{ marginTop: "2rem", marginBottom: "2rem" }}>
+      <h1 style={{ marginTop: "2rem", marginBottom: "2rem" }}>
         Compare Firms by Trading Rules
-      </h2>
+      </h1>
       <div style={{ width: "100%", margin: "1rem 0" }}>
-        <h4>Select Trading Rules:</h4>
+        <p style={{ fontSize: "1.2rem", fontWeight: "bold" }}>
+          Select Trading Rules:
+        </p>
         <div
           style={{
             display: "flex",
@@ -115,11 +117,12 @@ export default function Rules() {
           }}
           style={{
             marginTop: "4rem",
-            padding: "0.5rem 1rem",
+            padding: "1rem 2rem",
+            fontSize: "1.2rem",
             backgroundColor: "#02353C",
             color: "#fff",
             border: "none",
-            borderRadius: "5px",
+            borderRadius: "10px",
             cursor: "pointer",
             transform: isClicked ? "scale(0.95)" : "scale(1)",
             transition: "transform 0.1s ease-out",

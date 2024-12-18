@@ -54,7 +54,9 @@ export default function BestChoices() {
   const uniquePhases = [
     ...new Set(
       bestChoices.flatMap((firm) =>
-        firm.account_plans?.map((plan) => plan.phase)
+        firm.account_plans?.map((plan) =>
+          plan.phase.slice(0).replace(/_/g, " ")
+        )
       )
     ),
   ];
@@ -230,9 +232,9 @@ export default function BestChoices() {
       }}
     >
       <Header />
-      <h2 style={{ marginTop: "2rem", marginBottom: "2rem" }}>
-        Make the best choice
-      </h2>
+      <h1 style={{ marginTop: "2rem", marginBottom: "2rem" }}>
+        Choose Your Ideal Firm
+      </h1>
       <PricesFilters
         uniqueFirmTypes={uniqueFirmTypes}
         uniquePlatforms={uniquePlatforms}

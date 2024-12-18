@@ -20,7 +20,7 @@ export const HeaderProvider = ({ children }) => {
         { name: "By Platforms", path: "/compare/platforms" },
         { name: "By Established Year", path: "/compare/year-established" },
         { name: "By Rules", path: "/compare/rules" },
-        { name: "By Prices", path: "/compare/prices" },
+        { name: "Make Best Choices", path: "/compare/best-choices" },
       ],
     },
   ];

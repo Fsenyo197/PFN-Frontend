@@ -66,17 +66,19 @@ export default function Country() {
       }}
     >
       <Header />
-      <h2 style={{ marginTop: "2rem", marginBottom: "2rem" }}>
+      <h1 style={{ marginTop: "2rem", marginBottom: "2rem", padding: 16 }}>
         Search for Prop Firms allowed in your country
-      </h2>
+      </h1>
       <div style={{ width: "100%", margin: "1rem 0" }}>
-        <h4>Search by Country (Separate multiple countries with commas):</h4>
+        <p style={{ fontSize: "1.2rem", fontWeight: "bold", padding: 16 }}>
+          Search by Country (Separate multiple countries with commas):
+        </p>
         <div
           style={{
             display: "flex",
-            justifyContent: "center",
+            flexDirection: "column",
             alignItems: "center",
-            gap: "0.5rem",
+            gap: "2rem",
             marginBottom: "1rem",
             marginTop: "1rem",
           }}
@@ -87,12 +89,23 @@ export default function Country() {
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Enter country names"
             style={{
-              padding: "0.5rem",
-              width: "300px",
-              borderRadius: "5px",
-              border: "1px solid #ccc",
+              padding: "0.75rem 1rem",
+              width: "100%",
+              maxWidth: "400px",
+              borderRadius: "8px",
+              fontSize: "1rem",
+              color: "#333",
+              outline: "none",
+              transition: "border-color 0.3s, box-shadow 0.3s",
             }}
+            onFocus={(e) =>
+              (e.target.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.2)")
+            }
+            onBlur={(e) =>
+              (e.target.style.boxShadow = "0 2px 4px rgba(0, 0, 0, 0.1)")
+            }
           />
+
           <button
             onClick={() => {
               setIsClicked(true);
@@ -100,12 +113,12 @@ export default function Country() {
               setTimeout(() => setIsClicked(false), 200);
             }}
             style={{
-              marginTop: "4rem",
-              padding: "0.5rem 1rem",
+              padding: "1rem 2rem",
+              fontSize: "1.2rem",
               backgroundColor: "#02353C",
               color: "#fff",
               border: "none",
-              borderRadius: "5px",
+              borderRadius: "10px",
               cursor: "pointer",
               transform: isClicked ? "scale(0.95)" : "scale(1)",
               transition: "transform 0.1s ease-out",

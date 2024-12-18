@@ -9,7 +9,6 @@ const FetchArticles = async () => {
     // Try to get articles from IndexedDB first
     const cachedArticles = await getArticlesFromIndexedDB();
     if (cachedArticles.length > 0) {
-      console.log("Using cached articles from IndexedDB");
       return cachedArticles;
     }
 
@@ -25,28 +24,38 @@ const FetchArticles = async () => {
     );
 
     const articles = response.data;
-    console.log("Fetched articles from the API:", articles);
 
     // Save the fetched articles to IndexedDB
     await saveArticlesToIndexedDB(articles);
 
     return articles;
   } catch (error) {
-    console.error("Error fetching articles:", error);
-    return [];
+    // Handle the error gracefully without logging to the console
+    return {
+      error:
+        "An error occurred while fetching articles. Please try again later.",
+    };
   }
 };
 
 export const fetchArticlesByCategory = async (category) => {
   try {
     const articles = await FetchArticles();
+
+    if (articles.error) {
+      return articles;
+    }
+
     const filteredArticles = articles.filter(
       (article) => article.category.toLowerCase() === category.toLowerCase()
     );
     return filteredArticles;
   } catch (error) {
-    console.error("Error fetching articles by category:", error);
-    return [];
+    // Handle the error gracefully without logging to the console
+    return {
+      error:
+        "An error occurred while fetching articles by category. Please try again later.",
+    };
   }
 };
 

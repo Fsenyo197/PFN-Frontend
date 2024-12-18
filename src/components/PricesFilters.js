@@ -39,7 +39,9 @@ export default function PricesFilters({
   return (
     <div style={{ width: "100%", margin: "1rem 0" }}>
       <div>
-        <h4>Select Firm Types:</h4>
+        <p style={{ fontSize: "1.2rem", fontWeight: "bold" }}>
+          Select Firm Types:
+        </p>
         <div
           style={{
             display: "flex",
@@ -59,7 +61,9 @@ export default function PricesFilters({
         </div>
       </div>
       <div>
-        <h4>Select Platforms:</h4>
+        <p style={{ fontSize: "1.2rem", fontWeight: "bold" }}>
+          Select Platforms:
+        </p>
         <div
           style={{
             display: "flex",
@@ -79,7 +83,9 @@ export default function PricesFilters({
         </div>
       </div>
       <div>
-        <h4>Select Payout Options:</h4>
+        <p style={{ fontSize: "1.2rem", fontWeight: "bold" }}>
+          Select Payout Options:
+        </p>
         <div
           style={{
             display: "flex",
@@ -99,7 +105,7 @@ export default function PricesFilters({
         </div>
       </div>
       <div>
-        <h4>Select Rules:</h4>
+        <p style={{ fontSize: "1.2rem", fontWeight: "bold" }}>Select Rules:</p>
         <div
           style={{
             display: "flex",
@@ -119,7 +125,7 @@ export default function PricesFilters({
         </div>
       </div>
       <div>
-        <h4>Select Phases:</h4>
+        <p style={{ fontSize: "1.2rem", fontWeight: "bold" }}>Select Phases:</p>
         <div
           style={{
             display: "flex",
@@ -139,7 +145,9 @@ export default function PricesFilters({
         </div>
       </div>
       <div>
-        <h4>Select Account Sizes:</h4>
+        <p style={{ fontSize: "1.2rem", fontWeight: "bold" }}>
+          Select Account Sizes:
+        </p>
         <div
           style={{
             display: "flex",
@@ -159,7 +167,9 @@ export default function PricesFilters({
         </div>
       </div>
       <div>
-        <h4>Select Split Ratios:</h4>
+        <p style={{ fontSize: "1.2rem", fontWeight: "bold" }}>
+          Select Split Ratios:
+        </p>
         <div
           style={{
             display: "flex",
@@ -179,7 +189,9 @@ export default function PricesFilters({
         </div>
       </div>
       <div>
-        <h4>Select Daily Drawdowns:</h4>
+        <p style={{ fontSize: "1.2rem", fontWeight: "bold" }}>
+          Select Daily Drawdowns:
+        </p>
         <div
           style={{
             display: "flex",
@@ -199,7 +211,9 @@ export default function PricesFilters({
         </div>
       </div>
       <div>
-        <h4>Select Total Drawdowns:</h4>
+        <p style={{ fontSize: "1.2rem", fontWeight: "bold" }}>
+          Select Total Drawdowns:
+        </p>
         <div
           style={{
             display: "flex",
@@ -219,7 +233,7 @@ export default function PricesFilters({
         </div>
       </div>
       <div>
-        <h4>Select Prices:</h4>
+        <p style={{ fontSize: "1.2rem", fontWeight: "bold" }}>Select Prices:</p>
         <div
           style={{
             display: "flex",
@@ -246,11 +260,12 @@ export default function PricesFilters({
         }}
         style={{
           marginTop: "4rem",
-          padding: "0.5rem 1rem",
+          padding: "1rem 2rem",
+          fontSize: "1.2rem",
           backgroundColor: "#02353C",
           color: "#fff",
           border: "none",
-          borderRadius: "5px",
+          borderRadius: "10px",
           cursor: "pointer",
           transform: isClicked ? "scale(0.95)" : "scale(1)",
           transition: "transform 0.1s ease-out",
