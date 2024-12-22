@@ -1,9 +1,9 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
-import axios from "axios";
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import axios from 'axios';
 import {
   saveFirmsToIndexedDB,
   getFirmsFromIndexedDB,
-} from "../utils/indexedDB";
+} from '../utils/indexedDB';
 
 const FirmsContext = createContext();
 
@@ -23,65 +23,64 @@ export const FirmsProvider = ({ children }) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchAndUpdateFirms = async () => {
       try {
-        // Try to get firms data from IndexedDB first
+        // Get cached data from IndexedDB
         const cachedData = await getFirmsFromIndexedDB();
-        if (cachedData.length > 0) {
-          setFirmsData({
-            country: cachedData,
-            payoutOptions: cachedData,
-            platforms: cachedData,
-            yearEstablished: cachedData,
-            rules: cachedData,
-            prices: cachedData,
-            bestChoices: cachedData,
-          });
-        } else {
-          // Fetch data from the API if not in IndexedDB
-          const response = await axios.get(
-            `${process.env.NEXT_PUBLIC_BASE_URL}/propfirms/`,
-            {
-              headers: {
-                "X-API-Key": process.env.NEXT_PUBLIC_API_KEY,
-                "X-API-Secret": process.env.NEXT_PUBLIC_API_SECRET,
-              },
-            }
-          );
 
-          const transformedData = response.data.map((firm) => ({
-            ...firm,
-            countries_prohibited: firm.countries_prohibited
-              ? firm.countries_prohibited
-                  .split(", ")
-                  .map((option) => option.trim())
-              : [],
-          }));
+        // Fetch fresh data from the API
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/propfirms/`,
+          {
+            headers: {
+              'X-API-Key': process.env.NEXT_PUBLIC_API_KEY,
+              'X-API-Secret': process.env.NEXT_PUBLIC_API_SECRET,
+            },
+          }
+        );
 
-          // Save the fetched data to IndexedDB
-          await saveFirmsToIndexedDB(transformedData);
+        const fetchedData = response.data.map((firm) => ({
+          ...firm,
+          countries_prohibited: firm.countries_prohibited
+            ? firm.countries_prohibited
+                .split(', ')
+                .map((option) => option.trim())
+            : [],
+        }));
 
-          setFirmsData({
-            country: transformedData,
-            payoutOptions: transformedData,
-            platforms: transformedData,
-            yearEstablished: transformedData,
-            rules: transformedData,
-            prices: transformedData,
-            bestChoices: transformedData,
-          });
+        // Check if data has changed
+        const newData = fetchedData.filter(
+          (newFirm) =>
+            !cachedData.some((cachedFirm) => cachedFirm.id === newFirm.id)
+        );
+
+        if (newData.length > 0) {
+          await saveFirmsToIndexedDB(newData);
         }
+
+        // Merge cached and new data
+        const allFirms = [...cachedData, ...newData];
+
+        // Update the context state
+        setFirmsData({
+          country: allFirms,
+          payoutOptions: allFirms,
+          platforms: allFirms,
+          yearEstablished: allFirms,
+          rules: allFirms,
+          prices: allFirms,
+          bestChoices: allFirms,
+        });
       } catch (error) {
-        // Handle error gracefully without logging to the console
         setError(
-          "An error occurred while fetching data. Please try again later."
+          'An error occurred while fetching firms data. Please try again later.'
         );
       } finally {
         setLoading(false);
       }
     };
 
-    fetchData();
+    fetchAndUpdateFirms();
   }, []);
 
   return (

@@ -1,43 +1,53 @@
-import axios from "axios";
+import axios from 'axios';
 import {
   saveArticlesToIndexedDB,
   getArticlesFromIndexedDB,
-} from "../utils/indexedDB";
+} from '../utils/indexedDB';
 
+// Helper to fetch and update articles
 const FetchArticles = async () => {
   try {
-    // Try to get articles from IndexedDB first
+    // Get cached articles from IndexedDB
     const cachedArticles = await getArticlesFromIndexedDB();
-    if (cachedArticles.length > 0) {
-      return cachedArticles;
-    }
 
-    // Fetch articles from the API if not in IndexedDB
+    // Fetch new articles from API
     const response = await axios.get(
       `${process.env.NEXT_PUBLIC_BASE_URL}/articles/`,
       {
         headers: {
-          "X-API-Key": process.env.NEXT_PUBLIC_API_KEY,
-          "X-API-Secret": process.env.NEXT_PUBLIC_API_SECRET,
+          'X-API-Key': process.env.NEXT_PUBLIC_API_KEY,
+          'X-API-Secret': process.env.NEXT_PUBLIC_API_SECRET,
         },
       }
     );
 
-    const articles = response.data;
+    const fetchedArticles = response.data;
 
-    // Save the fetched articles to IndexedDB
-    await saveArticlesToIndexedDB(articles);
+    // Find new articles that are not already in the cache
+    const newArticles = fetchedArticles.filter(
+      (article) => !cachedArticles.some((cached) => cached.id === article.id)
+    );
 
-    return articles;
+    // Save only new articles to IndexedDB
+    if (newArticles.length > 0) {
+      await saveArticlesToIndexedDB(newArticles);
+    }
+
+    // Merge cached and new articles
+    const allArticles = [...newArticles, ...cachedArticles];
+
+    // Return the combined articles
+    return allArticles;
   } catch (error) {
-    // Handle the error gracefully without logging to the console
+    // Handle the error gracefully
     return {
       error:
-        "An error occurred while fetching articles. Please try again later.",
+        'An error occurred while fetching articles. Please try again later.',
     };
   }
 };
 
+// Fetch articles by category
 export const fetchArticlesByCategory = async (category) => {
   try {
     const articles = await FetchArticles();
@@ -46,15 +56,16 @@ export const fetchArticlesByCategory = async (category) => {
       return articles;
     }
 
+    // Filter articles by category
     const filteredArticles = articles.filter(
       (article) => article.category.toLowerCase() === category.toLowerCase()
     );
+
     return filteredArticles;
   } catch (error) {
-    // Handle the error gracefully without logging to the console
     return {
       error:
-        "An error occurred while fetching articles by category. Please try again later.",
+        'An error occurred while fetching articles by category. Please try again later.',
     };
   }
 };
