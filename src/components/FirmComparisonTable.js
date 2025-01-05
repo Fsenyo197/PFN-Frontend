@@ -1,5 +1,6 @@
 import React from 'react';
 import GenericTable from '@/components/GenericTable';
+import Link from 'next/link';
 
 const FirmComparisonTable = ({ filteredData, expandableRenderer }) => {
   const columns = [
@@ -21,6 +22,23 @@ const FirmComparisonTable = ({ filteredData, expandableRenderer }) => {
           )}
         </div>
       ),
+    },
+    {
+      key: 'slug',
+      label: 'Firm Page',
+      render: (value, row) => {
+        if (!row.slug) return <div>No slug available</div>;
+        return (
+          <div>
+            {/* Link to the FirmDetails page using the slug */}
+            <Link href={`/firm/${row.slug}`}>
+              About{' '}
+              {value.charAt(0).toUpperCase() +
+                value.slice(1).replace(/_/g, ' ')}{' '}
+            </Link>
+          </div>
+        );
+      },
     },
     {
       key: 'news_rule',
@@ -54,6 +72,7 @@ const FirmComparisonTable = ({ filteredData, expandableRenderer }) => {
   const data = filteredData.map((firm) => ({
     id: firm.id,
     name: firm.name,
+    slug: firm.slug,
     news_rule: firm.news_rule,
     consistency_rule: firm.consistency_rule,
     copy_trading: firm.copy_trading,

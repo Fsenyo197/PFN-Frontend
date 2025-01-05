@@ -1,27 +1,28 @@
-import React from "react";
+import React from 'react';
+import Link from 'next/link';
 
 const ExpandableRowDetails = ({ rowData }) => {
   // Helper function to format boolean values for rules
   const formatRule = (value) => {
     if (value === true) {
-      return "Yes";
+      return 'Yes';
     } else if (value === false) {
-      return "No";
+      return 'No';
     } else {
-      return "Not Indicated";
+      return 'Not Indicated';
     }
   };
 
   return (
     <div
       style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        textAlign: "center",
-        border: "1px solid #ccc",
-        padding: "1rem",
-        borderRadius: "8px",
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        textAlign: 'center',
+        border: '1px solid #ccc',
+        padding: '1rem',
+        borderRadius: '8px',
       }}
     >
       <div style={rowStyle}>
@@ -122,63 +123,13 @@ const ExpandableRowDetails = ({ rowData }) => {
         </div>
         <div style={valueContainerStyle}>{rowData.countries_prohibited}</div>
       </div>
-
-      {/* Account Plans Section */}
-      <div
-        style={{
-          marginTop: "1rem",
-          borderTop: "2px solid #ccc",
-          paddingTop: "1rem",
-        }}
-      >
-        <strong>Account Plans:</strong>
-        {rowData.account_plans && rowData.account_plans.length > 0 ? (
-          rowData.account_plans.map((plan, index) => (
-            <div
-              key={index}
-              style={{
-                marginBottom: "1rem",
-                borderBottom: "1px solid #ccc",
-                paddingBottom: "1rem",
-              }}
-            >
-              {/* Plan Title */}
-              <div style={{ fontWeight: "bold" }}>
-                {plan.phase.charAt(0).toUpperCase() +
-                  plan.phase.slice(1).replace(/_/g, " ")}
-                : {plan.account_size} Account Size
-              </div>
-
-              {/* Plan Details */}
-              <div style={rowStyle}>
-                <div style={labelContainerStyle}>
-                  <strong>Price:</strong>
-                </div>
-                <div style={valueContainerStyle}>{plan.price}</div>
-              </div>
-              <div style={rowStyle}>
-                <div style={labelContainerStyle}>
-                  <strong>Profit Split Ratio:</strong>
-                </div>
-                <div style={valueContainerStyle}>{plan.profit_split_ratio}</div>
-              </div>
-              <div style={rowStyle}>
-                <div style={labelContainerStyle}>
-                  <strong>Daily Drawdown:</strong>
-                </div>
-                <div style={valueContainerStyle}>{plan.daily_drawdown}</div>
-              </div>
-              <div style={rowStyle}>
-                <div style={labelContainerStyle}>
-                  <strong>Total Drawdown:</strong>
-                </div>
-                <div style={valueContainerStyle}>{plan.total_drawdown}</div>
-              </div>
-            </div>
-          ))
-        ) : (
-          <p>No account plans available.</p>
-        )}
+      <div style={rowStyle}>
+        <div style={labelContainerStyle}>
+          <strong>Account Plans:</strong>
+        </div>
+        <div style={valueContainerStyle}>
+          <Link href={`/firm/${rowData.slug}`}>View Account Plans</Link>
+        </div>
       </div>
     </div>
   );
@@ -186,35 +137,35 @@ const ExpandableRowDetails = ({ rowData }) => {
 
 // Styles for the label and value containers
 const rowStyle = {
-  display: "flex",
-  justifyContent: "flex-start",
-  width: "100%",
-  padding: "0.5rem 0",
-  flexWrap: "wrap", // Allow wrapping on smaller screens
+  display: 'flex',
+  justifyContent: 'flex-start',
+  width: '100%',
+  padding: '0.5rem 0',
+  flexWrap: 'wrap', // Allow wrapping on smaller screens
 };
 
 // Label container style
 const labelContainerStyle = {
-  display: "flex",
+  display: 'flex',
   flex: 1,
-  justifyContent: "flex-end",
-  paddingBottom: "0.5rem",
-  minWidth: "150px",
+  justifyContent: 'flex-end',
+  paddingBottom: '0.5rem',
+  minWidth: '150px',
   paddingRight: 8,
-  alignItems: "center",
-  textAlign: "center",
+  alignItems: 'center',
+  textAlign: 'center',
 };
 
 // Value container style with vertical connecting line
 const valueContainerStyle = {
-  display: "flex",
+  display: 'flex',
   flex: 1,
-  justifyContent: "flex-start",
-  borderLeft: "2px solid #ccc",
-  paddingLeft: "1rem",
-  paddingBottom: "0.5rem",
-  minWidth: "150px",
-  alignItems: "center",
-  textAlign: "center",
+  justifyContent: 'flex-start',
+  borderLeft: '2px solid #ccc',
+  paddingLeft: '1rem',
+  paddingBottom: '0.5rem',
+  minWidth: '150px',
+  alignItems: 'center',
+  textAlign: 'center',
 };
 export default ExpandableRowDetails;

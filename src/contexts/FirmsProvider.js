@@ -18,6 +18,7 @@ export const FirmsProvider = ({ children }) => {
     rules: [],
     prices: [],
     bestChoices: [],
+    firms: [],
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -48,6 +49,8 @@ export const FirmsProvider = ({ children }) => {
             : [],
         }));
 
+        console.log('fetchedData', fetchedData);
+
         // Check if data has changed
         const newData = fetchedData.filter(
           (newFirm) =>
@@ -61,6 +64,8 @@ export const FirmsProvider = ({ children }) => {
         // Merge cached and new data
         const allFirms = [...cachedData, ...newData];
 
+        console.log('allFirms', allFirms);
+
         // Update the context state
         setFirmsData({
           country: allFirms,
@@ -70,6 +75,7 @@ export const FirmsProvider = ({ children }) => {
           rules: allFirms,
           prices: allFirms,
           bestChoices: allFirms,
+          firms: allFirms,
         });
       } catch (error) {
         setError(
@@ -83,8 +89,15 @@ export const FirmsProvider = ({ children }) => {
     fetchAndUpdateFirms();
   }, []);
 
+  // Helper function to get a firm by slug
+  const getFirmBySlug = (slug) => {
+    return firmsData.firms.find((firm) => firm.slug === slug);
+  };
+
   return (
-    <FirmsContext.Provider value={{ ...firmsData, loading, error }}>
+    <FirmsContext.Provider
+      value={{ ...firmsData, loading, error, getFirmBySlug }}
+    >
       {children}
     </FirmsContext.Provider>
   );
