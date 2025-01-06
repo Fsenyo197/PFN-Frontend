@@ -4,8 +4,8 @@ import React, { useEffect, useState } from 'react';
 import { useFirmsContext } from '@/contexts/FirmsProvider';
 import Footer from '../Footer';
 import Header from '@/components/Header';
-import { Box, Typography, Link, List, ListItem } from '@mui/material';
-import AccountPlans from '@/components/AccountPlans';
+import { Box, Typography, Link } from '@mui/material';
+import AccountPlans from '@/components/firms/AccountPlans';
 
 export default function FirmDetails() {
   const { getFirmBySlug, loading } = useFirmsContext();
@@ -67,53 +67,49 @@ export default function FirmDetails() {
               <Typography variant="body1" gutterBottom>
                 {firm.about}
               </Typography>
-
-              <Typography component="h3">
-                Firm Type: {firm.firm_type}
-              </Typography>
-              <Typography component="h3">
-                Drawdown Type: {firm.drawdown_type}
-              </Typography>
-              <Typography component="h3">Location: {firm.location}</Typography>
-
-              <Typography variant="body1">
-                Year Established: {firm.year_established}
-              </Typography>
-
-              <Typography variant="body1">
-                Website:{' '}
-                <Link href={firm.website} target="_blank" rel="noopener">
-                  {firm.website}
-                </Link>
-              </Typography>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 1.5,
+                  marginTop: 3,
+                }}
+              >
+                <Typography>Firm Type: {firm.firm_type}</Typography>
+                <Typography>Drawdown Type: {firm.drawdown_type}</Typography>
+                <Typography>Location: {firm.location}</Typography>
+                <Typography>
+                  Year Established: {firm.year_established}
+                </Typography>
+                <Typography variant="body1">
+                  Website:{' '}
+                  <Link href={firm.website} target="_blank" rel="noopener">
+                    {firm.website}
+                  </Link>
+                </Typography>
+              </Box>
             </Box>
 
             <Typography sx={{ marginTop: 4 }}>
               <strong>Trading Platforms</strong>
             </Typography>
-            <List>
-              {firm.trading_platforms.map((platform, index) => (
-                <ListItem key={index}>{platform}</ListItem>
-              ))}
-            </List>
+            <Typography variant="body2">
+              {firm.trading_platforms.join(', ')}
+            </Typography>
 
             <Typography sx={{ marginTop: 4 }}>
               <strong>Payout Options</strong>
             </Typography>
-            <List>
-              {firm.payout_options.map((payout, index) => (
-                <ListItem key={index}>{payout}</ListItem>
-              ))}
-            </List>
+            <Typography variant="body2">
+              {firm.payout_options.join(', ')}
+            </Typography>
 
             <Typography sx={{ marginTop: 4 }}>
               <strong>Payment Options</strong>
             </Typography>
-            <List>
-              {firm.payment_options.map((payment, index) => (
-                <ListItem key={index}>{payment}</ListItem>
-              ))}
-            </List>
+            <Typography variant="body2">
+              {firm.payment_options.join(', ')}
+            </Typography>
 
             <Typography sx={{ marginTop: 4 }}>
               <strong>Prohibited/Restricted Countries</strong>
@@ -126,11 +122,9 @@ export default function FirmDetails() {
                     <Typography variant="h6" sx={{ marginTop: 2 }}>
                       {letter}
                     </Typography>
-                    <List>
-                      {groupedCountries[letter].map((country, index) => (
-                        <ListItem key={index}>{country}</ListItem>
-                      ))}
-                    </List>
+                    <Typography variant="body2">
+                      {groupedCountries[letter].join(', ')}
+                    </Typography>
                   </div>
                 ))}
 

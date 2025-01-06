@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import RoundButton from "@/components/RoundButton";
+import React, { useState } from 'react';
+import RoundButton from '@/components/firms/RoundButton';
 
 export default function PricesFilters({
   uniqueFirmTypes,
@@ -37,17 +37,17 @@ export default function PricesFilters({
   const [isClicked, setIsClicked] = useState(false);
 
   return (
-    <div style={{ width: "100%", margin: "1rem 0" }}>
+    <div style={{ width: '100%', margin: '1rem 0' }}>
       <div>
-        <p style={{ fontSize: "1.2rem", fontWeight: "bold" }}>
+        <p style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>
           Select Firm Types:
         </p>
         <div
           style={{
-            display: "flex",
-            justifyContent: "center",
-            flexWrap: "wrap",
-            gap: "0.5rem",
+            display: 'flex',
+            justifyContent: 'center',
+            flexWrap: 'wrap',
+            gap: '0.5rem',
           }}
         >
           {uniqueFirmTypes.map((option) => (
@@ -61,15 +61,15 @@ export default function PricesFilters({
         </div>
       </div>
       <div>
-        <p style={{ fontSize: "1.2rem", fontWeight: "bold" }}>
+        <p style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>
           Select Platforms:
         </p>
         <div
           style={{
-            display: "flex",
-            justifyContent: "center",
-            flexWrap: "wrap",
-            gap: "0.5rem",
+            display: 'flex',
+            justifyContent: 'center',
+            flexWrap: 'wrap',
+            gap: '0.5rem',
           }}
         >
           {uniquePlatforms.map((option) => (
@@ -83,15 +83,15 @@ export default function PricesFilters({
         </div>
       </div>
       <div>
-        <p style={{ fontSize: "1.2rem", fontWeight: "bold" }}>
+        <p style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>
           Select Payout Options:
         </p>
         <div
           style={{
-            display: "flex",
-            justifyContent: "center",
-            flexWrap: "wrap",
-            gap: "0.5rem",
+            display: 'flex',
+            justifyContent: 'center',
+            flexWrap: 'wrap',
+            gap: '0.5rem',
           }}
         >
           {uniquePayoutOptions.map((option) => (
@@ -105,13 +105,13 @@ export default function PricesFilters({
         </div>
       </div>
       <div>
-        <p style={{ fontSize: "1.2rem", fontWeight: "bold" }}>Select Rules:</p>
+        <p style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>Select Rules:</p>
         <div
           style={{
-            display: "flex",
-            justifyContent: "center",
-            flexWrap: "wrap",
-            gap: "0.5rem",
+            display: 'flex',
+            justifyContent: 'center',
+            flexWrap: 'wrap',
+            gap: '0.5rem',
           }}
         >
           {uniqueRules.map((option) => (
@@ -125,13 +125,13 @@ export default function PricesFilters({
         </div>
       </div>
       <div>
-        <p style={{ fontSize: "1.2rem", fontWeight: "bold" }}>Select Phases:</p>
+        <p style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>Select Phases:</p>
         <div
           style={{
-            display: "flex",
-            justifyContent: "center",
-            flexWrap: "wrap",
-            gap: "0.5rem",
+            display: 'flex',
+            justifyContent: 'center',
+            flexWrap: 'wrap',
+            gap: '0.5rem',
           }}
         >
           {uniquePhases.map((option) => (
@@ -145,15 +145,15 @@ export default function PricesFilters({
         </div>
       </div>
       <div>
-        <p style={{ fontSize: "1.2rem", fontWeight: "bold" }}>
+        <p style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>
           Select Account Sizes:
         </p>
         <div
           style={{
-            display: "flex",
-            justifyContent: "center",
-            flexWrap: "wrap",
-            gap: "0.5rem",
+            display: 'flex',
+            justifyContent: 'center',
+            flexWrap: 'wrap',
+            gap: '0.5rem',
           }}
         >
           {uniqueAccountSizes.map((option) => (
@@ -167,15 +167,15 @@ export default function PricesFilters({
         </div>
       </div>
       <div>
-        <p style={{ fontSize: "1.2rem", fontWeight: "bold" }}>
+        <p style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>
           Select Split Ratios:
         </p>
         <div
           style={{
-            display: "flex",
-            justifyContent: "center",
-            flexWrap: "wrap",
-            gap: "0.5rem",
+            display: 'flex',
+            justifyContent: 'center',
+            flexWrap: 'wrap',
+            gap: '0.5rem',
           }}
         >
           {uniqueSplitRatios.map((option) => (
@@ -189,15 +189,15 @@ export default function PricesFilters({
         </div>
       </div>
       <div>
-        <p style={{ fontSize: "1.2rem", fontWeight: "bold" }}>
+        <p style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>
           Select Daily Drawdowns:
         </p>
         <div
           style={{
-            display: "flex",
-            justifyContent: "center",
-            flexWrap: "wrap",
-            gap: "0.5rem",
+            display: 'flex',
+            justifyContent: 'center',
+            flexWrap: 'wrap',
+            gap: '0.5rem',
           }}
         >
           {uniqueDailyDrawdowns.map((option) => (
@@ -211,15 +211,15 @@ export default function PricesFilters({
         </div>
       </div>
       <div>
-        <p style={{ fontSize: "1.2rem", fontWeight: "bold" }}>
+        <p style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>
           Select Total Drawdowns:
         </p>
         <div
           style={{
-            display: "flex",
-            justifyContent: "center",
-            flexWrap: "wrap",
-            gap: "0.5rem",
+            display: 'flex',
+            justifyContent: 'center',
+            flexWrap: 'wrap',
+            gap: '0.5rem',
           }}
         >
           {uniqueTotalDrawdowns.map((option) => (
@@ -233,13 +233,13 @@ export default function PricesFilters({
         </div>
       </div>
       <div>
-        <p style={{ fontSize: "1.2rem", fontWeight: "bold" }}>Select Prices:</p>
+        <p style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>Select Prices:</p>
         <div
           style={{
-            display: "flex",
-            justifyContent: "center",
-            flexWrap: "wrap",
-            gap: "0.5rem",
+            display: 'flex',
+            justifyContent: 'center',
+            flexWrap: 'wrap',
+            gap: '0.5rem',
           }}
         >
           {uniquePrices.map((option) => (
@@ -259,16 +259,16 @@ export default function PricesFilters({
           setTimeout(() => setIsClicked(false), 200);
         }}
         style={{
-          marginTop: "4rem",
-          padding: "1rem 2rem",
-          fontSize: "1.2rem",
-          backgroundColor: "#02353C",
-          color: "#fff",
-          border: "none",
-          borderRadius: "10px",
-          cursor: "pointer",
-          transform: isClicked ? "scale(0.95)" : "scale(1)",
-          transition: "transform 0.1s ease-out",
+          marginTop: '4rem',
+          padding: '1rem 2rem',
+          fontSize: '1.2rem',
+          backgroundColor: '#000000',
+          color: '#fff',
+          border: 'none',
+          borderRadius: '10px',
+          cursor: 'pointer',
+          transform: isClicked ? 'scale(0.95)' : 'scale(1)',
+          transition: 'transform 0.1s ease-out',
         }}
       >
         Search for firms

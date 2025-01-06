@@ -9,7 +9,7 @@ const AccountPlans = ({ accountPlans }) => {
         paddingTop: '1rem',
       }}
     >
-      <strong>Account Plans:</strong>
+      <strong>Account Plans</strong>
       {accountPlans && accountPlans.length > 0 ? (
         accountPlans.map((plan, index) => (
           <div

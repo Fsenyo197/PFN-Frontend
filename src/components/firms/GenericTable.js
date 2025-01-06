@@ -1,22 +1,22 @@
-import React, { useState } from "react";
-import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import TablePagination from "@mui/material/TablePagination";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
-import UserGuide from "./UserGuide";
+import React, { useState } from 'react';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import TablePagination from '@mui/material/TablePagination';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import UserGuide from '@/components/firms/UserGuide';
 
 const GenericTable = ({ columns = [], data = [], expandableRenderer }) => {
   const [expandedRows, setExpandedRows] = useState({});
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
 
   const toggleRowExpansion = (rowId) => {
     setExpandedRows((prev) => ({
@@ -44,7 +44,7 @@ const GenericTable = ({ columns = [], data = [], expandableRenderer }) => {
     columns.some((column) => {
       const value = item[column.key];
       return (
-        typeof value === "string" && value.toLowerCase().includes(searchQuery)
+        typeof value === 'string' && value.toLowerCase().includes(searchQuery)
       );
     })
   );
@@ -60,8 +60,8 @@ const GenericTable = ({ columns = [], data = [], expandableRenderer }) => {
       {/* Search Bar and User Guide */}
       <Box
         sx={{
-          display: "flex",
-          justifyContent: "space-between",
+          display: 'flex',
+          justifyContent: 'space-between',
           margin: 2,
           marginTop: 4,
         }}
@@ -74,43 +74,43 @@ const GenericTable = ({ columns = [], data = [], expandableRenderer }) => {
           onChange={handleSearchChange}
           sx={{
             width: {
-              xs: "70%",
-              sm: "80%",
-              md: "90%",
+              xs: '70%',
+              sm: '80%',
+              md: '90%',
             },
-            "& .MuiOutlinedInput-root": {
-              "& fieldset": {
-                borderColor: "#02353C",
+            '& .MuiOutlinedInput-root': {
+              '& fieldset': {
+                borderColor: '#000000',
               },
-              "&:hover fieldset": {
-                borderColor: "#02353C",
+              '&:hover fieldset': {
+                borderColor: '#000000',
               },
-              "&.Mui-focused fieldset": {
-                borderColor: "#02353C",
+              '&.Mui-focused fieldset': {
+                borderColor: '#000000',
               },
             },
-            "& .MuiInputLabel-root": {
-              color: "#02353C",
+            '& .MuiInputLabel-root': {
+              color: '#000000',
             },
-            "& .MuiInputLabel-root.Mui-focused": {
-              color: "#02353C",
+            '& .MuiInputLabel-root.Mui-focused': {
+              color: '#000000',
             },
-            "& input": {
-              color: "#02353C",
+            '& input': {
+              color: '#000000',
             },
           }}
         />
 
         {/* User Guide with larger size and label */}
         <Box sx={{ flex: 1, marginLeft: 2 }}>
-          <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+          <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
             User Guide
           </Typography>
           <UserGuide />
         </Box>
       </Box>
 
-      <TableContainer component={Paper} sx={{ overflowX: "auto", margin: 2 }}>
+      <TableContainer component={Paper} sx={{ overflowX: 'auto', margin: 2 }}>
         <Table sx={{ minWidth: 650 }}>
           {/* Table Head */}
           <TableHead>
@@ -118,7 +118,7 @@ const GenericTable = ({ columns = [], data = [], expandableRenderer }) => {
               {columns.map((column) => (
                 <TableCell
                   key={column.key}
-                  align={column.align || "left"}
+                  align={column.align || 'left'}
                   sx={{ fontWeight: 700, fontSize: 16 }}
                 >
                   {column.label}
@@ -136,12 +136,12 @@ const GenericTable = ({ columns = [], data = [], expandableRenderer }) => {
                   <TableRow
                     hover
                     onClick={() => toggleRowExpansion(item.id || rowIndex)}
-                    sx={{ cursor: "pointer" }}
+                    sx={{ cursor: 'pointer' }}
                   >
                     {columns.map((column) => (
                       <TableCell
                         key={column.key}
-                        align={column.align || "left"}
+                        align={column.align || 'left'}
                         sx={column.cellStyle}
                       >
                         {column.render

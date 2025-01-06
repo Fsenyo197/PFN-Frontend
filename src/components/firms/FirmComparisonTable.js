@@ -1,5 +1,5 @@
 import React from 'react';
-import GenericTable from '@/components/GenericTable';
+import GenericTable from '@/components/firms/GenericTable';
 import Link from 'next/link';
 
 const FirmComparisonTable = ({ filteredData, expandableRenderer }) => {
@@ -41,8 +41,8 @@ const FirmComparisonTable = ({ filteredData, expandableRenderer }) => {
       },
     },
     {
-      key: 'news_rule',
-      label: 'News Trading Rule',
+      key: 'weekend_holding_rule',
+      label: 'Weekend Trading Rule',
       render: (value) => (value === true ? 'Yes' : 'No'),
     },
     {
@@ -51,7 +51,7 @@ const FirmComparisonTable = ({ filteredData, expandableRenderer }) => {
       render: (value) => (value === true ? 'Yes' : 'No'),
     },
     {
-      key: 'copy_trading',
+      key: 'copy_trading_rule',
       label: 'Copy Trading',
       render: (value) => (value === true ? 'Yes' : 'No'),
     },
@@ -65,6 +65,11 @@ const FirmComparisonTable = ({ filteredData, expandableRenderer }) => {
       label: 'Stop Loss Rule',
       render: (value) => (value === true ? 'Yes' : 'No'),
     },
+    {
+      key: 'vpn_and_vps_rule',
+      label: 'Vpn/Vps Rule',
+      render: (value) => (value === true ? 'Yes' : 'No'),
+    },
     { key: 'location', label: 'Location' },
     { key: 'year_established', label: 'Year Established' },
   ];
@@ -73,10 +78,12 @@ const FirmComparisonTable = ({ filteredData, expandableRenderer }) => {
     id: firm.id,
     name: firm.name,
     slug: firm.slug,
-    news_rule: firm.news_rule,
+    weekend_holding_rule: firm.weekend_holding_rule,
     consistency_rule: firm.consistency_rule,
-    copy_trading: firm.copy_trading,
+    copy_trading_rule: firm.copy_trading_rule,
     two_percent_rule: firm.two_percent_rule,
+    stop_loss_rule: firm.stop_loss_rule,
+    vpn_and_vps_rule: firm.vpn_and_vps_rule,
     location: firm.location,
     year_established: firm.year_established,
     firm_type: firm.firm_type,
@@ -85,7 +92,6 @@ const FirmComparisonTable = ({ filteredData, expandableRenderer }) => {
     trading_platforms: firm.trading_platforms.join(', '),
     countries_prohibited: firm.countries_prohibited.join(', '),
     drawdown_type: firm.drawdown_type,
-    stop_loss_rule: firm.stop_loss_rule,
     payout_frequency: firm.payout_frequency,
     account_plans: firm.account_plans,
     website: firm.website,

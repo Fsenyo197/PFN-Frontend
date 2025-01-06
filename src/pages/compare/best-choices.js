@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { useFirmsContext } from "@/contexts/FirmsProvider";
-import Header from "@/components/Header";
-import Footer from "../Footer";
-import PricesFilters from "@/components/PricesFilters";
-import FirmComparisonTable from "@/components/FirmComparisonTable";
-import ExpandableRowDetails from "@/components/ExpandableRowDetails";
-import Spinner from "@/components/Spinner";
-import Head from "next/head";
+import React, { useState } from 'react';
+import { useFirmsContext } from '@/contexts/FirmsProvider';
+import Header from '@/components/Header';
+import Footer from '../Footer';
+import PricesFilters from '@/components/PricesFilters';
+import FirmComparisonTable from '@/components/firms/FirmComparisonTable';
+import ExpandableRowDetails from '@/components/firms/ExpandableRowDetails';
+import Spinner from '@/components/Spinner';
+import Head from 'next/head';
 
 export default function BestChoices() {
   const { bestChoices, loading } = useFirmsContext();
@@ -33,11 +33,11 @@ export default function BestChoices() {
     ...new Set(bestChoices.flatMap((firm) => firm.firm_type)),
   ];
   const uniqueRules = [
-    "News Trading Rule",
-    "Consistency Rule",
-    "Copy Trading",
-    "Two Percent Rule",
-    "Stop Loss Rule",
+    'News Trading Rule',
+    'Consistency Rule',
+    'Copy Trading',
+    'Two Percent Rule',
+    'Stop Loss Rule',
   ];
   const uniquePlatforms = [
     ...new Set(bestChoices.flatMap((firm) => firm.trading_platforms)),
@@ -56,7 +56,7 @@ export default function BestChoices() {
     ...new Set(
       bestChoices.flatMap((firm) =>
         firm.account_plans?.map((plan) =>
-          plan.phase.slice(0).replace(/_/g, " ")
+          plan.phase.slice(0).replace(/_/g, ' ')
         )
       )
     ),
@@ -119,7 +119,7 @@ export default function BestChoices() {
     ].some((filter) => filter.length > 0);
 
     if (!hasFiltersApplied) {
-      setNoMatchReasons(["No option selected"]);
+      setNoMatchReasons(['No option selected']);
       setFilteredData([]);
       return;
     }
@@ -128,15 +128,15 @@ export default function BestChoices() {
     const firmsAfterRulesFilter = bestChoices.filter((firm) =>
       selectedRules.every((rule) => {
         switch (rule) {
-          case "News Trading Rule":
+          case 'News Trading Rule':
             return firm.news_rule === false;
-          case "Consistency Rule":
+          case 'Consistency Rule':
             return firm.consistency_rule === false;
-          case "Copy Trading":
+          case 'Copy Trading':
             return firm.copy_trading === false;
-          case "Two Percent Rule":
+          case 'Two Percent Rule':
             return firm.two_percent_rule === false;
-          case "Stop Loss Rule":
+          case 'Stop Loss Rule':
             return firm.stop_loss_rule === false;
           default:
             return true;
@@ -184,12 +184,12 @@ export default function BestChoices() {
           selectedPrices.length === 0 || selectedPrices.includes(plan.price);
 
         // Collect reasons for no match
-        if (!accountMatches) reasons.push("account size");
-        if (!phaseMatches) reasons.push("phases");
-        if (!splitRatioMatches) reasons.push("split ratio");
-        if (!dailyDrawdownMatches) reasons.push("daily drawdown");
-        if (!totalDrawdownMatches) reasons.push("total drawdown");
-        if (!priceMatches) reasons.push("prices");
+        if (!accountMatches) reasons.push('account size');
+        if (!phaseMatches) reasons.push('phases');
+        if (!splitRatioMatches) reasons.push('split ratio');
+        if (!dailyDrawdownMatches) reasons.push('daily drawdown');
+        if (!totalDrawdownMatches) reasons.push('total drawdown');
+        if (!priceMatches) reasons.push('prices');
 
         return (
           accountMatches &&
@@ -202,11 +202,11 @@ export default function BestChoices() {
       });
 
       if (!firmMatches && selectedFirmTypes.length > 0)
-        reasons.push("firm type");
+        reasons.push('firm type');
       if (!platformMatches && selectedPlatforms.length > 0)
-        reasons.push("platforms");
+        reasons.push('platforms');
       if (!payoutMatches && selectedPayouts.length > 0)
-        reasons.push("payout options");
+        reasons.push('payout options');
 
       return (
         firmMatches && platformMatches && payoutMatches && accountPlanMatches
@@ -225,11 +225,11 @@ export default function BestChoices() {
   return (
     <div
       style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        minHeight: "100vh",
-        textAlign: "center",
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        minHeight: '100vh',
+        textAlign: 'center',
       }}
     >
       <Head>
@@ -246,7 +246,7 @@ export default function BestChoices() {
         />
       </Head>
       <Header />
-      <h1 style={{ marginTop: "2rem", marginBottom: "2rem" }}>
+      <h1 style={{ marginTop: '2rem', marginBottom: '2rem' }}>
         Choose Your Ideal Firm
       </h1>
       <PricesFilters
@@ -282,7 +282,7 @@ export default function BestChoices() {
         selectedTotalDrawdowns={selectedTotalDrawdowns}
         selectedPrices={selectedPrices}
       />
-      <div style={{ width: "100%", margin: "1rem 0" }}>
+      <div style={{ width: '100%', margin: '1rem 0' }}>
         {filteredData.length > 0 ? (
           <FirmComparisonTable
             filteredData={filteredData}
@@ -293,10 +293,10 @@ export default function BestChoices() {
             <div>
               <p>No firm matches the selected option or options.</p>
               {noMatchReasons.length > 0 && (
-                <p style={{ color: "red" }}>
-                  {noMatchReasons.includes("No option selected")
-                    ? "No option selected."
-                    : `Check ${noMatchReasons.join(", ")}.`}
+                <p style={{ color: 'red' }}>
+                  {noMatchReasons.includes('No option selected')
+                    ? 'No option selected.'
+                    : `Check ${noMatchReasons.join(', ')}.`}
                 </p>
               )}
             </div>

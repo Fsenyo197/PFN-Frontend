@@ -63,9 +63,11 @@ const ExpandableRowDetails = ({ rowData }) => {
       </div>
       <div style={rowStyle}>
         <div style={labelContainerStyle}>
-          <strong>News Rule:</strong>
+          <strong>Weekend Trading Rule:</strong>
         </div>
-        <div style={valueContainerStyle}>{formatRule(rowData.news_rule)}</div>
+        <div style={valueContainerStyle}>
+          {formatRule(rowData.weekend_holding_rule)}
+        </div>
       </div>
       <div style={rowStyle}>
         <div style={labelContainerStyle}>
@@ -80,7 +82,15 @@ const ExpandableRowDetails = ({ rowData }) => {
           <strong>Copy Trading:</strong>
         </div>
         <div style={valueContainerStyle}>
-          {formatRule(rowData.copy_trading)}
+          {formatRule(rowData.copy_trading_rule)}
+        </div>
+      </div>
+      <div style={rowStyle}>
+        <div style={labelContainerStyle}>
+          <strong>VPN/VPS Trading Rule:</strong>
+        </div>
+        <div style={valueContainerStyle}>
+          {formatRule(rowData.vpn_and_vps_rule)}
         </div>
       </div>
       <div style={rowStyle}>
@@ -121,7 +131,11 @@ const ExpandableRowDetails = ({ rowData }) => {
         <div style={labelContainerStyle}>
           <strong>Prohibited Countries:</strong>
         </div>
-        <div style={valueContainerStyle}>{rowData.countries_prohibited}</div>
+        <div style={valueContainerStyle}>
+          <Link href={`/firm/${rowData.slug}`}>
+            View prohibited/restricted countries
+          </Link>
+        </div>
       </div>
       <div style={rowStyle}>
         <div style={labelContainerStyle}>
