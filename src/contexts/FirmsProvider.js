@@ -3,6 +3,7 @@ import axios from 'axios';
 import {
   saveFirmsToIndexedDB,
   getFirmsFromIndexedDB,
+  isCacheExpired,
 } from '../utils/indexedDB';
 
 const FirmsContext = createContext();
@@ -26,58 +27,60 @@ export const FirmsProvider = ({ children }) => {
   useEffect(() => {
     const fetchAndUpdateFirms = async () => {
       try {
-        // Get cached data from IndexedDB
-        const cachedData = await getFirmsFromIndexedDB();
+        // Get cached data and the last updated timestamp
+        const { firms: cachedFirms, lastUpdated } =
+          await getFirmsFromIndexedDB();
 
-        // Fetch fresh data from the API
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/propfirms/`,
-          {
-            headers: {
-              'X-API-Key': process.env.NEXT_PUBLIC_API_KEY,
-              'X-API-Secret': process.env.NEXT_PUBLIC_API_SECRET,
-            },
-          }
-        );
+        // Check if the cache is expired
+        if (isCacheExpired(lastUpdated)) {
+          // Fetch fresh data from the API
+          const response = await axios.get(
+            `${process.env.NEXT_PUBLIC_BASE_URL}/propfirms/`,
+            {
+              headers: {
+                'X-API-Key': process.env.NEXT_PUBLIC_API_KEY,
+                'X-API-Secret': process.env.NEXT_PUBLIC_API_SECRET,
+              },
+            }
+          );
 
-        const fetchedData = response.data.map((firm) => ({
-          ...firm,
-          countries_prohibited: firm.countries_prohibited
-            ? firm.countries_prohibited
-                .split(', ')
-                .map((option) => option.trim())
-            : [],
-        }));
+          const fetchedData = response.data.map((firm) => ({
+            ...firm,
+            countries_prohibited: firm.countries_prohibited
+              ? firm.countries_prohibited
+                  .split(', ')
+                  .map((option) => option.trim())
+              : [],
+          }));
 
-        console.log('fetchedData', fetchedData);
+          // Save the fetched data to IndexedDB
+          await saveFirmsToIndexedDB(fetchedData);
 
-        // Check if data has changed
-        const newData = fetchedData.filter(
-          (newFirm) =>
-            !cachedData.some((cachedFirm) => cachedFirm.id === newFirm.id)
-        );
-
-        if (newData.length > 0) {
-          await saveFirmsToIndexedDB(newData);
+          // Update the context state
+          setFirmsData({
+            country: fetchedData,
+            payoutOptions: fetchedData,
+            platforms: fetchedData,
+            yearEstablished: fetchedData,
+            rules: fetchedData,
+            prices: fetchedData,
+            bestChoices: fetchedData,
+            firms: fetchedData,
+          });
+        } else {
+          // Use the cached data
+          setFirmsData({
+            country: cachedFirms,
+            payoutOptions: cachedFirms,
+            platforms: cachedFirms,
+            yearEstablished: cachedFirms,
+            rules: cachedFirms,
+            prices: cachedFirms,
+            bestChoices: cachedFirms,
+            firms: cachedFirms,
+          });
         }
-
-        // Merge cached and new data
-        const allFirms = [...cachedData, ...newData];
-
-        console.log('allFirms', allFirms);
-
-        // Update the context state
-        setFirmsData({
-          country: allFirms,
-          payoutOptions: allFirms,
-          platforms: allFirms,
-          yearEstablished: allFirms,
-          rules: allFirms,
-          prices: allFirms,
-          bestChoices: allFirms,
-          firms: allFirms,
-        });
-      } catch (error) {
+      } catch (err) {
         setError(
           'An error occurred while fetching firms data. Please try again later.'
         );

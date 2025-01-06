@@ -20,32 +20,38 @@ export default function FirmDetails() {
   const [firm, setFirm] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Rules configuration array
+  // Rules configuration array with `isReversed` flag
   const rulesConfig = [
     {
       key: 'weekend_holding_rule',
       label: 'Can I hold trades during the weekend',
+      isReversed: true,
     },
     {
       key: 'consistency_rule',
       label: 'Does the firm have a consistency rule',
+      isReversed: false,
     },
     {
       key: 'copy_trading_rule',
       label: 'Is copying trades from personal accounts allowed',
+      isReversed: true,
     },
     {
       key: 'two_percent_rule',
       label:
         'Does the firm have a maximum loss percentage rule (3%, 2%, or 1%) per trade',
+      isReversed: false,
     },
     {
       key: 'stop_loss_rule',
       label: 'Is setting a stop-loss for trades mandatory',
+      isReversed: false,
     },
     {
       key: 'vpn_and_vps_rule',
       label: 'Is using a VPN or VPS to trade allowed',
+      isReversed: true,
     },
   ];
 
@@ -57,7 +63,7 @@ export default function FirmDetails() {
           const foundFirm = await getFirmBySlug(slug);
           setFirm(foundFirm);
         } catch (error) {
-          console.error('Error fetching firm details:', error);
+          setError('Error fetching firm details');
         } finally {
           setIsLoading(false);
         }
@@ -80,6 +86,14 @@ export default function FirmDetails() {
     },
     {}
   );
+
+  // Helper function to format rules based on the `isReversed` flag
+  const formatRule = (value, isReversed) => {
+    if (isReversed) {
+      return value === true ? 'No' : value === false ? 'Yes' : 'Not Indicated';
+    }
+    return value === true ? 'Yes' : value === false ? 'No' : 'Not Indicated';
+  };
 
   return (
     <Box>
@@ -134,7 +148,7 @@ export default function FirmDetails() {
               {rulesConfig.map((rule) => (
                 <ListItem key={rule.key} sx={{ display: 'list-item', pl: 0 }}>
                   <Typography>
-                    {rule.label}? {firm[rule.key] ? 'Yes' : 'No'}
+                    {rule.label}? {formatRule(firm[rule.key], rule.isReversed)}
                   </Typography>
                 </ListItem>
               ))}

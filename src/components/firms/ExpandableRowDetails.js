@@ -3,13 +3,23 @@ import Link from 'next/link';
 
 const ExpandableRowDetails = ({ rowData }) => {
   // Helper function to format boolean values for rules
-  const formatRule = (value) => {
-    if (value === true) {
-      return 'Yes';
-    } else if (value === false) {
-      return 'No';
+  const formatRule = (value, isReversed) => {
+    if (isReversed) {
+      if (value === true) {
+        return 'No';
+      } else if (value === false) {
+        return 'Yes';
+      } else {
+        return 'Not Indicated';
+      }
     } else {
-      return 'Not Indicated';
+      if (value === true) {
+        return 'Yes';
+      } else if (value === false) {
+        return 'No';
+      } else {
+        return 'Not Indicated';
+      }
     }
   };
 
@@ -66,7 +76,7 @@ const ExpandableRowDetails = ({ rowData }) => {
           <strong>Weekend Trading Rule:</strong>
         </div>
         <div style={valueContainerStyle}>
-          {formatRule(rowData.weekend_holding_rule)}
+          {formatRule(rowData.weekend_holding_rule, true)}
         </div>
       </div>
       <div style={rowStyle}>
@@ -74,7 +84,7 @@ const ExpandableRowDetails = ({ rowData }) => {
           <strong>Consistency Rule:</strong>
         </div>
         <div style={valueContainerStyle}>
-          {formatRule(rowData.consistency_rule)}
+          {formatRule(rowData.consistency_rule, false)}
         </div>
       </div>
       <div style={rowStyle}>
@@ -82,7 +92,7 @@ const ExpandableRowDetails = ({ rowData }) => {
           <strong>Personal Copy Trading:</strong>
         </div>
         <div style={valueContainerStyle}>
-          {formatRule(rowData.copy_trading_rule)}
+          {formatRule(rowData.copy_trading_rule, true)}
         </div>
       </div>
       <div style={rowStyle}>
@@ -90,7 +100,7 @@ const ExpandableRowDetails = ({ rowData }) => {
           <strong>VPN/VPS Trading Rule:</strong>
         </div>
         <div style={valueContainerStyle}>
-          {formatRule(rowData.vpn_and_vps_rule)}
+          {formatRule(rowData.vpn_and_vps_rule, true)}
         </div>
       </div>
       <div style={rowStyle}>
@@ -98,7 +108,7 @@ const ExpandableRowDetails = ({ rowData }) => {
           <strong>2% Rule:</strong>
         </div>
         <div style={valueContainerStyle}>
-          {formatRule(rowData.two_percent_rule)}
+          {formatRule(rowData.two_percent_rule, false)}
         </div>
       </div>
       <div style={rowStyle}>
@@ -106,7 +116,7 @@ const ExpandableRowDetails = ({ rowData }) => {
           <strong>Stop Loss Rule:</strong>
         </div>
         <div style={valueContainerStyle}>
-          {formatRule(rowData.stop_loss_rule)}
+          {formatRule(rowData.stop_loss_rule, false)}
         </div>
       </div>
       <div style={rowStyle}>
@@ -182,4 +192,5 @@ const valueContainerStyle = {
   alignItems: 'center',
   textAlign: 'center',
 };
+
 export default ExpandableRowDetails;
