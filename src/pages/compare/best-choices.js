@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useFirmsContext } from '@/contexts/FirmsProvider';
 import Header from '@/components/Header';
 import Footer from '../Footer';
-import PricesFilters from '@/components/PricesFilters';
+import PricesFilters from '@/components/firms/PricesFilters';
 import FirmComparisonTable from '@/components/firms/FirmComparisonTable';
 import ExpandableRowDetails from '@/components/firms/ExpandableRowDetails';
 import Spinner from '@/components/Spinner';

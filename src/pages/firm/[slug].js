@@ -4,7 +4,14 @@ import React, { useEffect, useState } from 'react';
 import { useFirmsContext } from '@/contexts/FirmsProvider';
 import Footer from '../Footer';
 import Header from '@/components/Header';
-import { Box, Typography, Link } from '@mui/material';
+import {
+  Box,
+  Typography,
+  Link,
+  List,
+  ListItem,
+  ListItemText,
+} from '@mui/material';
 import AccountPlans from '@/components/firms/AccountPlans';
 
 export default function FirmDetails() {
@@ -12,6 +19,35 @@ export default function FirmDetails() {
   const { slug } = useRouter().query;
   const [firm, setFirm] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  // Rules configuration array
+  const rulesConfig = [
+    {
+      key: 'weekend_holding_rule',
+      label: 'Can I hold trades during the weekend',
+    },
+    {
+      key: 'consistency_rule',
+      label: 'Does the firm have a consistency rule',
+    },
+    {
+      key: 'copy_trading_rule',
+      label: 'Is copying trades from personal accounts allowed',
+    },
+    {
+      key: 'two_percent_rule',
+      label:
+        'Does the firm have a maximum loss percentage rule (3%, 2%, or 1%) per trade',
+    },
+    {
+      key: 'stop_loss_rule',
+      label: 'Is setting a stop-loss for trades mandatory',
+    },
+    {
+      key: 'vpn_and_vps_rule',
+      label: 'Is using a VPN or VPS to trade allowed',
+    },
+  ];
 
   useEffect(() => {
     if (slug) {
@@ -90,28 +126,57 @@ export default function FirmDetails() {
               </Box>
             </Box>
 
-            <Typography sx={{ marginTop: 4 }}>
+            {/* Rules Section */}
+            <Typography variant="h6" sx={{ marginTop: 4 }}>
+              <strong>Trading Rules</strong>
+            </Typography>
+            <List sx={{ listStyleType: 'disc', pl: 2 }}>
+              {rulesConfig.map((rule) => (
+                <ListItem key={rule.key} sx={{ display: 'list-item', pl: 0 }}>
+                  <Typography>
+                    {rule.label}? {firm[rule.key] ? 'Yes' : 'No'}
+                  </Typography>
+                </ListItem>
+              ))}
+            </List>
+
+            {/* Notable Uncovered Trading Rules Section */}
+            <Typography variant="h6" gutterBottom sx={{ mt: 3 }}>
+              Notable Uncovered Trading Rules
+            </Typography>
+
+            <List sx={{ listStyleType: 'disc', pl: 2 }}>
+              <ListItem sx={{ display: 'list-item', pl: 0 }}>
+                <ListItemText primary="News Trading: Most firms have similar policies on news trading. They generally prohibit opening or closing positions within a specified time window before and after scheduled news releases." />
+              </ListItem>
+              <ListItem sx={{ display: 'list-item', pl: 0 }}>
+                <ListItemText primary="Expert Advisors (EAs): All listed firms allow the use of personal Expert Advisors (EAs) for automated trading. However, some firms may have restrictions or require prior approval for certain strategies." />
+              </ListItem>
+            </List>
+
+            {/* Trading Platforms Section */}
+            <Typography variant="h6" sx={{ marginTop: 4 }}>
               <strong>Trading Platforms</strong>
             </Typography>
-            <Typography variant="body2">
+            <Typography variant="body1">
               {firm.trading_platforms.join(', ')}
             </Typography>
 
-            <Typography sx={{ marginTop: 4 }}>
+            <Typography variant="h6" sx={{ marginTop: 4 }}>
               <strong>Payout Options</strong>
             </Typography>
-            <Typography variant="body2">
+            <Typography variant="body1">
               {firm.payout_options.join(', ')}
             </Typography>
 
-            <Typography sx={{ marginTop: 4 }}>
+            <Typography variant="h6" sx={{ marginTop: 4 }}>
               <strong>Payment Options</strong>
             </Typography>
-            <Typography variant="body2">
+            <Typography variant="body1">
               {firm.payment_options.join(', ')}
             </Typography>
 
-            <Typography sx={{ marginTop: 4 }}>
+            <Typography variant="h6" sx={{ marginTop: 4 }}>
               <strong>Prohibited/Restricted Countries</strong>
             </Typography>
             {groupedCountries &&
@@ -122,7 +187,7 @@ export default function FirmDetails() {
                     <Typography variant="h6" sx={{ marginTop: 2 }}>
                       {letter}
                     </Typography>
-                    <Typography variant="body2">
+                    <Typography variant="body1">
                       {groupedCountries[letter].join(', ')}
                     </Typography>
                   </div>

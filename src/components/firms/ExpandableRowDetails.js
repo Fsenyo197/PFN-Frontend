@@ -79,7 +79,7 @@ const ExpandableRowDetails = ({ rowData }) => {
       </div>
       <div style={rowStyle}>
         <div style={labelContainerStyle}>
-          <strong>Copy Trading:</strong>
+          <strong>Personal Copy Trading:</strong>
         </div>
         <div style={valueContainerStyle}>
           {formatRule(rowData.copy_trading_rule)}

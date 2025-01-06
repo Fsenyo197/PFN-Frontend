@@ -36,22 +36,35 @@ const UserGuide = () => {
         </DialogTitle>
         <DialogContent dividers>
           <Typography variant="body1" component="p" gutterBottom>
-            Welcome to the User Guide! Here you&apos;ll find everything you need
-            to get started and make the most of our platform.
+            Welcome to the User Guide! Below are some key rules and guidelines
+            commonly followed by proprietary trading firms:
           </Typography>
 
           <List sx={{ listStyleType: 'disc', pl: 2 }}>
             <ListItem sx={{ display: 'list-item', pl: 0 }}>
-              <ListItemText primary="Choose your preferred options and click the 'Search for Firm' button to begin." />
+              <ListItemText primary="Select your preferred options and click the 'Search for Firm' button to get started." />
             </ListItem>
             <ListItem sx={{ display: 'list-item', pl: 0 }}>
-              <ListItemText primary="You can filter firms by name using the search bar if needed." />
+              <ListItemText primary="Use the search bar to filter firms by name if needed." />
             </ListItem>
             <ListItem sx={{ display: 'list-item', pl: 0 }}>
               <ListItemText primary="Click on any row or cell in the table to view more details about a firm." />
             </ListItem>
             <ListItem sx={{ display: 'list-item', pl: 0 }}>
-              <ListItemText primary="To open or close the details, simply click the row or cell again." />
+              <ListItemText primary="To collapse the details, click the row or cell again." />
+            </ListItem>
+          </List>
+
+          <Typography variant="h6" gutterBottom sx={{ mt: 3 }}>
+            Notable Uncovered Trading Rules
+          </Typography>
+
+          <List sx={{ listStyleType: 'disc', pl: 2 }}>
+            <ListItem sx={{ display: 'list-item', pl: 0 }}>
+              <ListItemText primary="News Trading: Most firms have similar policies on news trading. They generally prohibit opening or closing positions within a specified time window before and after scheduled news releases." />
+            </ListItem>
+            <ListItem sx={{ display: 'list-item', pl: 0 }}>
+              <ListItemText primary="Expert Advisors (EAs): All listed firms allow the use of personal Expert Advisors (EAs) for automated trading. However, some firms may have restrictions or require prior approval for certain strategies." />
             </ListItem>
           </List>
         </DialogContent>

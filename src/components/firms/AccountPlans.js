@@ -9,7 +9,14 @@ const AccountPlans = ({ accountPlans }) => {
         paddingTop: '1rem',
       }}
     >
-      <strong>Account Plans</strong>
+      <h3
+        style={{
+          marginBottom: '1rem',
+          fontWeight: 'bold',
+        }}
+      >
+        Account Plans:
+      </h3>
       {accountPlans && accountPlans.length > 0 ? (
         accountPlans.map((plan, index) => (
           <div
@@ -28,7 +35,7 @@ const AccountPlans = ({ accountPlans }) => {
             </div>
 
             {/* Plan Details */}
-            {plan.price && (
+            {plan.price != 0 && (
               <div style={rowStyle}>
                 <div style={labelContainerStyle}>Price:</div>
                 <div style={valueContainerStyle}>
@@ -36,31 +43,31 @@ const AccountPlans = ({ accountPlans }) => {
                 </div>
               </div>
             )}
-            {plan.profit_split_ratio && (
+            {plan.profit_split_ratio != 0 && (
               <div style={rowStyle}>
                 <div style={labelContainerStyle}>Profit Split Ratio:</div>
                 <div style={valueContainerStyle}>{plan.profit_split_ratio}</div>
               </div>
             )}
-            {plan.daily_drawdown && (
+            {plan.daily_drawdown != 0 && (
               <div style={rowStyle}>
                 <div style={labelContainerStyle}>Daily Drawdown:</div>
                 <div style={valueContainerStyle}>{plan.daily_drawdown}</div>
               </div>
             )}
-            {plan.total_drawdown && (
+            {plan.total_drawdown != 0 && (
               <div style={rowStyle}>
                 <div style={labelContainerStyle}>Total Drawdown:</div>
                 <div style={valueContainerStyle}>{plan.total_drawdown}</div>
               </div>
             )}
-            {plan.leverage && (
+            {plan.leverage != 0 && (
               <div style={rowStyle}>
                 <div style={labelContainerStyle}>Leverage:</div>
                 <div style={valueContainerStyle}>{plan.leverage}</div>
               </div>
             )}
-            {plan.minimum_trading_days && (
+            {plan.minimum_trading_days != 0 && (
               <div style={rowStyle}>
                 <div style={labelContainerStyle}>Minimum Trading Days:</div>
                 <div style={valueContainerStyle}>
@@ -68,13 +75,13 @@ const AccountPlans = ({ accountPlans }) => {
                 </div>
               </div>
             )}
-            {plan.phase_time_limit && (
+            {plan.phase_time_limit != 0 && (
               <div style={rowStyle}>
                 <div style={labelContainerStyle}>Phase Time Limit:</div>
                 <div style={valueContainerStyle}>{plan.phase_time_limit}</div>
               </div>
             )}
-            {plan.profit_target && (
+            {plan.profit_target != 0 && (
               <div style={rowStyle}>
                 <div style={labelContainerStyle}>Profit Target:</div>
                 <div style={valueContainerStyle}>{plan.profit_target}</div>

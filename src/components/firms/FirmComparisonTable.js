@@ -40,36 +40,6 @@ const FirmComparisonTable = ({ filteredData, expandableRenderer }) => {
         );
       },
     },
-    {
-      key: 'weekend_holding_rule',
-      label: 'Weekend Trading Rule',
-      render: (value) => (value === true ? 'Yes' : 'No'),
-    },
-    {
-      key: 'consistency_rule',
-      label: 'Consistency Rule',
-      render: (value) => (value === true ? 'Yes' : 'No'),
-    },
-    {
-      key: 'copy_trading_rule',
-      label: 'Copy Trading',
-      render: (value) => (value === true ? 'Yes' : 'No'),
-    },
-    {
-      key: 'two_percent_rule',
-      label: 'Two Percent Rule',
-      render: (value) => (value === true ? 'Yes' : 'No'),
-    },
-    {
-      key: 'stop_loss_rule',
-      label: 'Stop Loss Rule',
-      render: (value) => (value === true ? 'Yes' : 'No'),
-    },
-    {
-      key: 'vpn_and_vps_rule',
-      label: 'Vpn/Vps Rule',
-      render: (value) => (value === true ? 'Yes' : 'No'),
-    },
     { key: 'location', label: 'Location' },
     { key: 'year_established', label: 'Year Established' },
   ];
