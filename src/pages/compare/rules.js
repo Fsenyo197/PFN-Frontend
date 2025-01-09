@@ -22,11 +22,12 @@ export default function Rules() {
 
   // Define the human-readable rule names
   const uniqueRules = [
-    'News Trading Rule',
+    'Weekend Holding Rule',
     'Consistency Rule',
-    'Copy Trading',
+    'Copy Trading Rule',
     'Two Percent Rule',
     'Stop Loss Rule',
+    'VPN/VPS Rule',
   ];
 
   const toggleRule = (option) => {
@@ -52,16 +53,18 @@ export default function Rules() {
     const result = rules.filter((firm) =>
       selectedRules.every((rule) => {
         switch (rule) {
-          case 'News Trading Rule':
-            return firm.news_rule === false;
+          case 'Weekend Holding Rule':
+            return firm.weekend_holding_rule === false;
           case 'Consistency Rule':
             return firm.consistency_rule === false;
-          case 'Copy Trading':
-            return firm.copy_trading === false;
+          case 'Copy Trading Rule':
+            return firm.copy_trading_rule === false;
           case 'Two Percent Rule':
             return firm.two_percent_rule === false;
           case 'Stop Loss Rule':
             return firm.stop_loss_rule === false;
+          case 'VPN/VPS Rule':
+            return firm.vpn_and_vps_rule === false;
           default:
             return true;
         }

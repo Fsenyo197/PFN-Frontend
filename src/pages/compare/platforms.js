@@ -7,6 +7,7 @@ import FirmComparisonTable from '@/components/firms/FirmComparisonTable';
 import ExpandableRowDetails from '@/components/firms/ExpandableRowDetails';
 import Spinner from '@/components/Spinner';
 import Head from 'next/head';
+import useLocalStorage from '@/components/firms/useLocalStorage';
 
 export default function Platforms() {
   const { platforms, loading } = useFirmsContext();
@@ -16,11 +17,13 @@ export default function Platforms() {
   const [errorMessage, setErrorMessage] = useState('');
   const [isClicked, setIsClicked] = useState(false);
 
+  useLocalStorage('selectedPlatforms', selectedPlatforms, setSelectedPlatforms);
+  useLocalStorage('filteredData', filteredData, setFilteredData);
+
   if (loading) {
     return <Spinner />;
   }
 
-  // Dynamically create unique trading platforms from the context data
   const uniqueTradingPlatforms = [
     ...new Set(platforms.flatMap((firm) => firm.trading_platforms)),
   ];
