@@ -7,6 +7,7 @@ import FirmComparisonTable from '@/components/firms/FirmComparisonTable';
 import ExpandableRowDetails from '@/components/firms/ExpandableRowDetails';
 import Spinner from '@/components/Spinner';
 import Head from 'next/head';
+import useSessionStorage from '@/components/firms/useSessionStorage';
 
 export default function BestChoices() {
   const { bestChoices, loading } = useFirmsContext();
@@ -24,6 +25,42 @@ export default function BestChoices() {
   const [hasSearched, setHasSearched] = useState(false);
   const [noMatchReasons, setNoMatchReasons] = useState([]);
 
+  useSessionStorage('selectedPrices', selectedPrices, setSelectedPrices);
+  useSessionStorage(
+    'selectedFirmTypes',
+    selectedFirmTypes,
+    setSelectedFirmTypes
+  );
+  useSessionStorage(
+    'selectedAccountSizes',
+    selectedAccountSizes,
+    setSelectedAccountSizes
+  );
+  useSessionStorage(
+    'selectedPlatforms',
+    selectedPlatforms,
+    setSelectedPlatforms
+  );
+  useSessionStorage('selectedPayouts', selectedPayouts, setSelectedPayouts);
+  useSessionStorage('selectedRules', selectedRules, setSelectedRules);
+  useSessionStorage('selectedPhases', selectedPhases, setSelectedPhases);
+  useSessionStorage(
+    'selectedSplitRatios',
+    selectedSplitRatios,
+    setSelectedSplitRatios
+  );
+  useSessionStorage(
+    'selectedDailyDrawdowns',
+    selectedDailyDrawdowns,
+    setSelectedDailyDrawdowns
+  );
+  useSessionStorage(
+    'selectedTotalDrawdowns',
+    selectedTotalDrawdowns,
+    setSelectedTotalDrawdowns
+  );
+  useSessionStorage('filteredData', filteredData, setFilteredData);
+
   if (loading) {
     return <Spinner />;
   }
@@ -33,11 +70,12 @@ export default function BestChoices() {
     ...new Set(bestChoices.flatMap((firm) => firm.firm_type)),
   ];
   const uniqueRules = [
-    'News Trading Rule',
+    'Weekend Holding Rule',
     'Consistency Rule',
-    'Copy Trading',
+    'Copy Trading Rule',
     'Two Percent Rule',
     'Stop Loss Rule',
+    'VPN/VPS Rule',
   ];
   const uniquePlatforms = [
     ...new Set(bestChoices.flatMap((firm) => firm.trading_platforms)),
@@ -128,16 +166,18 @@ export default function BestChoices() {
     const firmsAfterRulesFilter = bestChoices.filter((firm) =>
       selectedRules.every((rule) => {
         switch (rule) {
-          case 'News Trading Rule':
-            return firm.news_rule === false;
+          case 'Weekend Holding Rule':
+            return firm.weekend_holding_rule === false;
           case 'Consistency Rule':
             return firm.consistency_rule === false;
-          case 'Copy Trading':
-            return firm.copy_trading === false;
+          case 'Copy Trading Rule':
+            return firm.copy_trading_rule === false;
           case 'Two Percent Rule':
             return firm.two_percent_rule === false;
           case 'Stop Loss Rule':
             return firm.stop_loss_rule === false;
+          case 'VPN/VPS Rule':
+            return firm.vpn_and_vps_rule === false;
           default:
             return true;
         }
@@ -204,9 +244,9 @@ export default function BestChoices() {
       if (!firmMatches && selectedFirmTypes.length > 0)
         reasons.push('firm type');
       if (!platformMatches && selectedPlatforms.length > 0)
-        reasons.push('platforms');
+        reasons.push('trading platform(s)');
       if (!payoutMatches && selectedPayouts.length > 0)
-        reasons.push('payout options');
+        reasons.push('payout option(s)');
 
       return (
         firmMatches && platformMatches && payoutMatches && accountPlanMatches
@@ -296,7 +336,7 @@ export default function BestChoices() {
                 <p style={{ color: 'red' }}>
                   {noMatchReasons.includes('No option selected')
                     ? 'No option selected.'
-                    : `Check ${noMatchReasons.join(', ')}.`}
+                    : `Check the selected ${noMatchReasons.join(', ')}.`}
                 </p>
               )}
             </div>

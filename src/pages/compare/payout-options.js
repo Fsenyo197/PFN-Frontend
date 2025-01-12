@@ -7,14 +7,23 @@ import FirmComparisonTable from '@/components/firms/FirmComparisonTable';
 import ExpandableRowDetails from '@/components/firms/ExpandableRowDetails';
 import Spinner from '@/components/Spinner';
 import Head from 'next/head';
+import useSessionStorage from '@/components/firms/useSessionStorage';
 
 export default function PayoutOptions() {
   const { payoutOptions, loading } = useFirmsContext();
   const [selectedPayoutOptions, setSelectedPayoutOptions] = useState([]);
+  const [selectedFirmTypes, setSelectedFirmTypes] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
   const [isClicked, setIsClicked] = useState(false);
+  const [noMatchReasons, setNoMatchReasons] = useState([]);
+
+  useSessionStorage(
+    'selectedPayoutOptions',
+    selectedPayoutOptions,
+    setSelectedPayoutOptions
+  );
+  useSessionStorage('filteredData', filteredData, setFilteredData);
 
   if (loading) {
     return <Spinner />;
@@ -24,6 +33,18 @@ export default function PayoutOptions() {
   const uniquePayoutOptions = [
     ...new Set(payoutOptions.flatMap((firm) => firm.payout_options)),
   ];
+
+  const uniqueFirmTypes = [
+    ...new Set(payoutOptions.flatMap((firm) => firm.firm_type)),
+  ];
+
+  const toggleFirmType = (option) => {
+    setSelectedFirmTypes((prev) =>
+      prev.includes(option)
+        ? prev.filter((opt) => opt !== option)
+        : [...prev, option]
+    );
+  };
 
   const togglePayoutOption = (option) => {
     setSelectedPayoutOptions((prev) =>
@@ -35,18 +56,30 @@ export default function PayoutOptions() {
 
   const searchFirms = () => {
     setHasSearched(true);
-    if (selectedPayoutOptions.length === 0) {
-      setErrorMessage('No options are selected');
-      setFilteredData([]);
-      return;
-    }
-    setErrorMessage('');
-    const result = payoutOptions.filter((firm) =>
-      selectedPayoutOptions.every((option) =>
-        firm.payout_options.includes(option)
-      )
+
+    // Filter payoutOptions and firm types
+    const platformMatches = payoutOptions.filter(
+      (firm) =>
+        selectedPayoutOptions.length === 0 ||
+        selectedPayoutOptions.some((payoutOption) =>
+          firm.payout_options.includes(payoutOption)
+        )
     );
-    setFilteredData(result);
+
+    const firmTypeMatches = platformMatches.filter(
+      (firm) =>
+        selectedFirmTypes.length === 0 ||
+        selectedFirmTypes.includes(firm.firm_type)
+    );
+
+    const reasons = [];
+    if (selectedPayoutOptions.length > 0 && firmTypeMatches.length === 0)
+      reasons.push('trading platform(s)');
+    if (selectedFirmTypes.length > 0 && firmTypeMatches.length === 0)
+      reasons.push('firm type(s)');
+
+    setNoMatchReasons(reasons);
+    setFilteredData(firmTypeMatches);
   };
 
   const expandableRenderer = (rowData) => {
@@ -99,6 +132,28 @@ export default function PayoutOptions() {
             />
           ))}
         </div>
+        <p
+          style={{ fontSize: '1.2rem', fontWeight: 'bold', marginTop: '2rem' }}
+        >
+          Select Firm Types:
+        </p>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            flexWrap: 'wrap',
+            gap: '0.5rem',
+          }}
+        >
+          {uniqueFirmTypes.map((option) => (
+            <RoundButton
+              key={option}
+              option={option}
+              isSelected={selectedFirmTypes.includes(option)}
+              onClick={() => toggleFirmType(option)}
+            />
+          ))}
+        </div>
         <button
           onClick={() => {
             setIsClicked(true);
@@ -121,7 +176,6 @@ export default function PayoutOptions() {
           Search for firms
         </button>
       </div>
-      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
       <div style={{ width: '100%', margin: '1rem 0' }}>
         {filteredData.length > 0 ? (
           <FirmComparisonTable
@@ -129,9 +183,17 @@ export default function PayoutOptions() {
             expandableRenderer={expandableRenderer}
           />
         ) : (
-          hasSearched &&
-          !errorMessage && (
-            <p>No firm match the selected payout option or options.</p>
+          hasSearched && (
+            <div>
+              <p>No firm matches the selected option or options.</p>
+              {noMatchReasons.length > 0 && (
+                <p style={{ color: 'red' }}>
+                  {noMatchReasons.includes('No option selected')
+                    ? 'No option selected.'
+                    : `Check the selected ${noMatchReasons.join(', ')}.`}
+                </p>
+              )}
+            </div>
           )
         )}
       </div>

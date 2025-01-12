@@ -6,6 +6,7 @@ import FirmComparisonTable from '@/components/firms/FirmComparisonTable';
 import ExpandableRowDetails from '@/components/firms/ExpandableRowDetails';
 import Spinner from '@/components/Spinner';
 import Head from 'next/head';
+import useSessionStorage from '@/components/firms/useSessionStorage';
 
 export default function Country() {
   const { country, loading } = useFirmsContext();
@@ -14,6 +15,8 @@ export default function Country() {
   const [searchQuery, setSearchQuery] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [isClicked, setIsClicked] = useState(false);
+
+  useSessionStorage('filteredData', filteredData, setFilteredData);
 
   if (loading) {
     return <Spinner />;

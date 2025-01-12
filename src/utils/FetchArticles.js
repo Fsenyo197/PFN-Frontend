@@ -13,7 +13,6 @@ const FetchArticles = async () => {
     );
     return response.data;
   } catch (error) {
-    console.error('Error fetching articles:', error);
     return [];
   }
 };
@@ -26,7 +25,6 @@ export const fetchArticlesByCategory = async (category) => {
     );
     return filteredArticles;
   } catch (error) {
-    console.error('Error fetching articles by category:', error);
     return [];
   }
 };

@@ -1,13 +1,13 @@
-import "./globals.css";
-import { Inter } from "next/font/google";
-import { GoogleAnalytics } from "@next/third-parties/google";
+import './globals.css';
+import { Inter } from 'next/font/google';
+import { GoogleAnalytics } from '@next/third-parties/google';
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-  title: "Prop Firm News",
+  title: 'Prop Firm News',
   description:
-    "Your source for the latest Prop News, Payouts, Trading Rules, and Prop Firms insights.",
+    'Your source for the latest Prop News, Payouts, Trading Rules, Prop Firms insights and prop firm compare platforms.',
 };
 
 export default function RootLayout({ children }) {

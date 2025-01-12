@@ -15,7 +15,6 @@ const RoundButton = ({ option, isSelected, onClick }) => {
         cursor: 'pointer',
         transition: 'all 0.3s ease',
         fontSize: '1rem',
-        fontWeight: 'bold',
       }}
     >
       {option}

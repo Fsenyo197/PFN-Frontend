@@ -7,18 +7,23 @@ import FirmComparisonTable from '@/components/firms/FirmComparisonTable';
 import ExpandableRowDetails from '@/components/firms/ExpandableRowDetails';
 import Spinner from '@/components/Spinner';
 import Head from 'next/head';
-import useLocalStorage from '@/components/firms/useLocalStorage';
+import useSessionStorage from '@/components/firms/useSessionStorage';
 
 export default function Platforms() {
   const { platforms, loading } = useFirmsContext();
   const [selectedPlatforms, setSelectedPlatforms] = useState([]);
+  const [selectedFirmTypes, setSelectedFirmTypes] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
   const [isClicked, setIsClicked] = useState(false);
+  const [noMatchReasons, setNoMatchReasons] = useState([]);
 
-  useLocalStorage('selectedPlatforms', selectedPlatforms, setSelectedPlatforms);
-  useLocalStorage('filteredData', filteredData, setFilteredData);
+  useSessionStorage(
+    'selectedPlatforms',
+    selectedPlatforms,
+    setSelectedPlatforms
+  );
+  useSessionStorage('filteredData', filteredData, setFilteredData);
 
   if (loading) {
     return <Spinner />;
@@ -27,6 +32,17 @@ export default function Platforms() {
   const uniqueTradingPlatforms = [
     ...new Set(platforms.flatMap((firm) => firm.trading_platforms)),
   ];
+  const uniqueFirmTypes = [
+    ...new Set(platforms.flatMap((firm) => firm.firm_type)),
+  ];
+
+  const toggleFirmType = (option) => {
+    setSelectedFirmTypes((prev) =>
+      prev.includes(option)
+        ? prev.filter((opt) => opt !== option)
+        : [...prev, option]
+    );
+  };
 
   const togglePlatform = (option) => {
     setSelectedPlatforms((prev) =>
@@ -38,23 +54,35 @@ export default function Platforms() {
 
   const searchFirms = () => {
     setHasSearched(true);
-    if (selectedPlatforms.length === 0) {
-      setErrorMessage('No options are selected');
-      setFilteredData([]);
-      return;
-    }
-    setErrorMessage('');
-    const result = platforms.filter((firm) =>
-      selectedPlatforms.every((option) =>
-        firm.trading_platforms.includes(option)
-      )
+
+    // Filter platforms and firm types
+    const platformMatches = platforms.filter(
+      (firm) =>
+        selectedPlatforms.length === 0 ||
+        selectedPlatforms.some((platform) =>
+          firm.trading_platforms.includes(platform)
+        )
     );
-    setFilteredData(result);
+
+    const firmTypeMatches = platformMatches.filter(
+      (firm) =>
+        selectedFirmTypes.length === 0 ||
+        selectedFirmTypes.includes(firm.firm_type)
+    );
+
+    const reasons = [];
+    if (selectedPlatforms.length > 0 && firmTypeMatches.length === 0)
+      reasons.push('trading platform(s)');
+    if (selectedFirmTypes.length > 0 && firmTypeMatches.length === 0)
+      reasons.push('firm type(s)');
+
+    setNoMatchReasons(reasons);
+    setFilteredData(firmTypeMatches);
   };
 
-  const expandableRenderer = (rowData) => {
-    return <ExpandableRowDetails rowData={rowData} />;
-  };
+  const expandableRenderer = (rowData) => (
+    <ExpandableRowDetails rowData={rowData} />
+  );
 
   return (
     <div
@@ -102,6 +130,28 @@ export default function Platforms() {
             />
           ))}
         </div>
+        <p
+          style={{ fontSize: '1.2rem', fontWeight: 'bold', marginTop: '2rem' }}
+        >
+          Select Firm Types:
+        </p>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            flexWrap: 'wrap',
+            gap: '0.5rem',
+          }}
+        >
+          {uniqueFirmTypes.map((option) => (
+            <RoundButton
+              key={option}
+              option={option}
+              isSelected={selectedFirmTypes.includes(option)}
+              onClick={() => toggleFirmType(option)}
+            />
+          ))}
+        </div>
         <button
           onClick={() => {
             setIsClicked(true);
@@ -112,7 +162,7 @@ export default function Platforms() {
             marginTop: '4rem',
             padding: '1rem 2rem',
             fontSize: '1.2rem',
-            backgroundColor: '#000000',
+            backgroundColor: '#000',
             color: '#fff',
             border: 'none',
             borderRadius: '10px',
@@ -124,7 +174,6 @@ export default function Platforms() {
           Search for firms
         </button>
       </div>
-      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
       <div style={{ width: '100%', margin: '1rem 0' }}>
         {filteredData.length > 0 ? (
           <FirmComparisonTable
@@ -132,9 +181,17 @@ export default function Platforms() {
             expandableRenderer={expandableRenderer}
           />
         ) : (
-          hasSearched &&
-          !errorMessage && (
-            <p>No firm matches the selected trading platform or platforms.</p>
+          hasSearched && (
+            <div>
+              <p>No firm matches the selected option or options.</p>
+              {noMatchReasons.length > 0 && (
+                <p style={{ color: 'red' }}>
+                  {noMatchReasons.includes('No option selected')
+                    ? 'No option selected.'
+                    : `Check the selected ${noMatchReasons.join(', ')}.`}
+                </p>
+              )}
+            </div>
           )
         )}
       </div>

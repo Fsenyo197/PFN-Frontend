@@ -7,20 +7,25 @@ import FirmComparisonTable from '@/components/firms/FirmComparisonTable';
 import ExpandableRowDetails from '@/components/firms/ExpandableRowDetails';
 import Spinner from '@/components/Spinner';
 import Head from 'next/head';
+import useSessionStorage from '@/components/firms/useSessionStorage';
+import { List, ListItem, ListItemText } from '@mui/material';
 
 export default function Rules() {
   const { rules, loading } = useFirmsContext();
   const [selectedRules, setSelectedRules] = useState([]);
+  const [selectedFirmTypes, setSelectedFirmTypes] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
   const [isClicked, setIsClicked] = useState(false);
+  const [noMatchReasons, setNoMatchReasons] = useState([]);
+
+  useSessionStorage('selectedRules', selectedRules, setSelectedRules);
+  useSessionStorage('filteredData', filteredData, setFilteredData);
 
   if (loading) {
     return <Spinner />;
   }
 
-  // Define the human-readable rule names
   const uniqueRules = [
     'Weekend Holding Rule',
     'Consistency Rule',
@@ -29,6 +34,16 @@ export default function Rules() {
     'Stop Loss Rule',
     'VPN/VPS Rule',
   ];
+
+  const uniqueFirmTypes = [...new Set(rules.flatMap((firm) => firm.firm_type))];
+
+  const toggleFirmType = (option) => {
+    setSelectedFirmTypes((prev) =>
+      prev.includes(option)
+        ? prev.filter((opt) => opt !== option)
+        : [...prev, option]
+    );
+  };
 
   const toggleRule = (option) => {
     setSelectedRules((prev) =>
@@ -41,16 +56,16 @@ export default function Rules() {
   const searchFirms = () => {
     setHasSearched(true);
 
-    if (selectedRules.length === 0) {
-      setErrorMessage('No options are selected');
+    const hasFiltersApplied =
+      selectedRules.length > 0 || selectedFirmTypes.length > 0;
+
+    if (!hasFiltersApplied) {
+      setNoMatchReasons(['No options are selected']);
       setFilteredData([]);
       return;
     }
 
-    setErrorMessage('');
-
-    // Filter firms based on selected rules
-    const result = rules.filter((firm) =>
+    const filteredByRules = rules.filter((firm) =>
       selectedRules.every((rule) => {
         switch (rule) {
           case 'Weekend Holding Rule':
@@ -71,12 +86,27 @@ export default function Rules() {
       })
     );
 
-    setFilteredData(result);
+    const finalFilteredData = filteredByRules.filter(
+      (firm) =>
+        selectedFirmTypes.length === 0 ||
+        selectedFirmTypes.includes(firm.firm_type)
+    );
+
+    if (finalFilteredData.length === 0) {
+      setNoMatchReasons([
+        ...(selectedRules.length > 0 ? ['trading rule(s)'] : []),
+        ...(selectedFirmTypes.length > 0 ? ['firm type(s)'] : []),
+      ]);
+    } else {
+      setNoMatchReasons([]);
+    }
+
+    setFilteredData(finalFilteredData);
   };
 
-  const expandableRenderer = (rowData) => {
-    return <ExpandableRowDetails rowData={rowData} />;
-  };
+  const expandableRenderer = (rowData) => (
+    <ExpandableRowDetails rowData={rowData} />
+  );
 
   return (
     <div
@@ -103,6 +133,20 @@ export default function Rules() {
       <h1 style={{ marginTop: '2rem', marginBottom: '2rem' }}>
         Compare Firms by Trading Rules
       </h1>
+      <List sx={{ listStyleType: 'disc', pl: 4 }}>
+        <ListItem sx={{ display: 'list-item', pl: 0 }}>
+          <ListItemText
+            secondary="Selecting Weekend Holding, Copy Trading or VPN/VPS Rule(s) indicates
+          your preference to display firms that allow such rule(s)"
+          />
+        </ListItem>
+        <ListItem sx={{ display: 'list-item', pl: 0 }}>
+          <ListItemText
+            secondary="Also selecting Two Percent, Stop Loss or Consistency Rule(s) indicates
+          your preference to display firms that do not enforce them."
+          />
+        </ListItem>
+      </List>
       <div style={{ width: '100%', margin: '1rem 0' }}>
         <p style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>
           Select Trading Rules:
@@ -124,6 +168,28 @@ export default function Rules() {
             />
           ))}
         </div>
+        <p
+          style={{ fontSize: '1.2rem', fontWeight: 'bold', marginTop: '2rem' }}
+        >
+          Select Firm Types:
+        </p>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            flexWrap: 'wrap',
+            gap: '0.5rem',
+          }}
+        >
+          {uniqueFirmTypes.map((option) => (
+            <RoundButton
+              key={option}
+              option={option}
+              isSelected={selectedFirmTypes.includes(option)}
+              onClick={() => toggleFirmType(option)}
+            />
+          ))}
+        </div>
         <button
           onClick={() => {
             setIsClicked(true);
@@ -134,7 +200,7 @@ export default function Rules() {
             marginTop: '4rem',
             padding: '1rem 2rem',
             fontSize: '1.2rem',
-            backgroundColor: '#000000',
+            backgroundColor: '#000',
             color: '#fff',
             border: 'none',
             borderRadius: '10px',
@@ -146,7 +212,6 @@ export default function Rules() {
           Search for firms
         </button>
       </div>
-      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
       <div style={{ width: '100%', margin: '1rem 0' }}>
         {filteredData.length > 0 ? (
           <FirmComparisonTable
@@ -154,9 +219,17 @@ export default function Rules() {
             expandableRenderer={expandableRenderer}
           />
         ) : (
-          hasSearched &&
-          !errorMessage && (
-            <p>No firm match the selected trading rule or rules.</p>
+          hasSearched && (
+            <div>
+              <p>No firm matches the selected option or options.</p>
+              {noMatchReasons.length > 0 && (
+                <p style={{ color: 'red' }}>
+                  {noMatchReasons.includes('No options are selected')
+                    ? 'No options are selected.'
+                    : `Check the selected ${noMatchReasons.join(', ')}.`}
+                </p>
+              )}
+            </div>
           )
         )}
       </div>
