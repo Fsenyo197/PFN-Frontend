@@ -54,7 +54,7 @@ function FeaturedPost({ post }) {
         xs={12}
         md={6}
         sx={{
-          padding: { md: '0 16px' },
+          padding: { md: '0 12px' },
         }}
       >
         <CardActionArea onClick={handleClick}>
