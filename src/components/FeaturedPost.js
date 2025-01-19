@@ -54,7 +54,7 @@ function FeaturedPost({ post }) {
         xs={12}
         md={6}
         sx={{
-          padding: { md: '0 12px' },
+          padding: { md: '0 8px' },
         }}
       >
         <CardActionArea onClick={handleClick}>
@@ -64,7 +64,7 @@ function FeaturedPost({ post }) {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'flex-start',
-              padding: '16px 0',
+              padding: '8px 0',
               bgcolor: 'white',
               height: '100%',
             }}
@@ -93,7 +93,7 @@ function FeaturedPost({ post }) {
                   width: 160,
                   height: 100,
                   borderRadius: '4px',
-                  margin: 'auto 16px',
+                  margin: 'auto 8px',
                 }}
                 image={post.image}
               />
