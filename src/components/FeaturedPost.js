@@ -1,14 +1,14 @@
-import * as React from "react";
-import PropTypes from "prop-types";
-import Typography from "@mui/material/Typography";
-import Card from "@mui/material/Card";
-import CardActionArea from "@mui/material/CardActionArea";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Divider from "@mui/material/Divider";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import { useRouter } from "next/router";
+import * as React from 'react';
+import PropTypes from 'prop-types';
+import Typography from '@mui/material/Typography';
+import Card from '@mui/material/Card';
+import CardActionArea from '@mui/material/CardActionArea';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Divider from '@mui/material/Divider';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import { useRouter } from 'next/router';
 import {
   format,
   differenceInHours,
@@ -16,7 +16,7 @@ import {
   differenceInMinutes,
   differenceInSeconds,
   isValid,
-} from "date-fns";
+} from 'date-fns';
 
 function FeaturedPost({ post }) {
   const router = useRouter();
@@ -25,7 +25,7 @@ function FeaturedPost({ post }) {
     router.push(`/blog/${post.slug}`);
   };
 
-  let formattedDate = "Invalid date";
+  let formattedDate = 'Invalid date';
   const postDate = new Date(post.date_published);
   if (isValid(postDate)) {
     const now = new Date();
@@ -35,15 +35,15 @@ function FeaturedPost({ post }) {
     const secondsDifference = differenceInSeconds(now, postDate);
 
     if (secondsDifference < 60) {
-      formattedDate = `${secondsDifference} seconds ago`; 
+      formattedDate = `${secondsDifference} seconds ago`;
     } else if (minutesDifference < 60) {
-      formattedDate = `${minutesDifference} minutes ago`; 
+      formattedDate = `${minutesDifference} minutes ago`;
     } else if (hoursDifference < 24) {
-      formattedDate = `${hoursDifference} hours ago`; 
+      formattedDate = `${hoursDifference} hours ago`;
     } else if (daysDifference < 30) {
       formattedDate = `${daysDifference} days ago`;
     } else {
-      formattedDate = format(postDate, "MMMM d, yyyy");
+      formattedDate = format(postDate, 'MMMM d, yyyy');
     }
   }
 
@@ -54,69 +54,79 @@ function FeaturedPost({ post }) {
         xs={12}
         md={6}
         sx={{
-          padding: { md: "0 16px" },
+          padding: { md: '0 16px' },
         }}
       >
         <CardActionArea onClick={handleClick}>
           <Card
             elevation={0}
             sx={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "flex-start",
-              padding: "16px 0",
-              bgcolor: "white",
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'flex-start',
+              padding: '16px 0',
+              bgcolor: 'white',
+              height: '100%',
             }}
           >
-            <CardContent
-              sx={{
-                flex: 1,
-                paddingLeft: "16px",
-                paddingRight: "16px",
-              }}
-            >
+            <CardContent>
               <Typography
                 component="h2"
                 variant="h6"
-                sx={{ fontSize: "1rem", fontWeight: "bold" }}
+                sx={{ fontSize: '1rem', fontWeight: 'bold', width: '100%' }}
               >
                 {post.title}
               </Typography>
+            </CardContent>
+
+            <Divider sx={{ bgcolor: '#02353C' }} />
+
+            <CardContent
+              sx={{
+                display: 'flex',
+                flexDirection: 'row-reverse',
+                alignItems: 'center',
+                width: '100%',
+              }}
+            >
+              <CardMedia
+                component="img"
+                sx={{
+                  width: 160,
+                  height: 100,
+                  borderRadius: '4px',
+                  margin: 'auto 16px',
+                }}
+                image={post.image}
+              />
               <Typography
                 variant="body2"
-                sx={{ marginTop: "8px", color: "#000", fontSize: "0.875rem" }}
+                sx={{
+                  flex: '1 1 auto', // Allows the description to take up remaining space
+                  color: '#000',
+                  fontSize: '0.875rem',
+                }}
               >
                 {post.meta_description}
               </Typography>
             </CardContent>
-            <CardMedia
-              component="img"
-              sx={{
-                width: 160,
-                height: 100,
-                borderRadius: "4px",
-                margin: "auto 16px",
-              }}
-              image={post.image}
-            />
-          </Card>
-          <CardContent>
+
             <Box
               sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                color: "#666",
-                fontSize: "0.875rem",
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                color: '#666',
+                fontSize: '0.875rem',
+                marginTop: 'auto',
+                padding: '16px 0',
               }}
             >
               <Typography variant="caption">{formattedDate}</Typography>
               <Typography variant="caption">{`${post.read_time} min read`}</Typography>
             </Box>
-          </CardContent>
+          </Card>
         </CardActionArea>
-
-        <Divider sx={{ bgcolor: "#02353C" }} />
       </Grid>
     </>
   );

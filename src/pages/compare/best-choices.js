@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useFirmsContext } from '@/contexts/FirmsProvider';
 import Header from '@/components/Header';
-import Footer from '../Footer';
-import PricesFilters from '@/components/firms/PricesFilters';
+import Footer from '@/pages/Footer';
+import RoundButton from '@/components/firms/RoundButton';
 import FirmComparisonTable from '@/components/firms/FirmComparisonTable';
 import ExpandableRowDetails from '@/components/firms/ExpandableRowDetails';
 import Spinner from '@/components/Spinner';
@@ -11,252 +11,183 @@ import useSessionStorage from '@/components/firms/useSessionStorage';
 
 export default function BestChoices() {
   const { bestChoices, loading } = useFirmsContext();
-  const [selectedPrices, setSelectedPrices] = useState([]);
-  const [selectedFirmTypes, setSelectedFirmTypes] = useState([]);
-  const [selectedAccountSizes, setSelectedAccountSizes] = useState([]);
-  const [selectedPlatforms, setSelectedPlatforms] = useState([]);
-  const [selectedPayouts, setSelectedPayouts] = useState([]);
-  const [selectedRules, setSelectedRules] = useState([]);
-  const [selectedPhases, setSelectedPhases] = useState([]);
-  const [selectedSplitRatios, setSelectedSplitRatios] = useState([]);
-  const [selectedDailyDrawdowns, setSelectedDailyDrawdowns] = useState([]);
-  const [selectedTotalDrawdowns, setSelectedTotalDrawdowns] = useState([]);
-  const [filteredData, setFilteredData] = useState([]);
-  const [hasSearched, setHasSearched] = useState(false);
-  const [noMatchReasons, setNoMatchReasons] = useState([]);
 
-  useSessionStorage('selectedPrices', selectedPrices, setSelectedPrices);
-  useSessionStorage(
-    'selectedFirmTypes',
-    selectedFirmTypes,
-    setSelectedFirmTypes
-  );
-  useSessionStorage(
-    'selectedAccountSizes',
-    selectedAccountSizes,
-    setSelectedAccountSizes
-  );
-  useSessionStorage(
-    'selectedPlatforms',
-    selectedPlatforms,
-    setSelectedPlatforms
-  );
-  useSessionStorage('selectedPayouts', selectedPayouts, setSelectedPayouts);
-  useSessionStorage('selectedRules', selectedRules, setSelectedRules);
-  useSessionStorage('selectedPhases', selectedPhases, setSelectedPhases);
-  useSessionStorage(
-    'selectedSplitRatios',
-    selectedSplitRatios,
-    setSelectedSplitRatios
-  );
-  useSessionStorage(
-    'selectedDailyDrawdowns',
-    selectedDailyDrawdowns,
-    setSelectedDailyDrawdowns
-  );
-  useSessionStorage(
-    'selectedTotalDrawdowns',
-    selectedTotalDrawdowns,
-    setSelectedTotalDrawdowns
-  );
-  useSessionStorage('filteredData', filteredData, setFilteredData);
+  const [filters, setFilters] = useState({
+    firmType: [],
+    phase: [],
+    accountSize: [],
+    dailyDrawdown: [],
+    totalDrawdown: [],
+    price: [],
+  });
+  useSessionStorage('filters', filters, setFilters);
+
+  const handleFilterChange = (filterKey, selected) => {
+    setFilters((prev) => ({
+      ...prev,
+      [filterKey]: prev[filterKey].includes(selected)
+        ? prev[filterKey].filter((opt) => opt !== selected)
+        : [...prev[filterKey], selected],
+    }));
+  };
+
+  const filterData = (data, filters) => {
+    let filteredData = data;
+
+    if (filters.firmType.length) {
+      filteredData = filteredData.filter((firm) =>
+        filters.firmType.includes(firm.firm_type)
+      );
+    }
+
+    if (filters.phase.length) {
+      filteredData = filteredData.filter((firm) =>
+        firm.account_plans.some((plan) =>
+          filters.phase.includes(plan.phase.replace(/_/g, ' '))
+        )
+      );
+    }
+
+    if (filters.accountSize.length) {
+      filteredData = filteredData.filter((firm) =>
+        firm.account_plans.some((plan) =>
+          filters.accountSize.includes(plan.account_size)
+        )
+      );
+    }
+
+    if (filters.dailyDrawdown.length) {
+      filteredData = filteredData.filter((firm) =>
+        firm.account_plans.some((plan) =>
+          filters.dailyDrawdown.includes(plan.daily_drawdown)
+        )
+      );
+    }
+
+    if (filters.totalDrawdown.length) {
+      filteredData = filteredData.filter((firm) =>
+        firm.account_plans.some((plan) =>
+          filters.totalDrawdown.includes(plan.total_drawdown)
+        )
+      );
+    }
+
+    if (filters.price.length) {
+      filteredData = filteredData.filter((firm) =>
+        firm.account_plans.some((plan) => filters.price.includes(plan.price))
+      );
+    }
+
+    return filteredData;
+  };
+
+  const generateValidOptions = (data) => {
+    return {
+      firmType: [...new Set(data.map((firm) => firm.firm_type))].sort(),
+      phase: [
+        ...new Set(
+          data.flatMap((firm) =>
+            firm.account_plans.map((plan) => plan.phase.replace(/_/g, ' '))
+          )
+        ),
+      ].sort(),
+      accountSize: [
+        ...new Set(
+          data.flatMap((firm) =>
+            firm.account_plans.map((plan) => plan.account_size)
+          )
+        ),
+      ].sort(),
+      dailyDrawdown: [
+        ...new Set(
+          data.flatMap((firm) =>
+            firm.account_plans.map((plan) => plan.daily_drawdown)
+          )
+        ),
+      ].sort(),
+      totalDrawdown: [
+        ...new Set(
+          data.flatMap((firm) =>
+            firm.account_plans.map((plan) => plan.total_drawdown)
+          )
+        ),
+      ].sort(),
+      price: [
+        ...new Set(
+          data.flatMap((firm) => firm.account_plans.map((plan) => plan.price))
+        ),
+      ].sort(),
+    };
+  };
+
+  const filteredData = filterData(bestChoices, filters);
+  const validOptions = generateValidOptions(filteredData);
 
   if (loading) {
     return <Spinner />;
   }
 
-  // Define unique options
-  const uniqueFirmTypes = [
-    ...new Set(bestChoices.flatMap((firm) => firm.firm_type)),
-  ];
-  const uniqueRules = [
-    'Weekend Holding Rule',
-    'Consistency Rule',
-    'Copy Trading Rule',
-    'Two Percent Rule',
-    'Stop Loss Rule',
-    'VPN/VPS Rule',
-  ];
-  const uniquePlatforms = [
-    ...new Set(bestChoices.flatMap((firm) => firm.trading_platforms)),
-  ];
-  const uniquePayoutOptions = [
-    ...new Set(bestChoices.flatMap((firm) => firm.payout_options)),
-  ];
-  const uniqueAccountSizes = [
-    ...new Set(
-      bestChoices.flatMap((firm) =>
-        firm.account_plans?.map((plan) => plan.account_size)
-      )
-    ),
-  ];
-  const uniquePhases = [
-    ...new Set(
-      bestChoices.flatMap((firm) =>
-        firm.account_plans?.map((plan) =>
-          plan.phase.slice(0).replace(/_/g, ' ')
-        )
-      )
-    ),
-  ];
-  const uniquePrices = [
-    ...new Set(
-      bestChoices.flatMap((firm) =>
-        firm.account_plans?.map((plan) => plan.price)
-      )
-    ),
-  ];
-  const uniqueSplitRatios = [
-    ...new Set(
-      bestChoices.flatMap((firm) =>
-        firm.account_plans?.map((plan) => plan.profit_split_ratio)
-      )
-    ),
-  ];
-  const uniqueDailyDrawdowns = [
-    ...new Set(
-      bestChoices.flatMap((firm) =>
-        firm.account_plans?.map((plan) => plan.daily_drawdown)
-      )
-    ),
-  ];
-  const uniqueTotalDrawdowns = [
-    ...new Set(
-      bestChoices.flatMap((firm) =>
-        firm.account_plans?.map((plan) => plan.total_drawdown)
-      )
-    ),
-  ];
+  const FilterGroup = ({ title, options, onChange, selected }) => (
+    <div style={{ margin: '1rem 0' }}>
+      <h3>{title}</h3>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          flexWrap: 'wrap',
+          gap: '0.5rem',
+        }}
+      >
+        {options.map((option) => (
+          <RoundButton
+            key={option}
+            option={option}
+            isSelected={selected.includes(option)}
+            onClick={() => onChange(option)}
+          />
+        ))}
+      </div>
+    </div>
+  );
 
-  // Define toggle functions
-  const toggleFilter = (setState) => (option) => {
-    setState((prev) =>
-      prev.includes(option)
-        ? prev.filter((opt) => opt !== option)
-        : [...prev, option]
-    );
-  };
-
-  // Filtering logic
-  const searchFirms = () => {
-    setHasSearched(true);
-    let reasons = [];
-
-    // Early exit if no filters are applied
-    const hasFiltersApplied = [
-      selectedFirmTypes,
-      selectedAccountSizes,
-      selectedPhases,
-      selectedSplitRatios,
-      selectedDailyDrawdowns,
-      selectedTotalDrawdowns,
-      selectedPlatforms,
-      selectedRules,
-      selectedPayouts,
-      selectedPrices,
-    ].some((filter) => filter.length > 0);
-
-    if (!hasFiltersApplied) {
-      setNoMatchReasons(['No option selected']);
-      setFilteredData([]);
-      return;
-    }
-
-    // Filter based on rules first
-    const firmsAfterRulesFilter = bestChoices.filter((firm) =>
-      selectedRules.every((rule) => {
-        switch (rule) {
-          case 'Weekend Holding Rule':
-            return firm.weekend_holding_rule === false;
-          case 'Consistency Rule':
-            return firm.consistency_rule === false;
-          case 'Copy Trading Rule':
-            return firm.copy_trading_rule === false;
-          case 'Two Percent Rule':
-            return firm.two_percent_rule === false;
-          case 'Stop Loss Rule':
-            return firm.stop_loss_rule === false;
-          case 'VPN/VPS Rule':
-            return firm.vpn_and_vps_rule === false;
-          default:
-            return true;
+  const PricesFilters = () => (
+    <div style={{ fontSize: '1rem', fontWeight: 'bold', marginTop: '2rem' }}>
+      {Object.entries(validOptions).map(([filterKey, options]) => (
+        <FilterGroup
+          key={filterKey}
+          title={filterKey.replace(/([A-Z])/g, ' $1')}
+          options={options}
+          onChange={(selected) => handleFilterChange(filterKey, selected)}
+          selected={filters[filterKey]}
+        />
+      ))}
+      <button
+        style={{
+          marginTop: '4rem',
+          padding: '1rem 2rem',
+          fontSize: '1.2rem',
+          backgroundColor: '#000',
+          color: '#fff',
+          border: 'none',
+          borderRadius: '10px',
+          cursor: 'pointer',
+          transition: 'transform 0.1s ease-out',
+        }}
+        onClick={() =>
+          setFilters({
+            firmType: [],
+            phase: [],
+            accountSize: [],
+            dailyDrawdown: [],
+            totalDrawdown: [],
+            price: [],
+          })
         }
-      })
-    );
-
-    // Apply the rest of the filters
-    const filtered = firmsAfterRulesFilter.filter((firm) => {
-      const firmMatches =
-        selectedFirmTypes.length === 0 ||
-        selectedFirmTypes.includes(firm.firm_type);
-
-      const platformMatches =
-        selectedPlatforms.length === 0 ||
-        selectedPlatforms.some((platform) =>
-          firm.trading_platforms.includes(platform)
-        );
-
-      const payoutMatches =
-        selectedPayouts.length === 0 ||
-        selectedPayouts.some((payout) => firm.payout_options.includes(payout));
-
-      const accountPlanMatches = firm.account_plans.some((plan) => {
-        const accountMatches =
-          selectedAccountSizes.length === 0 ||
-          selectedAccountSizes.includes(plan.account_size);
-
-        const phaseMatches =
-          selectedPhases.length === 0 || selectedPhases.includes(plan.phase);
-
-        const splitRatioMatches =
-          selectedSplitRatios.length === 0 ||
-          selectedSplitRatios.includes(plan.profit_split_ratio);
-
-        const dailyDrawdownMatches =
-          selectedDailyDrawdowns.length === 0 ||
-          selectedDailyDrawdowns.includes(plan.daily_drawdown);
-
-        const totalDrawdownMatches =
-          selectedTotalDrawdowns.length === 0 ||
-          selectedTotalDrawdowns.includes(plan.total_drawdown);
-
-        const priceMatches =
-          selectedPrices.length === 0 || selectedPrices.includes(plan.price);
-
-        // Collect reasons for no match
-        if (!accountMatches) reasons.push('account size');
-        if (!phaseMatches) reasons.push('phases');
-        if (!splitRatioMatches) reasons.push('split ratio');
-        if (!dailyDrawdownMatches) reasons.push('daily drawdown');
-        if (!totalDrawdownMatches) reasons.push('total drawdown');
-        if (!priceMatches) reasons.push('prices');
-
-        return (
-          accountMatches &&
-          phaseMatches &&
-          splitRatioMatches &&
-          dailyDrawdownMatches &&
-          totalDrawdownMatches &&
-          priceMatches
-        );
-      });
-
-      if (!firmMatches && selectedFirmTypes.length > 0)
-        reasons.push('firm type');
-      if (!platformMatches && selectedPlatforms.length > 0)
-        reasons.push('trading platform(s)');
-      if (!payoutMatches && selectedPayouts.length > 0)
-        reasons.push('payout option(s)');
-
-      return (
-        firmMatches && platformMatches && payoutMatches && accountPlanMatches
-      );
-    });
-
-    // Handle no match
-    setNoMatchReasons([...new Set(reasons)]);
-    setFilteredData(filtered);
-  };
+      >
+        Reset Filters
+      </button>
+    </div>
+  );
 
   const expandableRenderer = (rowData) => {
     return <ExpandableRowDetails rowData={rowData} />;
@@ -287,41 +218,9 @@ export default function BestChoices() {
       </Head>
       <Header />
       <h1 style={{ marginTop: '2rem', marginBottom: '2rem' }}>
-        Choose Your Ideal Firm
+        Filter Your Ideal Firm
       </h1>
-      <PricesFilters
-        uniqueFirmTypes={uniqueFirmTypes}
-        uniquePlatforms={uniquePlatforms}
-        uniquePayoutOptions={uniquePayoutOptions}
-        uniqueRules={uniqueRules}
-        uniquePhases={uniquePhases}
-        uniqueAccountSizes={uniqueAccountSizes}
-        uniqueSplitRatios={uniqueSplitRatios}
-        uniqueDailyDrawdowns={uniqueDailyDrawdowns}
-        uniqueTotalDrawdowns={uniqueTotalDrawdowns}
-        uniquePrices={uniquePrices}
-        toggleFirmType={toggleFilter(setSelectedFirmTypes)}
-        togglePlatform={toggleFilter(setSelectedPlatforms)}
-        togglePayout={toggleFilter(setSelectedPayouts)}
-        toggleRule={toggleFilter(setSelectedRules)}
-        togglePhase={toggleFilter(setSelectedPhases)}
-        toggleAccountSize={toggleFilter(setSelectedAccountSizes)}
-        toggleSplitRatio={toggleFilter(setSelectedSplitRatios)}
-        toggleDailyDrawdown={toggleFilter(setSelectedDailyDrawdowns)}
-        toggleTotalDrawdown={toggleFilter(setSelectedTotalDrawdowns)}
-        togglePrice={toggleFilter(setSelectedPrices)}
-        searchFirms={searchFirms}
-        selectedFirmTypes={selectedFirmTypes}
-        selectedPlatforms={selectedPlatforms}
-        selectedPayouts={selectedPayouts}
-        selectedRules={selectedRules}
-        selectedPhases={selectedPhases}
-        selectedAccountSizes={selectedAccountSizes}
-        selectedSplitRatios={selectedSplitRatios}
-        selectedDailyDrawdowns={selectedDailyDrawdowns}
-        selectedTotalDrawdowns={selectedTotalDrawdowns}
-        selectedPrices={selectedPrices}
-      />
+      <PricesFilters />
       <div style={{ width: '100%', margin: '1rem 0' }}>
         {filteredData.length > 0 ? (
           <FirmComparisonTable
@@ -329,18 +228,7 @@ export default function BestChoices() {
             expandableRenderer={expandableRenderer}
           />
         ) : (
-          hasSearched && (
-            <div>
-              <p>No firm matches the selected option or options.</p>
-              {noMatchReasons.length > 0 && (
-                <p style={{ color: 'red' }}>
-                  {noMatchReasons.includes('No option selected')
-                    ? 'No option selected.'
-                    : `Check the selected ${noMatchReasons.join(', ')}.`}
-                </p>
-              )}
-            </div>
-          )
+          <p>No firms match the selected filters. Adjust your criteria.</p>
         )}
       </div>
       <Footer />

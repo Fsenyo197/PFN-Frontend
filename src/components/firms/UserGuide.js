@@ -36,13 +36,15 @@ const UserGuide = () => {
         </DialogTitle>
         <DialogContent dividers>
           <Typography variant="body1" component="p" gutterBottom>
-            Welcome to the User Guide! Below are some key rules and guidelines
-            commonly followed by proprietary trading firms:
+            Welcome to the User Guide!
           </Typography>
 
           <List sx={{ listStyleType: 'disc', pl: 2 }}>
             <ListItem sx={{ display: 'list-item', pl: 0 }}>
               <ListItemText primary="Select your preferred options and click the 'Search for Firm' button to get started." />
+            </ListItem>
+            <ListItem sx={{ display: 'list-item', pl: 0 }}>
+              <ListItemText primary="On the 'Make Best Choices' platform, select your preferred options and the associated firms will display below. Click the 'Reset Filters' button to reset the selected options." />
             </ListItem>
             <ListItem sx={{ display: 'list-item', pl: 0 }}>
               <ListItemText primary="Use the search bar to filter firms by name if needed." />
