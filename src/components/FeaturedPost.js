@@ -79,8 +79,6 @@ function FeaturedPost({ post }) {
               </Typography>
             </CardContent>
 
-            <Divider sx={{ bgcolor: '#02353C' }} />
-
             <CardContent
               sx={{
                 display: 'flex',
@@ -127,6 +125,7 @@ function FeaturedPost({ post }) {
             </Box>
           </Card>
         </CardActionArea>
+        <Divider sx={{ bgcolor: '#02353C' }} />
       </Grid>
     </>
   );
